@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>나우하이텍 | 특수 유압실린더 제작</title>
+<style>
+:root{
+  --green:#4e8f27; --green-dk:#3a6d1a; --green-lt:#eef5e7;
+  --blue:#15559a;
+  --ink:#1c2118; --body:#4a5346; --line:#dde2d8; --bg:#fff; --bg-alt:#f6f8f4;
+  --r:4px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body,h1,h2,h3,p,li,label,span,em,figcaption,b,time{word-break:keep-all;overflow-wrap:break-word}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+  color:var(--body); background:var(--bg); line-height:1.7;
+  -webkit-font-smoothing:antialiased; font-size:15px;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+h1,h2,h3{color:var(--ink);line-height:1.35;font-weight:700}
+
+/* utility bar */
+.util{background:var(--green);color:#fff;font-size:12.5px}
+.util .wrap{display:flex;justify-content:space-between;align-items:center;height:34px;gap:16px}
+.util b{font-weight:600}
+.util .r{display:flex;gap:18px;opacity:.92}
+
+/* header */
+header{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:20}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.logo{display:flex;align-items:baseline;gap:9px;flex:0 0 auto;white-space:nowrap}
+.logo .cn{font-size:24px;font-weight:800;color:var(--green-dk);letter-spacing:-.02em}
+.logo .en{font-size:11px;font-weight:700;color:#93a08a;letter-spacing:.14em;white-space:nowrap}
+nav ul{display:flex;list-style:none;gap:26px}
+nav a{font-size:14.5px;font-weight:600;color:var(--ink);padding:6px 0;border-bottom:2px solid transparent;transition:.18s}
+nav a:hover{color:var(--green);border-color:var(--green)}
+.tel{white-space:nowrap;font-size:13px;color:var(--body)}
+.tel b{display:block;font-size:19px;color:var(--green-dk);letter-spacing:-.01em}
+.burger{display:none;width:auto;flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:var(--r);padding:8px 13px;font:inherit;font-size:14px;font-weight:600;color:var(--ink)}
+.burger:hover{background:#fff;border-color:var(--green)}
+
+/* hero */
+.hero{background:var(--bg-alt);border-bottom:1px solid var(--line);padding:56px 0}
+.hero .wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.hero h1{font-size:38px;letter-spacing:-.03em}
+.hero h1 span{color:var(--green-dk)}
+.hero p{margin-top:16px;max-width:46ch}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:26px;border-radius:var(--r);overflow:hidden}
+.facts div{background:#fff;padding:14px 16px}
+.facts b{display:block;font-size:21px;color:var(--ink);letter-spacing:-.02em}
+.facts span{font-size:12.5px}
+.hero figure{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#fff}
+.hero figure img{width:100%;aspect-ratio:16/10;object-fit:cover}
+.hero figcaption{padding:11px 14px;font-size:13px;border-top:1px solid var(--line);background:#fff}
+
+/* section */
+section{padding:60px 0}
+section.alt{background:var(--bg-alt);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.shead{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:28px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.shead h2{font-size:24px;letter-spacing:-.02em}
+.shead p{font-size:13.5px}
+
+/* 사업분야 */
+.biz{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.biz article{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#fff}
+.biz img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.biz .t{padding:16px 18px 20px}
+.biz h3{font-size:16.5px;margin-bottom:7px}
+.biz p{font-size:13.5px}
+
+/* 납품실적 */
+.rec{display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+.rec-grp{padding:18px 0;border-top:1px solid var(--line)}
+.rec-grp:first-child,.rec-grp:nth-child(2){border-top:none;padding-top:0}
+.rec-grp h3{font-size:13px;color:var(--green-dk);letter-spacing:.02em;margin-bottom:10px}
+.rec-grp ul{list-style:none}
+.rec-grp li{display:flex;justify-content:space-between;gap:14px;padding:6px 0;font-size:14.5px;color:var(--ink)}
+.rec-grp li span{color:#8a9382;font-size:13px;white-space:nowrap}
+.note{margin-top:22px;padding:13px 16px;background:var(--green-lt);border-left:3px solid var(--green);font-size:13.5px;border-radius:0 var(--r) var(--r) 0}
+
+/* 설비 */
+.eq{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.eq figure{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#fff}
+.eq img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.eq figcaption{padding:12px 14px;font-size:14px;color:var(--ink);font-weight:600;border-top:1px solid var(--line)}
+.eq figcaption em{display:block;font-style:normal;font-weight:400;font-size:12.5px;color:var(--body);margin-top:2px}
+
+/* 인증 + 공지 */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.cert{list-style:none}
+.cert li{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14.5px;color:var(--ink)}
+.cert li b{min-width:104px;color:var(--green-dk)}
+.notice{list-style:none}
+.notice li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14.5px;color:var(--ink)}
+.notice time{color:#8a9382;font-size:13px;white-space:nowrap}
+
+/* 문의 */
+.cta{background:var(--green-dk);color:#fff;padding:52px 0}
+.cta .wrap{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+.cta h2{color:#fff;font-size:26px;letter-spacing:-.02em}
+.cta p{margin-top:12px;color:#d6e6c9;font-size:14.5px}
+.cta .num{margin-top:22px;font-size:30px;font-weight:800;letter-spacing:-.02em;color:#fff}
+form{background:#fff;padding:24px;border-radius:var(--r)}
+.f{margin-bottom:14px}
+.f label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.f input,.f textarea{width:100%;border:1px solid #c3cbba;border-radius:var(--r);padding:10px 12px;font:inherit;font-size:14px;color:var(--ink);background:#fff}
+.f input:focus,.f textarea:focus{outline:2px solid var(--green);outline-offset:1px;border-color:var(--green)}
+.f textarea{min-height:82px;resize:vertical}
+.f .hint{font-size:12px;color:#6f7a68;margin-top:5px}
+form button{width:100%;background:var(--green);color:#fff;border:0;border-radius:var(--r);padding:13px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:.15s}
+form button:hover{background:var(--green-dk)}
+form button:active{transform:translateY(1px)}
+
+/* footer */
+footer{background:#2b3226;color:#b3bda9;padding:34px 0;font-size:13.5px}
+footer .wrap{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap}
+footer b{color:#fff;font-weight:700;display:block;margin-bottom:9px;font-size:15px}
+footer a{color:#cddcbe;text-decoration:underline;text-underline-offset:2px}
+
+@media (max-width:900px){
+  .hero .wrap,.two,.cta .wrap,.rec{grid-template-columns:1fr;gap:28px}
+  .biz,.eq{grid-template-columns:1fr 1fr}
+  nav{display:none}
+  .burger{display:block}
+  .tel{display:none}
+  .hero h1{font-size:29px}
+  .rec-grp:nth-child(2){border-top:1px solid var(--line);padding-top:18px}
+}
+@media (max-width:560px){
+  .biz,.eq,.facts{grid-template-columns:1fr}
+  .util .r span:nth-child(1){display:none}
+  section{padding:44px 0}
+  .hero{padding:36px 0}
+}
+</style>
+</head>
+<body>
+
+<div class="util"><div class="wrap">
+  <b>특수 유압실린더 · 유압 프레스 제작</b>
+  <div class="r"><span>부산광역시 강서구 화전산단3로 102</span><span>사업자등록번호 606-10-12773</span></div>
+</div></div>
+
+<header><div class="wrap">
+  <a class="logo" href="#"><span class="cn">那友하이텍</span><span class="en">NAWOO HI-TECH</span></a>
+  <nav><ul>
+    <li><a href="#biz">사업분야</a></li>
+    <li><a href="#rec">납품실적</a></li>
+    <li><a href="#eq">설비현황</a></li>
+    <li><a href="#cert">인증현황</a></li>
+    <li><a href="#notice">공지사항</a></li>
+    <li><a href="#contact">문의</a></li>
+  </ul></nav>
+  <div class="tel">대표전화<b>051-831-9161</b></div>
+  <button class="burger" type="button" aria-label="메뉴 열기">메뉴</button>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div>
+    <h1>도면 한 장으로<br><span>초대형 유압실린더</span>를 만듭니다</h1>
+    <p>2002년부터 부산 화전산단에서 특수 유압실린더와 유압 프레스를 제작해 왔습니다. 대량생산이 되지 않는 단품을 도면에 맞춰 하나씩 만듭니다.</p>
+    <div class="facts">
+      <div><b>2002년</b><span>설립</span></div>
+      <div><b>500평</b><span>자가 공장 부지</span></div>
+      <div><b>13대</b><span>보유 가공설비</span></div>
+    </div>
+  </div>
+  <figure>
+    <img src="img/p_dam.jpg" alt="댐 수문 개폐용 초대형 동조제어 유압실린더를 트레일러에 적재한 모습">
+    <figcaption>댐 수문 개폐용 초대형 동조제어 실린더</figcaption>
+  </figure>
+</div></div>
+
+<section id="biz"><div class="wrap">
+  <div class="shead"><h2>사업분야</h2><p>주문 도면에 따른 설계 · 가공 · 조립 · 시험</p></div>
+  <div class="biz">
+    <article>
+      <img src="img/p_posco.jpg" alt="제철 설비용 유압실린더 완성품">
+      <div class="t"><h3>특수 유압실린더 제작</h3><p>제철 설비 · 조선 · 산업기계용 단품 실린더를 도면에 맞춰 제작합니다.</p></div>
+    </article>
+    <article>
+      <img src="img/p_balance.jpg" alt="2300톤 블랭킹 프레스용 밸런스 실린더">
+      <div class="t"><h3>유압 프레스 · 공급장치</h3><p>프레스용 밸런스 실린더와 유압 공급 장치를 설계부터 제작까지 진행합니다.</p></div>
+    </article>
+    <article>
+      <img src="img/p_lifter.jpg" alt="500톤 블록 리프터용 유압 장치">
+      <div class="t"><h3>산업기계부품 가공</h3><p>대형 선반과 머시닝센터를 이용한 정밀 가공 및 조립을 수행합니다.</p></div>
+    </article>
+  </div>
+</div></section>
+
+<section id="rec" class="alt"><div class="wrap">
+  <div class="shead"><h2>납품실적</h2><p>주요 제작 실적</p></div>
+  <div class="rec">
+    <div class="rec-grp">
+      <h3>제철 설비</h3>
+      <ul>
+        <li>Intermesh Cylinder <span>POSCO</span></li>
+        <li>Travers Car Cylinder <span>POSCO</span></li>
+        <li>POT Hydraulic System <span>POSCO</span></li>
+        <li>1600Ton Scrap Shear <span>대형 산업설비</span></li>
+      </ul>
+    </div>
+    <div class="rec-grp">
+      <h3>조선 · 해양</h3>
+      <ul>
+        <li>H2298 Hydraulic Cylinder <span>대우조선해양</span></li>
+        <li>해상 윈치용 Break Cylinder <span>선박</span></li>
+        <li>500Ton Block Lifter용 실린더 <span>조선소</span></li>
+      </ul>
+    </div>
+    <div class="rec-grp">
+      <h3>프레스 · 자동차</h3>
+      <ul>
+        <li>GM2250 Press <span>GM</span></li>
+        <li>COSMA1800 Press <span>COSMA</span></li>
+        <li>2300Ton 블랭킹 프레스용 밸런스 실린더 <span>초대형 프레스</span></li>
+      </ul>
+    </div>
+    <div class="rec-grp">
+      <h3>특수 · 연구</h3>
+      <ul>
+        <li>댐 수문용 초대형 동조제어 실린더 <span>댐 수문 개폐</span></li>
+        <li>Oscillator용 Moving Cylinder <span>산업설비</span></li>
+        <li>100Ton 사다리차용 실린더 <span>특수차량</span></li>
+        <li>유압 실린더 <span>한국기계연구원</span></li>
+      </ul>
+    </div>
+  </div>
+  <p class="note">협력업체 등록 · 보쉬렉스로스(2002년 12월) · 롤스로이스 마린(2002년 11월) · 현대위아 · 현대로템 · 한국철강</p>
+</div></section>
+
+<section id="eq"><div class="wrap">
+  <div class="shead"><h2>설비현황</h2><p>보유 가공설비 13대</p></div>
+  <div class="eq">
+    <figure><img src="img/e_lathe.jpg" alt="대형 선반"><figcaption>대형 선반<em>장축 부재 정밀 가공</em></figcaption></figure>
+    <figure><img src="img/e_mct.jpg" alt="머시닝센터"><figcaption>머시닝센터<em>부품 정밀 가공</em></figcaption></figure>
+    <figure><img src="img/e_crane.jpg" alt="공장 내 천장 크레인"><figcaption>천장 크레인<em>대형 부재 이송</em></figcaption></figure>
+  </div>
+  <p class="note">설비명과 규격은 회사 확인 후 전체 13대를 목록으로 게재합니다. 현재 웹사이트에는 사진만 있고 설비명이 표기되어 있지 않습니다.</p>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <div class="two">
+    <div id="cert">
+      <div class="shead"><h2>인증현황</h2></div>
+      <ul class="cert">
+        <li><b>ISO 9001</b> 품질경영시스템 · 2005년 취득</li>
+        <li><b>ISO 14001</b> 환경경영시스템 · 2005년 취득</li>
+        <li><b>선급 승인</b> 용접 · 제조 승인 (유효 인증서 확인 후 게재)</li>
+      </ul>
+    </div>
+    <div id="notice">
+      <div class="shead"><h2>공지사항</h2><p>담당자 직접 등록</p></div>
+      <ul class="notice">
+        <li>나우하이텍 확장이전 했습니다.<time>2010-08-26</time></li>
+        <li>홈페이지가 오픈 되었습니다.<time>2006-10-18</time></li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<section class="cta" id="contact"><div class="wrap">
+  <div>
+    <h2>견적 문의</h2>
+    <p>도면과 요구 규격을 보내주시면 담당자가 확인 후 연락드립니다. 전화 문의도 가능합니다.</p>
+    <div class="num"><a href="tel:0518319161">051-831-9161</a></div>
+  </div>
+  <form onsubmit="return false">
+    <div class="f"><label for="c1">회사명</label><input id="c1" type="text"></div>
+    <div class="f"><label for="c2">연락처</label><input id="c2" type="tel"><p class="hint">회신 받으실 전화번호 또는 이메일</p></div>
+    <div class="f"><label for="c3">문의 내용</label><textarea id="c3"></textarea></div>
+    <button type="submit">문의 보내기</button>
+  </form>
+</div></section>
+
+<footer><div class="wrap">
+  <div>
+    <b>나우하이텍</b>
+    부산광역시 강서구 화전산단3로 102<br>
+    전화 <a href="tel:0518319161">051-831-9161~2</a> · 사업자등록번호 606-10-12773
+  </div>
+  <div>
+    <b>주요 품목</b>
+    유압실린더 제작 · 유압 프레스<br>유압 공급 장치 · 산업기계부품 가공
+  </div>
+</div></footer>
+
+</body>
+</html>
