@@ -144,7 +144,8 @@ button { font: inherit; color: inherit; }
    Home — hero
    ========================================================= */
 .hero { position: relative; background: linear-gradient(180deg, #eef4f8 0%, #dbe8f0 100%); overflow: hidden; }
-.hero__inner { position: relative; z-index: 2; padding: 44px 0 200px; }
+/* 좌우값을 0 으로 두면 `.wrap` 의 여백을 덮어써서 좁은 화면에서 글자가 화면 끝에 붙는다. */
+.hero__inner { position: relative; z-index: 2; padding: 44px var(--gutter) 200px; }
 .hero__eyebrow { font-size: 17px; font-weight: 600; color: var(--navy); margin: 0 0 6px; }
 .hero__title {
   font-family: var(--font-en); font-size: clamp(38px, 8vw, 76px); font-weight: 800;
@@ -164,7 +165,7 @@ button { font: inherit; color: inherit; }
   -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 34%);
           mask-image: linear-gradient(180deg, transparent 0, #000 34%);
 }
-@media (min-width: 861px) { .hero__inner { padding: 76px 0 240px; } }
+@media (min-width: 861px) { .hero__inner { padding: 76px var(--gutter) 240px; } }
 
 /* =========================================================
    Home — sections
