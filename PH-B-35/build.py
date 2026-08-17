@@ -155,6 +155,7 @@ def page(filename, title, body, description):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{escape(title)} | {COMPANY['name_ko']} {COMPANY['name_en']}</title>
 <meta name="description" content="{escape(description)}">
+<meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="assets/css/style.css">
 <script src="assets/js/gate.js"></script>
 </head>
