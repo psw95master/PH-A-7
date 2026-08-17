@@ -408,12 +408,7 @@ def build_organization():
 <div class="org">
   <div class="org__top"><p class="org__ceo">대표이사</p></div>
   <div class="org__grid">{''.join(units)}</div>
-</div>
-<p class="note">
-  원본 조직도 이미지에서 기술개발·생산기술 부서의 세 번째 업무는
-  &ldquo;특수 공기압 실린더 실린더&rdquo;로 표기돼 있었습니다. 중복 표기로 보아
-  &ldquo;특수 공기압 실린더&rdquo;로 정리했습니다. ({TODAY} 판단)
-</p>"""
+</div>"""
     return sub_page("organization.html", "조직도",
                     "나우하이텍 조직도 — 대표이사 아래 기술영업부, 관리부, 품질보증부, 기술개발, 생산기술 5개 부서.",
                     content)
@@ -468,11 +463,7 @@ def build_history():
             f'<div class="history__items">{"".join(items)}</div></div>'
         )
     content = f"""<h2>연혁</h2>
-<div class="history">{''.join(blocks)}</div>
-<p class="note">
-  원본 연혁 이미지는 2009년 12월까지만 기재돼 있습니다. 이후 이력은 원본에 없어 채우지 않았습니다.
-  ※확인 필요
-</p>"""
+<div class="history">{''.join(blocks)}</div>"""
     return sub_page("history.html", "연혁",
                     "2002년 설립부터 2009년 화전산단 신축 사옥 확장이전까지 나우하이텍 연혁.",
                     content)
@@ -527,11 +518,7 @@ def build_certification():
   나우하이텍은 품질경영시스템(ISO 9001)과 환경경영시스템(ISO 14001) 인증을 유지하고 있으며,
   선급 인증기관 Germanischer Lloyd 로부터 용접절차와 유압 실린더 제조공정을 승인받았습니다.
 </p>
-{cert_tiles(CERTS)}
-<p class="note">
-  인증서 이미지는 원본을 그대로 유지했습니다. 스캔 해상도가 낮아 판독되지 않는 인증일자·유효기간은
-  적지 않았습니다. ※확인 필요
-</p>"""
+{cert_tiles(CERTS)}"""
     return sub_page("certification.html", "인증현황",
                     "나우하이텍 ISO 9001 / ISO 14001 및 Germanischer Lloyd 인증 현황.",
                     content)
@@ -648,11 +635,7 @@ def build_facility():
 
 <h2>설비 사진</h2>
 <p>부산 화전산단 공장에 설치된 주요 가공·검사 설비입니다.</p>
-<div class="gallery gallery--wide gallery--photo">{photos}</div>
-<p class="note">
-  설비 사진의 장비명은 원본 이미지에 캡션이 없어, 위 가공장비 현황표와 대조해 붙였습니다.
-  개별 장비 식별은 ※확인 필요 ({TODAY} 판단)
-</p>"""
+<div class="gallery gallery--wide gallery--photo">{photos}</div>"""
     return sub_page("facility.html", "설비현황 (가공장비·계측기)",
                     "나우하이텍 보유 가공장비 18종, 계측기 26종 목록과 공장 설비 사진.",
                     content)
@@ -680,11 +663,7 @@ def build_location():
     <p>원본 페이지의 다음 지도 위젯은 외부 스크립트에 의존해 이 정적 사이트에서는 걷어냈습니다.</p>
     <a class="btn" href="{escape(kakao)}" target="_blank" rel="noopener">카카오맵에서 위치 보기</a>
   </div>
-</div>
-<p class="note">
-  지도 API 키를 발급해 넣으면 이 자리에 지도를 다시 임베드할 수 있습니다.
-  어떤 지도 서비스를 쓸지 ※확인 필요
-</p>"""
+</div>"""
     return sub_page("location.html", "오시는길",
                     "나우하이텍 찾아오시는 길 — 부산광역시 강서구 화전산단3로 102.",
                     content)
@@ -729,11 +708,7 @@ def build_products():
   선박설비·제철설비·산업기계에 들어가는 표준 및 특수 유압 실린더와 유압 시스템을 제작합니다.
   아래는 주요 납품 실적입니다.
 </p>
-<div class="gallery gallery--wide gallery--photo">{tiles}</div>
-<p class="note">
-  제품명은 원본 이미지에 인쇄된 영문 캡션을 그대로 옮겼습니다.
-  각 항목의 한글 설명은 제품명을 풀어 쓴 것으로, 사양 확인이 필요하면 담당자에게 문의하세요. ({TODAY} 판단)
-</p>"""
+<div class="gallery gallery--wide gallery--photo">{tiles}</div>"""
     return sub_page("products.html", "유압장치 및 부품",
                     "나우하이텍 유압 실린더·유압 시스템 주요 납품 실적 14건.",
                     content)
@@ -776,11 +751,7 @@ def build_drawings():
     content = f"""<h2>도면소개</h2>
 <p>매니폴드 블록, 유압 유닛, 텔레스코픽 실린더 도면입니다. 각 항목의 PDF 버튼을 누르면 원본 도면이 새 창으로 열립니다.</p>
 <div class="gallery gallery--wide">{''.join(tiles)}</div>
-<p style="color:var(--muted);font-size:14px">LADLE TILTING HYDRAULIC CYLINDER FOR MANIFOLD BLOCK</p>
-<p class="note">
-  원본에서 &ldquo;PDF 파일 보기&rdquo; 버튼은 이미지에 그려진 이미지맵이었습니다. 실제 링크(<code>pdf/1.pdf</code>~<code>7.pdf</code>)를
-  그대로 살려 HTML 버튼으로 바꿨습니다. 5·6번 도면의 모델명은 썸네일 해상도로는 판독되지 않아 비워 뒀습니다. ※확인 필요
-</p>"""
+<p style="color:var(--muted);font-size:14px">LADLE TILTING HYDRAULIC CYLINDER FOR MANIFOLD BLOCK</p>"""
     return sub_page("drawings.html", "도면소개",
                     "나우하이텍 매니폴드 블록(NWMB TYPE), 유압 유닛, 텔레스코픽 실린더 도면 7종.",
                     content)
@@ -820,12 +791,7 @@ def build_quality():
     ("cert-kic-quality-2.jpg", "품질경영시스템 인증서 (사본)",
      [("규격", "ISO 9001:2000 / KS A 9001:2007"), ("발행", "MSA Certification")],
      "MSA Certification 발행 품질경영시스템 인증서 사본 스캔본"),
-])}
-<p class="note">
-  본문에 적힌 기준 규격은 원본 그대로 ISO 9001 : 2000 입니다.
-  <a href="certification.html">인증현황</a> 페이지에는 ISO 9001:2015 인증서가 함께 게시돼 있어,
-  현행 방침문의 규격 표기 갱신 여부는 ※확인 필요
-</p>"""
+])}"""
     return sub_page("quality.html", "품질방침",
                     "나우하이텍 품질방침 전문과 품질경영대리인 직무, 품질경영시스템 인증서.",
                     content)
@@ -915,12 +881,7 @@ def build_notice():
     <time class="notice-list__date" datetime="2006-10-18">2006-10-18</time></a></li>
 </ul>
 
-{''.join(articles)}
-
-<p class="note">
-  원본 게시판은 PHP로 돌아가는 동적 게시판입니다. 이 정적 사이트에는 {TODAY} 기준 등록돼 있던
-  공지 {len(NOTICES)}건을 그대로 옮겨 담았습니다. 글쓰기·댓글 기능은 백엔드가 있어야 합니다. ※확인 필요
-</p>"""
+{''.join(articles)}"""
     return sub_page("notice.html", "공지사항",
                     "나우하이텍 공지사항 — 확장이전 안내, 홈페이지 오픈 안내.",
                     content)
