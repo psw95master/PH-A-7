@@ -84,16 +84,10 @@ button { font: inherit; color: inherit; }
 
 .masthead .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 74px; }
 
-.brand { display: flex; align-items: center; gap: 12px; padding: 6px 0; }
-.brand__mark {
-  width: 40px; height: 40px; flex: none; border-radius: 50%;
-  border: 2.5px solid var(--navy); color: var(--navy);
-  display: grid; place-items: center;
-  font-family: var(--font-en); font-weight: 700; font-size: 14px; letter-spacing: -.04em;
-}
-.brand__text { display: grid; line-height: 1.15; }
-.brand__ko { font-size: 20px; font-weight: 800; color: var(--navy); letter-spacing: -.04em; }
-.brand__en { font-family: var(--font-en); font-size: 11px; font-weight: 600; letter-spacing: .16em; color: var(--green); }
+/* 로고는 원본 사이트의 이미지를 그대로 쓴다. 원본이 202×53 뿐이라 그보다 키우지 않는다. */
+.brand { display: flex; align-items: center; padding: 6px 0; }
+.brand img { height: 36px; width: auto; }
+@media (max-width: 400px) { .brand img { height: 30px; } }
 
 .nav-toggle {
   display: none; width: 44px; height: 44px; border: 1px solid var(--line);
