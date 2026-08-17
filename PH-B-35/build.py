@@ -109,7 +109,7 @@ def header(page):
   <div class="masthead">
     <div class="wrap">
       <a class="brand" href="index.html">
-        <img src="assets/img/logo.png" alt="{COMPANY['name_ko']}" width="202" height="53">
+        <img src="assets/img/logo.png" alt="{COMPANY['name_ko']}" width="192" height="48">
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false"
               aria-controls="gnb" aria-label="전체 메뉴 열기"><span></span></button>
