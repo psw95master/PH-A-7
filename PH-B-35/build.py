@@ -432,11 +432,12 @@ HISTORY = [
          ["주요품목 : 유압실린더 제작, 각종 산업기계부품 가공"]),
         ("01", "(주)위아 협력업체 등록", None, []),
     ]),
+    # 연도가 최신순이므로 연도 안도 최신순으로 맞춘다 (260818)
     ("2002", [
+        ("12", "보쉬렉스로스(주) 협력업체 등록", None, []),
+        ("11", "롤스로이스 마린 코리아(주) 협력업체 등록", None, []),
         ("10", "나우하이텍 설립", "대표 김재욱 · 부산시 사상구",
          ["주요품목 : 유압실린더 제작"]),
-        ("11", "롤스로이스 마린 코리아(주) 협력업체 등록", None, []),
-        ("12", "보쉬렉스로스(주) 협력업체 등록", None, []),
     ]),
 ]
 
@@ -453,7 +454,6 @@ def build_history():
                             "".join(f"<span>{l}</span>" for l in lines) + "</div>"
             items.append(
                 f'<div class="history__item">'
-                f'<p class="history__month">{month}.</p>'
                 f'<div class="history__desc"><strong>{escape(title)}</strong>{meta_html}</div>'
                 f'</div>'
             )
