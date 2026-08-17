@@ -490,8 +490,6 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
 .site-footer dt { font-weight: 600; color: var(--ink-2); }
 .site-footer dd { margin: 0; }
 .site-footer .copy { font-family: var(--font-en); font-size: 12px; letter-spacing: .02em; color: #98a0a9; margin: 0; }
-.site-footer .maint a { color: var(--ink-2); font-weight: 600; }
-.site-footer .maint a:hover { color: var(--green); }
 
 /* 인쇄 */
 @media print {

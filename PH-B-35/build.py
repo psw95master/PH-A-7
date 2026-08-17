@@ -33,8 +33,6 @@ COMPANY = {
     "fax": "+82-51-831-9163",
     "email": "nawoo11@naver.com",
     "copyright": "COPYRIGHT(C) 2006 NAWOO HI-TECH. ALL RIGHTS RESERVED.",
-    "maintainer": "아이티포유",
-    "maintainer_url": "http://www.letsit.kr/",
 }
 
 # =========================================================
@@ -143,9 +141,6 @@ def footer():
         </dl>
         <p class="copy">{COMPANY['copyright']}</p>
       </div>
-      <p class="maint">유지보수 :
-        <a href="{COMPANY['maintainer_url']}" target="_blank" rel="noopener">{COMPANY['maintainer']}</a>
-      </p>
     </div>
   </div>
 </footer>
@@ -954,12 +949,7 @@ def build_qna():
     <tr><th scope="row">이메일</th><td><a href="mailto:{COMPANY['email']}">{COMPANY['email']}</a></td></tr>
     <tr><th scope="row">주소</th><td>({COMPANY['zip']}) {COMPANY['addr']}</td></tr>
   </tbody>
-</table>
-
-<p class="note">
-  원본 Q&amp;A 게시판에는 {TODAY} 기준 15건의 글이 있었으나, 대부분 외부 스팸으로 판단해 옮기지 않았습니다.
-  실제 문의글을 이전할지 ※확인 필요
-</p>"""
+</table>"""
     return sub_page("qna.html", "Q&A",
                     "나우하이텍 제품 사양·견적·납기 문의처 안내.",
                     content)
