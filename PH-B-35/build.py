@@ -156,6 +156,7 @@ def page(filename, title, body, description):
 <title>{escape(title)} | {COMPANY['name_ko']} {COMPANY['name_en']}</title>
 <meta name="description" content="{escape(description)}">
 <link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/gate.js"></script>
 </head>
 <body>
 {header(filename)}

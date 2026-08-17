@@ -495,3 +495,118 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
   body { font-size: 12pt; }
   .layout { display: block; padding: 0; }
 }
+
+/* =========================================================
+   검수용 진입 게이트 (assets/js/gate.js)
+   ⚠️ 실서버 이관 시 이 블록과 gate.js, build.py 의 삽입부를 함께 걷는다.
+   ========================================================= */
+
+/* 잠긴 동안 본문을 통째로 숨긴다. gate.js 가 <head> 에서 클래스를 붙이므로
+   body 가 그려지기 전에 규칙이 걸려 내용이 비치지 않는다. */
+html.nh-locked { overflow: hidden; }
+html.nh-locked body > *:not(.nh-gate) { display: none !important; }
+
+.nh-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--gutter);
+  background: var(--bg-soft);
+}
+
+.nh-gate__box {
+  width: 100%;
+  max-width: 340px;
+  padding: 32px 24px 28px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-2);
+  text-align: center;
+}
+
+.nh-gate__logo { height: 36px; width: auto; margin: 0 0 20px; }
+
+.nh-gate__title {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: -.01em;
+}
+
+.nh-gate__desc { margin: 0 0 20px; font-size: 14px; color: var(--muted); }
+
+/* 라벨은 화면에서 감추되 스크린리더에는 남긴다. */
+.nh-gate__label {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+.nh-gate__input {
+  width: 100%;
+  height: 52px;
+  padding: 0 14px;
+  font-family: var(--font-en);
+  font-size: 22px;
+  letter-spacing: .5em;
+  text-indent: .5em;          /* 자간이 마지막 글자 뒤에도 붙어 왼쪽으로 치우치는 것 상쇄 */
+  text-align: center;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.nh-gate__input:focus {
+  outline: none;
+  border-color: var(--navy-soft);
+  box-shadow: 0 0 0 3px rgba(74, 73, 160, .15);
+}
+
+.nh-gate.is-error .nh-gate__input {
+  border-color: #c0392b;
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, .12);
+  animation: nh-gate-shake .3s ease;
+}
+@keyframes nh-gate-shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-5px); }
+  75%      { transform: translateX(5px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nh-gate.is-error .nh-gate__input { animation: none; }
+}
+
+.nh-gate__error {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: #c0392b;
+}
+.nh-gate__error[hidden] { display: none; }
+
+.nh-gate__submit {
+  width: 100%;
+  height: 48px;
+  margin-top: 16px;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--navy);
+  border: 0;
+  border-radius: var(--r-md);
+  cursor: pointer;
+  transition: background .15s ease;
+}
+.nh-gate__submit:hover { background: var(--navy-deep); }
+.nh-gate__submit:focus-visible {
+  outline: 2px solid var(--navy-soft);
+  outline-offset: 2px;
+}
