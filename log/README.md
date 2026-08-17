@@ -6,6 +6,7 @@
 | --- | --- | --- |
 | 260817 | [PH-A-7_log_260817.md](PH-A-7_log_260817.md) | 리뉴얼 플랜 제안서(A안/B안 선택형) 작성 — v2.0.8, 10장 |
 | 260807 | [PH-A-7_log_260807.md](PH-A-7_log_260807.md) | 스크립트 v2.6 · HP 디자인 적용 · 슬라이드 자동 빌드 체계 구축 — v1.0, 21장 |
+| 260806 | [PH-A-7_log_260806.md](PH-A-7_log_260806.md) | 제안서 v2.5 확정 · 동종업체 실측 · 메인 시안 2종 · 슬라이드 업로드 — v2.5, 15장 |
 
 ## 파일명 규칙
 
@@ -23,4 +24,5 @@ PH-A-7_log_{YYMMDD}.md
 | --- | --- |
 | 제안서 v2.0 (현행) | [구글 슬라이드](https://docs.google.com/presentation/d/1sYM8vyvfJ6QdAr6vxMbj3mE3-Q0JaU5asGwnyB5Mmfk/edit) |
 | 제안서 v1.0 (규격·일정 기준 원본) | [구글 슬라이드](https://docs.google.com/presentation/d/1vAZXOs4I7r0IYVBcv1o4lqu-ZEedjQoisX5e5SPnC-8/edit) |
+| 메인 시안 1안 · 2안 | [1an.html](../1an.html) · [2an.html](../2an.html) — htmlpreview 로 바로 열람 가능 |
 | 메일 이력 | Gmail 라벨 `PH-A-7. 나우하이텍 웹사이트 리뉴얼` |
