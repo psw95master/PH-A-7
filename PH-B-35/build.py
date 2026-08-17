@@ -906,8 +906,8 @@ def build_notice():
         body = "".join(f"<p>{escape(p)}</p>" for p in paras) or \
                '<p style="color:var(--muted)">등록된 본문이 없습니다.</p>'
         badge = '<span class="notice-list__badge">공지</span> ' if pinned else ""
-        articles.append(f"""<article id="post-{num}" style="border-top:1px solid var(--line);padding:28px 0">
-  <h2 style="padding-left:0;margin-top:0">{badge}{escape(title)}</h2>
+        articles.append(f"""<article id="post-{num}" class="post">
+  <h2 class="post__title">{badge}{escape(title)}</h2>
   <p style="font-size:14px;color:var(--muted);margin-bottom:16px">
     작성자 {escape(writer)} · <time datetime="{date}">{date}</time>
   </p>
@@ -924,7 +924,6 @@ def build_notice():
     <time class="notice-list__date" datetime="2006-10-18">2006-10-18</time></a></li>
 </ul>
 
-<hr class="rule">
 {''.join(articles)}
 
 <p class="note">

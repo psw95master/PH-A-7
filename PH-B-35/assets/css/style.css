@@ -300,6 +300,16 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
 .content p { font-size: 16px; }
 .content .lead { font-size: 18px; color: var(--ink); font-weight: 500; }
 
+/* 글 제목은 목록 아래 본문이라 앞의 초록 막대를 쓰지 않는다.
+   여백만 지우고 막대를 남기면 글자와 겹친다. */
+/* 게시글 — 글 사이를 가르는 줄은 하나면 된다.
+   목록 마지막 줄과 구분선이 겹쳐 빈 항목처럼 보이던 것을 첫 글에서 걷어낸다. */
+.post { border-top: 1px solid var(--line); padding: 28px 0; }
+.post:first-of-type { border-top: 0; padding-top: 0; margin-top: 44px; }
+/* 앞의 `.content h2` 가 더 강해서, 클래스 하나만으로는 왼쪽 여백을 되돌리지 못한다. */
+.content .post__title { margin-top: 0; padding-left: 0; }
+.content .post__title::before { display: none; }
+
 .rule { border: 0; border-top: 1px solid var(--line); margin: 40px 0; }
 
 .list-num { counter-reset: n; display: grid; gap: 10px; }
