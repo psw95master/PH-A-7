@@ -103,7 +103,7 @@ def header(page):
         <li><a href="facility.html">설비현황</a></li>
         <li><a href="notice.html">공지사항</a></li>
       </ul>
-      <p class="tel">고객센터 <strong>{COMPANY['tel']}</strong></p>
+      <p class="tel">고객센터 <a href="tel:{COMPANY['tel_href']}"><strong>{COMPANY['tel']}</strong></a></p>
     </div>
   </div>
   <div class="masthead">
@@ -624,7 +624,8 @@ def data_table(caption, rows, first_col):
         "</tr>"
         for a, b, c, d, e in rows
     )
-    return f"""<div class="table-scroll">
+    return f"""<p class="scroll-hint">표를 좌우로 밀어 나머지 항목을 볼 수 있습니다.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="{escape(caption)} 표">
   <table class="data-table">
     <caption>{escape(caption)} — 총 {len(rows)}종</caption>
     <thead>

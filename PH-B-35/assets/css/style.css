@@ -239,6 +239,9 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
 .breadcrumb [aria-current="page"] { color: #fff; }
 
 .layout { display: grid; gap: 32px; padding: 32px 0 72px; }
+/* 그리드 칸의 기본 최소폭은 내용 크기(min-width:auto)라, 안쪽에 줄바꿈 없는 알약 메뉴나
+   620px 표가 들어가면 칸이 그만큼 벌어져 좁은 화면에서 페이지가 가로로 밀린다. */
+.layout > * { min-width: 0; }
 @media (min-width: 900px) { .layout { grid-template-columns: 216px 1fr; gap: 48px; padding: 48px 0 96px; } }
 
 .lnb__title { display: none; }
@@ -414,6 +417,10 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
 
 /* 표 */
 .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); }
+/* 5열 표는 좁은 화면에서 2열만 보인다. 나머지가 있다는 것을 알려준다. */
+.scroll-hint { display: none; font-size: 13px; color: var(--muted); margin: 0 0 8px; }
+.scroll-hint::before { content: "↔ "; color: var(--green); font-weight: 700; }
+@media (max-width: 720px) { .scroll-hint { display: block; } }
 .data-table { min-width: 620px; font-size: 14px; }
 .data-table caption { text-align: left; padding: 14px 16px 0; font-weight: 600; color: var(--muted); font-size: 13px; }
 .data-table th, .data-table td { padding: 11px 14px; text-align: left; border-bottom: 1px solid var(--line-soft); }
