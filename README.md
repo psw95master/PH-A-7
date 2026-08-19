@@ -12,7 +12,7 @@
 | 위치 | 내용 |
 | --- | --- |
 | [`PH-B-35/`](PH-B-35/) | **이미지 텍스트 HTML 전환본** — 현행 사이트의 이미지 속 글자를 전부 실제 HTML 텍스트로 옮긴 정적 사이트 14개 페이지 |
-| [`#log/`](%23log/) | 세션 작업 로그 (최신순). 무엇을 했고 **왜 그렇게 정했는지**를 남깁니다 |
+| [`@log/`](@log/) | 세션 작업 로그 (최신순). 무엇을 했고 **왜 그렇게 정했는지**를 남깁니다 |
 
 ---
 
@@ -25,7 +25,7 @@
 > ⚠️ **검토용 임시 주소입니다.** 대외 공유용이 아닙니다.
 > 라이브 호스팅은 **Cloudflare Pages + 나우하이텍 명의 저장소**로 가기로 정해져 있습니다
 > (GitHub Pages 는 상거래 목적 사이트의 무료 호스팅을 제한하는 약관 조항 때문에 260817 기각).
-> 8.18 협의가 끝나면 이 Pages 설정은 끕니다. 경위는 [`#log/PH-A-7_log_260817.md`](%23log/PH-A-7_log_260817.md).
+> 8.18 협의가 끝나면 이 Pages 설정은 끕니다. 경위는 [`@log/PH-A-7_log_260817.md`](@log/PH-A-7_log_260817.md).
 
 ### 내려받아서
 
@@ -56,7 +56,7 @@ cd PH-B-35 && python3 build.py
 | 리뉴얼 플랜 제안서 v2.0 (현행) | [구글 슬라이드](https://docs.google.com/presentation/d/1sYM8vyvfJ6QdAr6vxMbj3mE3-Q0JaU5asGwnyB5Mmfk/edit) |
 | 제안서 v1.0 (규격·일정 기준 원본) | [구글 슬라이드](https://docs.google.com/presentation/d/1vAZXOs4I7r0IYVBcv1o4lqu-ZEedjQoisX5e5SPnC-8/edit) |
 | 메일 이력 | Gmail 라벨 `PH-A-7. 나우하이텍 웹사이트 리뉴얼` |
-| 작업 로그 목차 | [`#log/README.md`](%23log/README.md) |
+| 작업 로그 목차 | [`@log/README.md`](@log/README.md) |
 
 ---
 
@@ -78,5 +78,5 @@ cd PH-B-35 && python3 build.py
 
 - **260817** — 메인 화면 시안 `1an.html` · `2an.html` 과 `img/` · `shots/` 삭제.
   두 시안은 제안서 S13 삽입용으로 제작됐고 역할을 마쳤습니다. 내용은 제안서 슬라이드와
-  [`#log/PH-A-7_log_260806.md`](%23log/PH-A-7_log_260806.md) 에 남아 있습니다.
+  [`@log/PH-A-7_log_260806.md`](@log/PH-A-7_log_260806.md) 에 남아 있습니다.
 - **260806** — 저장소 개설. 당시 ID 는 `ESL-A-11 / ESL-B-24 / ESL-C-12` 였고 이후 `PH-A-7` 로 개편됐습니다.
