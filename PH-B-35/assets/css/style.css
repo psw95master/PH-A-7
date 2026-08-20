@@ -449,6 +449,14 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
   display: grid; place-items: center; padding: 8px;
 }
 .tile__frame img { width: 100%; }
+
+/* 눌러서 크게 볼 수 있는 사진. button 이므로 기본 모양을 지우고 손가락 커서를 준다. */
+.tile__frame--zoom {
+  width: 100%; font: inherit; color: inherit; cursor: zoom-in;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+.tile__frame--zoom:hover { border-color: var(--navy-soft); box-shadow: var(--shadow-1); }
+.tile__frame--zoom:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
 .tile__cap { font-size: 14px; font-weight: 600; color: var(--ink); padding-left: 16px; position: relative; }
 .tile__cap::before {
   content: ""; position: absolute; left: 0; top: .5em; width: 8px; height: 8px;
@@ -659,4 +667,63 @@ html.nh-locked body > *:not(.nh-gate) { display: none !important; }
 .nh-gate__submit:focus-visible {
   outline: 2px solid var(--navy-soft);
   outline-offset: 2px;
+}
+
+/* =========================================================
+   사진 크게 보기 (라이트박스) — assets/js/lightbox.js
+   ========================================================= */
+.lb-open { overflow: hidden; }            /* 팝업이 떠 있는 동안 뒤 화면은 안 움직인다 */
+
+.lb {
+  /* 헤더가 z-index 100 으로 고정돼 있어 그보다 위로 올린다. */
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(8, 10, 20, .92);
+  display: grid; place-items: center;
+  padding: 56px 20px 24px;
+}
+.lb[hidden] { display: none; }
+
+.lb__figure {
+  margin: 0; display: flex; flex-direction: column; gap: 16px;
+  max-width: min(1040px, 100%); max-height: 100%;
+}
+.lb__img {
+  display: block; margin: 0 auto; max-width: 100%;
+  max-height: calc(100vh - 220px); object-fit: contain;
+  border-radius: var(--r-md); background: #fff;
+}
+
+.lb__cap { color: #fff; text-align: center; max-width: 46em; margin: 0 auto; }
+.lb__count { margin: 0 0 6px; font-size: 13px; color: rgba(255,255,255,.62); letter-spacing: .04em; }
+.lb__title { margin: 0 0 6px; font-size: 18px; font-weight: 700; line-height: 1.4; color: #fff; }
+.lb__desc { margin: 0; font-size: 14px; color: rgba(255,255,255,.78); line-height: 1.6; }
+
+/* 닫기 · 앞뒤 이동 */
+.lb__close, .lb__nav {
+  position: absolute; z-index: 1; cursor: pointer; color: #fff;
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.28);
+  border-radius: 999px; display: grid; place-items: center;
+  transition: background-color .18s ease;
+}
+.lb__close:hover, .lb__nav:hover { background: rgba(255,255,255,.26); }
+.lb__close:focus-visible, .lb__nav:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+.lb__close { top: 14px; right: 16px; width: 44px; height: 44px; font-size: 26px; line-height: 1; }
+.lb__nav { top: 50%; transform: translateY(-50%); width: 48px; height: 48px; font-size: 30px; line-height: 1; }
+.lb__nav--prev { left: 12px; }
+.lb__nav--next { right: 12px; }
+.lb__nav[hidden] { display: none; }
+
+@media (max-width: 640px) {
+  .lb { padding: 52px 12px 20px; }
+  .lb__img { max-height: calc(100vh - 260px); }
+  /* 좁은 화면에서는 좌우 버튼이 사진을 가리므로 아래로 내린다. */
+  .lb__nav { top: auto; bottom: 14px; transform: none; width: 44px; height: 44px; }
+  .lb__nav--prev { left: 20%; }
+  .lb__nav--next { right: 20%; }
+  .lb__cap { padding-bottom: 56px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lb__close, .lb__nav, .tile__frame--zoom { transition: none; }
 }
