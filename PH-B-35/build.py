@@ -1149,6 +1149,48 @@ def build_qna():
 
 
 # =========================================================
+# 옮겨간 주소 — 예전 주소로 들어와도 404 를 보여주지 않는다
+# =========================================================
+# 260821 사고. 공지사항을 인재 채용으로 바꾸면서 notice.html 을 지웠더니,
+# 브라우저에 남아 있던 예전 메뉴를 누른 사람에게 404 가 떴다.
+# 서버는 멀쩡했고 원인은 캐시였다 — GitHub Pages 는 HTML 을 10분간 캐시한다.
+# 캐시가 풀릴 때까지 기다리게 두지 않고, 예전 주소를 새 주소로 넘기는 쪽을 택했다.
+# 밖으로 공유된 링크가 있어도 같이 살아난다.
+MOVED = [
+    ("notice.html", "recruit.html", "공지사항", "인재 채용"),
+]
+
+
+def build_moved():
+    made = []
+    for old, new, old_label, new_label in MOVED:
+        html = f"""<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="0; url={new}">
+<title>{escape(new_label)} | {COMPANY['name_ko']} {COMPANY['name_en']}</title>
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="{canonical_url(new)}">
+<link rel="stylesheet" href="{asset('assets/css/style.css')}">
+</head>
+<body>
+<main id="main" class="wrap error-page">
+  <h1>{escape(old_label)} 페이지가 {escape(new_label)}으로 바뀌었습니다</h1>
+  <p>잠시 후 새 페이지로 이동합니다. 바뀌지 않으면 아래를 눌러 주세요.</p>
+  <a class="btn" href="{new}">{escape(new_label)} 보기</a>
+  <a class="btn btn--ghost" href="index.html" style="margin-left:8px">홈으로 이동</a>
+</main>
+</body>
+</html>
+"""
+        (ROOT / old).write_text(html, encoding="utf-8")
+        made.append(old)
+    return made
+
+
+# =========================================================
 # 404.html
 # =========================================================
 def build_404():
@@ -1262,6 +1304,8 @@ def main():
         build_recruit(),
         build_404(),
     ]
+    # 옮겨간 주소는 sitemap 에 넣지 않는다. 넘겨주기만 하는 페이지다.
+    moved = build_moved()
     extras = [build_robots(), build_sitemap(built)]
     mode = "라이브(검색 허용)" if LIVE else "검수(검색 차단 + 게이트)"
     print(f"{len(built)}개 페이지 생성 완료 — 모드: {mode}")
@@ -1269,6 +1313,8 @@ def main():
         print("  -", b)
     for e in extras:
         print("  -", e)
+    for m in moved:
+        print("  -", m, "(옮겨간 주소 → 새 페이지로 넘김)")
     if not (VERIFY_GOOGLE and VERIFY_NAVER):
         print("\n※ 소유확인 코드가 비어 있습니다. "
               "구글 서치콘솔 / 네이버 서치어드바이저 등록 후 build.py 상단에 채우세요.")
