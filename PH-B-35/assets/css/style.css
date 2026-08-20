@@ -530,6 +530,19 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
   min-height: 260px; display: grid; place-items: center; text-align: center; padding: 32px 20px;
 }
 .map-frame p { color: var(--muted); font-size: 14px; margin: 0 0 14px; }
+.map-frame[hidden] { display: none; }
+
+/* 카카오맵이 그려지는 자리. 지도는 부모 높이를 그대로 쓰므로 여기서 높이를 정해 준다. */
+.map-canvas {
+  height: 380px; border: 1px solid var(--line); border-radius: var(--r-md);
+  overflow: hidden; background: var(--bg-soft);
+}
+.map-canvas[hidden] { display: none; }
+@media (max-width: 640px) { .map-canvas { height: 300px; } }
+
+.map-note { margin: 12px 0 0; font-size: 14px; }
+.map-note a { color: var(--green); font-weight: 600; }
+.map-note a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .btn {
   display: inline-flex; align-items: center; gap: 8px; background: var(--green); color: #fff;
   font-weight: 600; font-size: 15px; padding: 11px 22px; border-radius: var(--r-sm);
