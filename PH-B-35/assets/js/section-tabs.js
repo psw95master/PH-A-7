@@ -14,16 +14,13 @@
    넓은 화면에서는 아무 일도 하지 않는다. 거기서 LNB 는 세로 목록이고
    깜빡임이 문제 되지 않는다.
 
-   스와이프 — 본문을 좌우로 밀면 앞뒤 탭으로 넘어간다.
-   세로로 스크롤하려는 손짓과 헷갈리지 않도록 가로 이동이 세로보다 확실히 클 때만 받는다.
+   좌우로 밀어 넘기는 동작도 넣었다가 걷어냈다 — 써 보니 오히려 헷갈린다는 판단.
+   (260821 페리 지시)
    ========================================================= */
 (function () {
   "use strict";
 
   var MOBILE = "(max-width: 860px)";
-  var SWIPE_MIN = 60;      // 이만큼은 밀어야 넘긴다 (px)
-  var SWIPE_RATIO = 1.6;   // 가로가 세로보다 이 배수 이상이어야 가로 스와이프로 본다
-
   var mq = window.matchMedia(MOBILE);
   var layout = document.querySelector(".layout");
   var lnb = document.querySelector(".lnb__list");
@@ -142,12 +139,6 @@
       });
   }
 
-  function step(dir) {
-    var i = indexOfCurrent() + dir;
-    if (i < 0 || i >= links.length) return;   // 양 끝에서는 넘어가지 않는다
-    go(urlOf(links[i]), true);
-  }
-
   links.forEach(function (a) {
     a.addEventListener("click", function (ev) {
       if (!mq.matches) return;                // 넓은 화면에서는 그냥 링크
@@ -162,29 +153,6 @@
     if (!mq.matches) return;
     if (ev.state && ev.state.nhTab) go(ev.state.nhTab, false);
   });
-
-  /* ---------- 스와이프 ---------- */
-  var sx = 0, sy = 0, tracking = false;
-
-  content.addEventListener("touchstart", function (ev) {
-    if (!mq.matches || ev.touches.length !== 1) return;
-    // 표를 좌우로 미는 중이면 스와이프로 보지 않는다.
-    if (ev.target.closest(".table-scroll, .lb")) return;
-    sx = ev.touches[0].clientX;
-    sy = ev.touches[0].clientY;
-    tracking = true;
-  }, { passive: true });
-
-  content.addEventListener("touchend", function (ev) {
-    if (!tracking) return;
-    tracking = false;
-    var t = ev.changedTouches[0];
-    var dx = t.clientX - sx;
-    var dy = t.clientY - sy;
-    if (Math.abs(dx) < SWIPE_MIN) return;
-    if (Math.abs(dx) < Math.abs(dy) * SWIPE_RATIO) return;   // 세로로 긁은 것
-    step(dx < 0 ? 1 : -1);
-  }, { passive: true });
 
   // 처음 들어온 자리도 기록해 둬야 뒤로가기가 이 페이지로 돌아온다.
   history.replaceState({ nhTab: location.pathname + location.search }, "", location.href);

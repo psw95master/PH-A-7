@@ -300,7 +300,9 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
 .breadcrumb a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
 .breadcrumb [aria-current="page"] { color: #fff; }
 
-.layout { display: grid; gap: 32px; padding: 32px 0 72px; }
+/* 좁은 화면에서는 block, 넓은 화면(900px~)에서만 두 칸 grid.
+   block 인 이유는 좌측 메뉴를 머리말 아래 붙여 두기 위해서다 — 아래 .lnb 주석 참조. */
+.layout { padding: 32px 0 72px; }
 /* 그리드 칸의 기본 최소폭은 내용 크기(min-width:auto)라, 안쪽에 줄바꿈 없는 알약 메뉴나
    620px 표가 들어가면 칸이 그만큼 벌어져 좁은 화면에서 페이지가 가로로 밀린다. */
 .layout > * { min-width: 0; }
@@ -312,9 +314,25 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
 @media (prefers-reduced-motion: reduce) {
   .layout.is-loading .content { transition: none; }
 }
-@media (min-width: 900px) { .layout { grid-template-columns: 216px 1fr; gap: 48px; padding: 48px 0 96px; } }
 
 .lnb__title { display: none; }
+
+/* 좁은 화면에서 탭 줄을 머리말 바로 아래에 붙여 둔다. (260821 페리 지시)
+   본문을 내려 읽는 동안에도 지금 어느 항목인지 보이고, 바로 옆 항목으로 옮겨 갈 수 있다.
+
+   ⚠️ .layout 이 grid 인 채로는 sticky 가 먹지 않는다. 좁은 화면에서는 메뉴와 본문이
+   각각 다른 칸에 놓이는데, 메뉴 칸의 높이가 메뉴 높이와 같아 움직일 범위가 0 이 된다.
+   그래서 좁은 화면에서만 block 으로 되돌린다. gap 이 사라지므로 여백은 margin 으로 준다.
+
+   좌우 음수 여백은 배경을 화면 끝까지 닿게 하려는 것. 없으면 양옆 틈으로 본문이 지나간다. */
+.layout { display: block; }
+.lnb {
+  position: sticky; top: 111px; z-index: 90;      /* 머리말(.site-header) 높이만큼 내린다 */
+  background: #fff; border-bottom: 1px solid var(--line);
+  margin: 0 calc(var(--gutter) * -1);
+  padding: 10px var(--gutter);
+}
+.content { margin-top: 24px; }
 .lnb__list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
 .lnb__list a {
   display: block; white-space: nowrap; padding: 9px 16px; font-size: 15px; font-weight: 600;
@@ -324,7 +342,13 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
 .lnb__list a[aria-current="page"] { background: var(--green); border-color: var(--green); color: #fff; }
 
 @media (min-width: 900px) {
-  .lnb { position: sticky; top: 128px; align-self: start; }
+  /* 넓은 화면에서는 세로 목록이라 배경·경계선·음수 여백이 필요 없다. */
+  .layout { display: grid; grid-template-columns: 216px 1fr; gap: 48px; padding: 48px 0 96px; }
+  .content { margin-top: 0; }
+  .lnb {
+    position: sticky; top: 128px; align-self: start;
+    background: none; border-bottom: 0; margin: 0; padding: 0;
+  }
   .lnb__title {
     display: block; background: linear-gradient(135deg, var(--green-light), var(--green));
     color: #fff; border-radius: var(--r-md) var(--r-md) 0 0; padding: 20px 18px;
