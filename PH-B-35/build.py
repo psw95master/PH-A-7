@@ -14,6 +14,7 @@
 
 from pathlib import Path
 from html import escape
+import hashlib
 import json
 
 ROOT = Path(__file__).parent
@@ -89,6 +90,20 @@ NAV = [
 # =========================================================
 # SEO — 주소 · 구조화 데이터
 # =========================================================
+# =========================================================
+# 자산 주소 — 캐시 무효화
+# =========================================================
+# 파일 이름을 그대로 두고 내용만 바꾸면, 브라우저가 예전에 받아 둔 것을 계속 쓴다.
+# (260820 사고 — 배너 사진을 교체했는데 화면에는 옛 사진이 그대로 보였다.)
+# 파일이 바뀔 때마다 값이 달라지는 꼬리표를 붙여 다시 받게 한다.
+def asset(path):
+    f = ROOT / path
+    if not f.exists():
+        return path                       # 없는 파일이면 조용히 원래 주소를 돌려준다
+    stamp = hashlib.sha256(f.read_bytes()).hexdigest()[:8]
+    return f"{path}?v={stamp}"
+
+
 def canonical_url(filename):
     """대표 주소. 홈은 파일명을 떼고 루트로 통일한다."""
     return f"{SITE_URL}/" if filename == "index.html" else f"{SITE_URL}/{filename}"
@@ -275,7 +290,7 @@ def footer():
     </div>
   </div>
 </footer>
-<script src="assets/js/nav.js"></script>"""
+<script src="{asset('assets/js/nav.js')}"></script>"""
 
 
 def page(filename, title, body, description, schemas=None, indexable=True):
@@ -294,7 +309,7 @@ def page(filename, title, body, description, schemas=None, indexable=True):
         verify += f'\n<meta name="naver-site-verification" content="{escape(VERIFY_NAVER)}">'
 
     # 검수용 패스워드 게이트는 라이브에서 걷어낸다. 켜져 있으면 크롤러가 못 들어온다.
-    gate = "" if LIVE else '\n<script src="assets/js/gate.js"></script>'
+    gate = "" if LIVE else f'\n<script src="{asset("assets/js/gate.js")}"></script>'
 
     ld = jsonld_block(schemas)
     ld = f"\n{ld}" if ld else ""
@@ -319,7 +334,7 @@ def page(filename, title, body, description, schemas=None, indexable=True):
 <meta name="twitter:title" content="{full_title}">
 <meta name="twitter:description" content="{escape(description)}">
 <meta name="twitter:image" content="{abs_url(OG_IMAGE)}">{verify}
-<link rel="stylesheet" href="assets/css/style.css">{gate}{ld}
+<link rel="stylesheet" href="{asset('assets/css/style.css')}">{gate}{ld}
 </head>
 <body>
 {header(filename)}
@@ -397,7 +412,7 @@ def build_index():
     slides = "".join(
         f'<img class="hero__slide{" is-active" if n == 0 else ""}" '
         f'style="--hero-focus: {focus}" '
-        f'src="assets/img/{src}" alt="{escape(alt)}" '
+        f'src="{asset("assets/img/" + src)}" alt="{escape(alt)}" '
         + ('fetchpriority="high">' if n == 0 else 'loading="lazy">')
         for n, (src, alt, focus) in enumerate(HERO_SLIDES)
     )
@@ -517,7 +532,7 @@ def build_index():
     </div>
   </section>
 </main>
-<script src="assets/js/hero.js"></script>"""
+<script src="{asset('assets/js/hero.js')}"></script>"""
     return page("index.html", "홈", body,
                 "부산 화전산단 소재 유압 실린더·유압 시스템 전문 제작 업체 나우하이텍(NAWOO HI-TECH). "
                 "선박설비, 산업기계, 특수유압 실린더를 제작합니다.",
