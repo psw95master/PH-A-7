@@ -907,7 +907,6 @@ def build_location():
 
 <div class="invite invite--location">
   <div class="invite__body">
-    <h2 class="invite__title">나우하이텍에 오시는 길 환영합니다</h2>
     <div class="invite__actions">
       <a class="btn" href="{escape(naver_map)}" target="_blank" rel="noopener">네이버 지도에서 위치 보기</a>
     </div>

@@ -408,12 +408,16 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
    좁은 화면 32px / 넓은 화면 48px — .layout 이 쓰는 값 그대로다.
    페이지 안에서 벌어지는 간격이 한 값으로 모이게 하려는 것. (260821 페리 지시) */
 .greeting { display: grid; gap: 24px; margin-bottom: 32px; }
-@media (min-width: 760px) { .greeting { grid-template-columns: 300px 1fr; align-items: start; gap: 32px; } }
+/* 사진 높이를 옆 글 높이에 맞춘다. 사진이 짧아 아래쪽이 비어 보이던 것을 없앴다. (260821 페리 지시)
+   원본이 가로로 긴 사진이라 좌우가 잘리는데, 대표 얼굴이 가운데 있어 남는다. */
+@media (min-width: 760px) { .greeting { grid-template-columns: 300px 1fr; align-items: stretch; gap: 32px; } }
 @media (min-width: 900px) { .greeting { gap: 48px; margin-bottom: 48px; } }
 /* figure 는 브라우저 기본으로 좌우 40px 여백을 가진다. 그대로 두면 300px 칸에
    220px 만 들어가 사진이 작아지고 왼쪽이 어긋난다. (260821 발견) */
 .greeting__photo { margin: 0; border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-1); }
-.greeting__photo img { width: 100%; }
+.greeting__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+/* 좁은 화면에서는 위아래로 놓이므로 늘리지 않고 원본 비율대로 둔다. */
+@media (max-width: 759px) { .greeting__photo img { height: auto; } }
 .greeting__title { font-size: clamp(21px, 4vw, 27px); color: var(--navy); margin-bottom: 4px; padding-left: 0; }
 .greeting__title::before { display: none; }
 .greeting__sub { font-size: 17px; font-weight: 600; color: var(--green); margin-bottom: 18px; }
@@ -589,14 +593,13 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
 .invite--location::before {
   background: linear-gradient(180deg, transparent 0%, rgba(12,14,32,.06) 46%, rgba(12,14,32,.72) 100%);
 }
+/* 글자를 빼고 버튼만 남겼다. 버튼은 바닥에 붙이지 않고 조금 띄운다. (260821 페리 지시) */
 .invite--location .invite__body {
   height: 100%; display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 24px 20px 32px;
+  padding: 24px 20px 56px;
 }
-.invite--location .invite__title { font-size: 22px; margin-bottom: 16px; }
 @media (max-width: 640px) {
-  .invite--location .invite__title { font-size: 18px; }
-  .invite--location .invite__body { padding: 20px 14px 22px; }
+  .invite--location .invite__body { padding: 20px 14px 40px; }
 }
 
 .invite__body {
