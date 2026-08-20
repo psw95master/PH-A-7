@@ -577,11 +577,15 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
    - 잘리면 길을 못 찾으므로 원본 비율(3:2)을 그대로 잡아 전체가 보이게 한다
    - 어두운 막은 글자가 놓이는 아래쪽에만 옅게 깐다. 위쪽 도로명과 표시가 묻히면 안 된다
    (260821 페리 지시) */
+/* 카드 높이는 인재 채용 배너와 같은 316px 로 맞춘다. (260821 페리 지시)
+   3:2 지도를 이 높이에 담으면 위아래가 잘리므로, 회사 표시가 가운데 남도록 위치를 잡았다.
+   잘려 나간 범위까지 보려면 아래 버튼으로 네이버 지도를 연다. */
 .invite--location {
   background-image: url("../img/location-map.jpg");
-  background-position: center top;
-  aspect-ratio: 3 / 2;
+  background-position: center 66%;   /* 회사 표시가 글자 위로 오도록 */
+  height: 316px;
 }
+@media (max-width: 640px) { .invite--location { height: 260px; } }
 .invite--location::before {
   background: linear-gradient(180deg, transparent 0%, rgba(12,14,32,.06) 46%, rgba(12,14,32,.72) 100%);
 }
