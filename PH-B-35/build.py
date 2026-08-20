@@ -81,8 +81,10 @@ NAV = [
     ("Q&A", "Q & A", [
         ("Q&A", "qna.html"),
     ]),
-    ("공지사항", "NOTICE", [
-        ("공지사항", "notice.html"),
+    # 공지사항 자리를 인재 채용으로 바꿨다. (260821 페리 지시)
+    # 원래 있던 공지 2건은 2006·2010년 글이라 함께 내렸다.
+    ("인재 채용", "RECRUIT", [
+        ("인재 채용", "recruit.html"),
     ]),
 ]
 
@@ -245,7 +247,7 @@ def header(page):
       <ul class="u-links">
         <li><a href="location.html">오시는길</a></li>
         <li><a href="facility.html">설비현황</a></li>
-        <li><a href="notice.html">공지사항</a></li>
+        <li><a href="recruit.html">인재 채용</a></li>
       </ul>
       <p class="tel">고객센터 <a href="tel:{COMPANY['tel_href']}"><strong>{COMPANY['tel']}</strong></a></p>
     </div>
@@ -272,7 +274,7 @@ def footer():
       <a href="greeting.html">회사소개</a>
       <a href="location.html">오시는길</a>
       <a href="facility.html">설비현황</a>
-      <a href="notice.html">공지사항</a>
+      <a href="recruit.html">인재 채용</a>
     </div>
     <div class="site-footer__grid">
       <div>
@@ -510,27 +512,28 @@ def build_index():
     </div>
   </section>
 
+  <!-- 공지사항 목록이 있던 자리. 메뉴가 인재 채용으로 바뀌면서 함께 교체했다. (260821 페리 선택) -->
   <section class="section">
     <div class="wrap">
       <div class="section__head">
-        <p class="section__eyebrow">Notice</p>
-        <h2 class="section__title">공지사항</h2>
+        <p class="section__eyebrow">Recruit</p>
+        <h2 class="section__title">인재 채용</h2>
+        <p class="section__desc">
+          유압 실린더 설계·가공·조립을 함께할 분을 기다립니다.
+        </p>
       </div>
-      <ul class="notice-list">
-        <li>
-          <a href="notice.html#post-3">
-            <span class="notice-list__badge">공지</span>
-            <span class="notice-list__title">나우하이텍 확장이전 했습니다.</span>
-            <time class="notice-list__date" datetime="2010-08-26">2010-08-26</time>
-          </a>
-        </li>
-        <li>
-          <a href="notice.html#post-1">
-            <span class="notice-list__title">홈페이지가 오픈 되었습니다.</span>
-            <time class="notice-list__date" datetime="2006-10-18">2006-10-18</time>
-          </a>
-        </li>
-      </ul>
+      <div class="invite invite--recruit">
+        <div class="invite__body">
+          <h3 class="invite__title">함께 일할 분을 찾습니다</h3>
+          <p class="invite__desc">
+            경력과 신입 모두 지원하실 수 있습니다.<br>
+            이력서를 보내 주시면 검토 후 개별로 연락드리겠습니다.
+          </p>
+          <div class="invite__actions">
+            <a class="btn" href="recruit.html">채용 안내 보기</a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </main>
@@ -1066,44 +1069,43 @@ def build_environment():
 
 
 # =========================================================
-# notice.html — 공지사항
+# recruit.html — 인재 채용
 # =========================================================
-NOTICES = [
-    (3, "나우하이텍 확장이전 했습니다.", "2010-08-26", "관리자", True,
-     ["화전산업단지로 이사를 왔습니다.",
-      "여러분의 성원과 도움으로 좋은 환경에서 더 좋은 제품을 만들 수 있게 되었습니다.",
-      "앞으로도, 많은 관심 부탁드립니다."]),
-    (1, "홈페이지가 오픈 되었습니다.", "2006-10-18", "관리자", False, []),
-]
+# 원래 공지사항(2006·2010년 글 2건) 자리다. (260821 페리 지시)
+# Q&A 와 같은 짜임 — 안내문 → 사진 배너 → 표. 아래 카피는 지어낸 것이다.
+# ※임시 카피 — 모집 직무·자격·전형 절차는 나우하이텍 확인 필요
+def build_recruit():
+    content = f"""<h2>인재 채용</h2>
+<p>나우하이텍과 함께 성장할 분을 기다립니다. 아래 연락처로 이력서를 보내 주세요.</p>
 
+<div class="invite invite--recruit">
+  <div class="invite__body">
+    <h2 class="invite__title">함께 일할 분을 찾습니다</h2>
+    <p class="invite__desc">
+      2002년부터 선박설비·제철설비·산업기계용 유압 실린더를 만들어 왔습니다.<br>
+      이력서를 보내 주시면 검토 후 개별로 연락드리겠습니다.
+    </p>
+    <div class="invite__actions">
+      <a class="btn" href="mailto:{COMPANY['email']}?subject=%5B%EC%9E%85%EC%82%AC%EC%A7%80%EC%9B%90%5D%20">이메일 지원</a>
+      <a class="btn btn--ghost" href="tel:{COMPANY['tel_href']}">전화 문의</a>
+    </div>
+  </div>
+</div>
 
-def build_notice():
-    articles = []
-    for num, title, date, writer, pinned, paras in NOTICES:
-        body = "".join(f"<p>{escape(p)}</p>" for p in paras) or \
-               '<p style="color:var(--muted)">등록된 본문이 없습니다.</p>'
-        badge = '<span class="notice-list__badge">공지</span> ' if pinned else ""
-        articles.append(f"""<article id="post-{num}" class="post">
-  <h2 class="post__title">{badge}{escape(title)}</h2>
-  <p style="font-size:14px;color:var(--muted);margin-bottom:16px">
-    작성자 {escape(writer)} · <time datetime="{date}">{date}</time>
-  </p>
-  {body}
-</article>""")
-    content = f"""<h2>공지사항</h2>
-<p style="font-size:14px;color:var(--muted)">총 {len(NOTICES)}건</p>
-<ul class="notice-list">
-  <li><a href="#post-3"><span class="notice-list__badge">공지</span>
-    <span class="notice-list__title">나우하이텍 확장이전 했습니다.</span>
-    <time class="notice-list__date" datetime="2010-08-26">2010-08-26</time></a></li>
-  <li><a href="#post-1">
-    <span class="notice-list__title">홈페이지가 오픈 되었습니다.</span>
-    <time class="notice-list__date" datetime="2006-10-18">2006-10-18</time></a></li>
-</ul>
-
-{''.join(articles)}"""
-    return sub_page("notice.html", "공지사항",
-                    "나우하이텍 공지사항 — 확장이전 안내, 홈페이지 오픈 안내.",
+<h2>지원 안내</h2>
+<table class="info-table">
+  <tbody>
+    <tr><th scope="row">모집 부문</th>
+        <td>유압 실린더 설계 · 기계 가공 · 조립 · 기술영업<br>
+            <span style="color:var(--muted);font-size:14px">모집 부문은 시기에 따라 달라집니다. 전화로 확인해 주세요.</span></td></tr>
+    <tr><th scope="row">지원 방법</th><td>이력서를 이메일로 보내 주시거나 전화로 문의해 주세요.</td></tr>
+    <tr><th scope="row">근무지</th><td>({COMPANY['zip']}) 부산광역시 강서구 화전산단3로 102</td></tr>
+    <tr><th scope="row">전화</th><td><a href="tel:{COMPANY['tel_href']}">{COMPANY['tel']}</a></td></tr>
+    <tr><th scope="row">이메일</th><td><a href="mailto:{COMPANY['email']}">{COMPANY['email']}</a></td></tr>
+  </tbody>
+</table>"""
+    return sub_page("recruit.html", "인재 채용",
+                    "나우하이텍 인재 채용 안내 — 유압 실린더 설계·가공·조립·기술영업 부문 지원 방법과 연락처.",
                     content)
 
 
@@ -1215,7 +1217,7 @@ PRIORITY = {
     "organization.html": "0.7",
     "quality.html": "0.7",
     "environment.html": "0.7",
-    "notice.html": "0.6",
+    "recruit.html": "0.7",
     "qna.html": "0.6",
 }
 
@@ -1257,7 +1259,7 @@ def main():
         build_quality(),
         build_environment(),
         build_qna(),
-        build_notice(),
+        build_recruit(),
         build_404(),
     ]
     extras = [build_robots(), build_sitemap(built)]

@@ -526,7 +526,7 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
 .empty h2::before { display: none; }
 .empty p { font-size: 15px; margin-bottom: 20px; }
 
-/* 문의 유도 배너 (Q&A) — 사진 위에 글자를 얹으므로 어두운 막을 사이에 깐다. */
+/* 문의 유도 배너 (Q&A · 인재 채용) — 사진 위에 글자를 얹으므로 어두운 막을 사이에 깐다. */
 .invite {
   position: relative; overflow: hidden; border-radius: var(--r-lg);
   background: var(--navy-deep) url("../img/qna-invite.jpg") center 42% / cover no-repeat;
@@ -536,6 +536,9 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(12,14,32,.62) 0%, rgba(12,14,32,.44) 100%);
 }
+/* 인재 채용 쪽은 사진만 갈아 끼운다. 나머지 짜임은 Q&A 와 같다. */
+.invite--recruit { background-image: url("../img/recruit-invite.jpg"); }
+
 .invite__body {
   position: relative; padding: 72px 24px; text-align: center; color: #fff;
 }
