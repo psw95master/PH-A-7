@@ -404,9 +404,16 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
 .note code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
 
 /* 인사말 */
-.greeting { display: grid; gap: 24px; }
-@media (min-width: 760px) { .greeting { grid-template-columns: 300px 1fr; align-items: start; gap: 36px; } }
-.greeting__photo { border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-1); }
+/* 사진과 글 사이, 그리고 이 블록과 아래 문단 사이를 좌측 메뉴 간격에 맞춘다.
+   좁은 화면 32px / 넓은 화면 48px — .layout 이 쓰는 값 그대로다.
+   페이지 안에서 벌어지는 간격이 한 값으로 모이게 하려는 것. (260821 페리 지시) */
+.greeting { display: grid; gap: 24px; margin-bottom: 32px; }
+@media (min-width: 760px) { .greeting { grid-template-columns: 300px 1fr; align-items: start; gap: 32px; } }
+@media (min-width: 900px) { .greeting { gap: 48px; margin-bottom: 48px; } }
+/* figure 는 브라우저 기본으로 좌우 40px 여백을 가진다. 그대로 두면 300px 칸에
+   220px 만 들어가 사진이 작아지고 왼쪽이 어긋난다. (260821 발견) */
+.greeting__photo { margin: 0; border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-1); }
+.greeting__photo img { width: 100%; }
 .greeting__title { font-size: clamp(21px, 4vw, 27px); color: var(--navy); margin-bottom: 4px; padding-left: 0; }
 .greeting__title::before { display: none; }
 .greeting__sub { font-size: 17px; font-weight: 600; color: var(--green); margin-bottom: 18px; }

@@ -80,8 +80,9 @@ NAV = [
     ("환경방침", "ENVIRONMENT PLAN", [
         ("환경방침", "environment.html"),
     ]),
-    ("Q&A", "Q & A", [
-        ("Q&A", "qna.html"),
+    # Q&A 자리를 협업 문의로 바꿨다. (260821 페리 지시)
+    ("협업 문의", "PARTNERSHIP", [
+        ("협업 문의", "inquiry.html"),
     ]),
     # 공지사항 자리를 인재 채용으로 바꿨다. (260821 페리 지시)
     # 원래 있던 공지 2건은 2006·2010년 글이라 함께 내렸다.
@@ -574,9 +575,9 @@ def build_index():
 # greeting.html — 인사말
 # =========================================================
 def build_greeting():
-    content = """<div class="greeting">
+    content = f"""<div class="greeting">
   <figure class="greeting__photo">
-    <img src="assets/img/ceo-photo.jpg" width="388" height="207"
+    <img src="{asset('assets/img/ceo-photo.jpg')}" width="746" height="394"
          alt="집무실에서 촬영한 나우하이텍 대표 김재욱">
   </figure>
   <div>
@@ -1102,7 +1103,7 @@ def build_environment():
 # ※임시 카피 — 모집 직무·자격·전형 절차는 나우하이텍 확인 필요
 def build_recruit():
     content = f"""<h2>인재 채용</h2>
-<p>나우하이텍과 함께 성장할 분을 기다립니다. 아래 연락처로 이력서를 보내 주세요.</p>
+<p>체계적인 시스템과 안정적인 환경 속에서 당신의 역량을 마음껏 펼쳐 보세요.</p>
 
 <div class="invite invite--recruit">
   <div class="invite__body">
@@ -1136,19 +1137,17 @@ def build_recruit():
 
 
 # =========================================================
-# qna.html — Q&A (빈 상태)
+# inquiry.html — 협업 문의
 # =========================================================
-def build_qna():
-    # 이 자리에는 원래 "정적 사이트로 옮기면서 목록을 비웠다"는 내부 사정이 적혀 있었다.
-    # 고객이 보는 화면에 들어갈 내용이 아니라 문의를 부르는 문구로 바꿨다. (260821 페리 지시)
-    # 아래 카피는 지어낸 것이다. ※임시 카피 — 나우하이텍 확인 필요
-    # 세 안 중 실적으로 신뢰를 주는 안을 골랐다. (260821 페리 선택)
-    content = f"""<h2>Q&amp;A</h2>
-<p>제품 사양, 견적, 납기 문의를 남겨 주시면 담당자가 확인 후 연락드립니다.</p>
+def build_inquiry():
+    # 원래 Q&A 게시판 자리다. 빈 게시판을 보여 주는 대신 문의를 부르는 화면으로 바꿨고(260820),
+    # 260821 에 이름과 문구를 페리가 준 것으로 다시 손봤다.
+    content = f"""<h2>협업 문의</h2>
+<p>문의 남겨 주시면 담당자가 빠른 시일 안에 연락드립니다.</p>
 
 <div class="invite">
   <div class="invite__body">
-    <h2 class="invite__title">문의 주세요</h2>
+    <h2 class="invite__title">나우하이텍의 검증된 프로세스를 경험해 보세요</h2>
     <p class="invite__desc">
       2002년부터 선박설비·제철설비·산업기계용 유압 실린더를 만들어 왔습니다.<br>
       필요한 사양을 알려 주시면 담당자가 검토 후 연락드리겠습니다.
@@ -1169,8 +1168,8 @@ def build_qna():
     <tr><th scope="row">주소</th><td>({COMPANY['zip']}) {COMPANY['addr']}</td></tr>
   </tbody>
 </table>"""
-    return sub_page("qna.html", "Q&A",
-                    "나우하이텍 제품 사양·견적·납기 문의처 안내.",
+    return sub_page("inquiry.html", "협업 문의",
+                    "나우하이텍 협업 문의 — 제품 사양·견적·납기 문의처 안내.",
                     content)
 
 
@@ -1184,6 +1183,7 @@ def build_qna():
 # 밖으로 공유된 링크가 있어도 같이 살아난다.
 MOVED = [
     ("notice.html", "recruit.html", "공지사항", "인재 채용"),
+    ("qna.html", "inquiry.html", "Q&A", "협업 문의"),
 ]
 
 
@@ -1286,7 +1286,7 @@ PRIORITY = {
     "quality.html": "0.7",
     "environment.html": "0.7",
     "recruit.html": "0.7",
-    "qna.html": "0.6",
+    "inquiry.html": "0.7",
 }
 
 
@@ -1326,7 +1326,7 @@ def main():
         build_drawings(),
         build_quality(),
         build_environment(),
-        build_qna(),
+        build_inquiry(),
         build_recruit(),
         build_404(),
     ]
