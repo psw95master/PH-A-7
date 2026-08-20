@@ -68,10 +68,20 @@
     box.setAttribute("aria-label", "사진 크게 보기");
     box.hidden = true;
 
+    // 아이콘은 글자(× ‹ ›) 대신 SVG 로 그린다.
+    // 글자는 폰트마다 위아래 여백이 달라 동그라미 안에서 미세하게 어긋난다. (260821 수정)
+    var icon = function (d) {
+      return '<svg class="lb__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+             '<path d="' + d + '"/></svg>';
+    };
+
     box.innerHTML =
-      '<button class="lb__close" type="button" aria-label="닫기">&times;</button>' +
-      '<button class="lb__nav lb__nav--prev" type="button" aria-label="이전 사진">&#8249;</button>' +
-      '<button class="lb__nav lb__nav--next" type="button" aria-label="다음 사진">&#8250;</button>' +
+      '<button class="lb__close" type="button" aria-label="닫기">' +
+        icon("M6 6l12 12M18 6L6 18") + '</button>' +
+      '<button class="lb__nav lb__nav--prev" type="button" aria-label="이전 사진">' +
+        icon("M15 5l-7 7 7 7") + '</button>' +
+      '<button class="lb__nav lb__nav--next" type="button" aria-label="다음 사진">' +
+        icon("M9 5l7 7-7 7") + '</button>' +
       '<figure class="lb__figure">' +
         '<img class="lb__img" alt="">' +
         '<figcaption class="lb__cap">' +

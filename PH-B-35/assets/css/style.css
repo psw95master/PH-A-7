@@ -708,19 +708,31 @@ html.nh-locked body > *:not(.nh-gate) { display: none !important; }
 .lb__close:hover, .lb__nav:hover { background: rgba(255,255,255,.26); }
 .lb__close:focus-visible, .lb__nav:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 
-.lb__close { top: 14px; right: 16px; width: 44px; height: 44px; font-size: 26px; line-height: 1; }
-.lb__nav { top: 50%; transform: translateY(-50%); width: 48px; height: 48px; font-size: 30px; line-height: 1; }
-.lb__nav--prev { left: 12px; }
-.lb__nav--next { right: 12px; }
+.lb__close { top: 14px; right: 16px; width: 44px; height: 44px; }
+.lb__nav { top: 50%; width: 48px; height: 48px; }
+
+/* 앞뒤 버튼은 화면 가장자리가 아니라 가운데를 기준으로 좌우 500px 지점에 둔다. (260821 페리 지시)
+   화면이 그만큼 넓지 않으면 min() 이 잡아 줄여 버튼이 밖으로 밀려나지 않는다. */
+.lb__nav--prev { left: 50%; transform: translate(calc(-50% - min(500px, 42vw)), -50%); }
+.lb__nav--next { left: 50%; transform: translate(calc(-50% + min(500px, 42vw)), -50%); }
 .lb__nav[hidden] { display: none; }
+
+/* 아이콘은 SVG 로 그린다. place-items:center 가 정확히 가운데 놓는다. */
+.lb__icon {
+  width: 22px; height: 22px; display: block;
+  fill: none; stroke: currentColor; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.lb__close .lb__icon { width: 20px; height: 20px; }
 
 @media (max-width: 640px) {
   .lb { padding: 52px 12px 20px; }
   .lb__img { max-height: calc(100vh - 260px); }
   /* 좁은 화면에서는 좌우 버튼이 사진을 가리므로 아래로 내린다. */
   .lb__nav { top: auto; bottom: 14px; transform: none; width: 44px; height: 44px; }
-  .lb__nav--prev { left: 20%; }
-  .lb__nav--next { right: 20%; }
+  /* 넓은 화면 규칙에서 잡아 둔 left:50% 를 풀어야 right 가 먹는다. */
+  .lb__nav--prev { left: 20%; right: auto; }
+  .lb__nav--next { left: auto; right: 20%; }
   .lb__cap { padding-bottom: 56px; }
 }
 
