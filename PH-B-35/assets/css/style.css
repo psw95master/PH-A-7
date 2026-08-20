@@ -594,16 +594,19 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
   height: 316px;
 }
 @media (max-width: 640px) { .invite--location { height: 260px; } }
-.invite--location::before {
-  background: linear-gradient(180deg, transparent 0%, rgba(12,14,32,.06) 46%, rgba(12,14,32,.72) 100%);
-}
-/* 글자를 빼고 버튼만 남겼다. 버튼은 바닥에 붙이지 않고 조금 띄운다. (260821 페리 지시) */
+/* 어두운 막을 걷어냈다. 얹을 글자가 없어졌고, 막이 있으면 지도만 어두워진다. (260821 페리 지시) */
+.invite--location::before { background: none; }
+/* 막이 없어진 대신 버튼에 그림자를 줘 지도 위에 떠 보이게 한다.
+   지도의 건물 경계선과 겹쳐도 버튼 테두리가 묻히지 않는다. */
+.invite--location .btn { box-shadow: 0 4px 14px rgba(12, 14, 32, .3); }
+.invite--location .btn:hover { box-shadow: 0 6px 18px rgba(12, 14, 32, .38); }
+/* 글자를 빼고 버튼만 남겼다. 버튼은 바닥에서 띄워 지도 아래쪽 도로명을 덜 가리게 한다. */
 .invite--location .invite__body {
   height: 100%; display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 24px 20px 56px;
+  padding: 24px 20px 76px;
 }
 @media (max-width: 640px) {
-  .invite--location .invite__body { padding: 20px 14px 40px; }
+  .invite--location .invite__body { padding: 20px 14px 54px; }
 }
 
 .invite__body {
