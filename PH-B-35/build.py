@@ -381,18 +381,23 @@ def sub_page(filename, title, description, content, intro=None):
 # 상단 키배너. 2.5초 간격으로 자동 롤링한다 (260820 페리 지시).
 # 원본은 드라이브에서 받은 PNG 3장(1672×941). 웹용 JPEG 로 변환해 넣었다.
 # 사진 안에 글자가 없으므로 배너 문구는 HTML 텍스트로 위에 얹는다.
+#
+# 세 번째 값은 배너에서 사진의 어느 높이를 보여줄지다 (0% = 위쪽, 50% = 가운데).
+# 가로로 긴 배너에 16:9 사진을 채우면 위아래가 잘리므로, 사진마다 남길 곳을 따로 잡는다.
+# 1번은 건물 간판이 위쪽에 있어 20% 로 올렸다. (260820 페리 요청)
 HERO_SLIDES = [
-    ("hero-1.jpg", "나우하이텍 부산 화전산단 사옥 전경"),
-    ("hero-2.jpg", "천장 크레인과 가공 설비가 늘어선 나우하이텍 공장 내부"),
-    ("hero-3.jpg", "나우하이텍 로고가 새겨진 사무동 회의실 입구"),
+    ("hero-1.jpg", "나우하이텍 부산 화전산단 사옥 전경", "20%"),
+    ("hero-2.jpg", "천장 크레인과 가공 설비가 늘어선 나우하이텍 공장 내부", "50%"),
+    ("hero-3.jpg", "나우하이텍 로고가 새겨진 사무동 회의실 입구", "50%"),
 ]
 
 def build_index():
     slides = "".join(
         f'<img class="hero__slide{" is-active" if n == 0 else ""}" '
+        f'style="--hero-focus: {focus}" '
         f'src="assets/img/{src}" alt="{escape(alt)}" '
         + ('fetchpriority="high">' if n == 0 else 'loading="lazy">')
-        for n, (src, alt) in enumerate(HERO_SLIDES)
+        for n, (src, alt, focus) in enumerate(HERO_SLIDES)
     )
     current_attr = ' aria-current="true"'
     dots = "".join(

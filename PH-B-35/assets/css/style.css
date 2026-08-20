@@ -148,9 +148,10 @@ button { font: inherit; color: inherit; }
 .hero { position: relative; overflow: hidden; background: var(--navy-deep); }
 
 .hero__stage { position: absolute; inset: 0; z-index: 0; }
+/* --hero-focus 는 사진마다 build.py 가 넣는다. 잘려도 남아야 할 높이(간판·로고 등). */
 .hero__slide {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: center;
+  object-fit: cover; object-position: center var(--hero-focus, 50%);
   opacity: 0; transition: opacity .9s ease;
 }
 .hero__slide.is-active { opacity: 1; }
@@ -202,9 +203,9 @@ button { font: inherit; color: inherit; }
   .hero__dots { left: auto; right: calc((100% - var(--wrap)) / 2 + var(--gutter)); transform: none; bottom: 28px; }
 }
 
-/* 좁은 화면에서는 가로로 긴 사진이 크게 잘리므로, 피사체가 몰린 가운데 위쪽을 남긴다. */
+/* 좁은 화면에서는 사진의 세로가 거의 그대로 들어오므로 높이 지정이 따로 필요 없다.
+   배너 자체만 낮춘다. */
 @media (max-width: 640px) {
-  .hero__slide { object-position: center 38%; }
   .hero__inner { min-height: 380px; padding: 56px var(--gutter) 76px; }
 }
 
