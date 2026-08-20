@@ -526,6 +526,37 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
 .empty h2::before { display: none; }
 .empty p { font-size: 15px; margin-bottom: 20px; }
 
+/* 문의 유도 배너 (Q&A) — 사진 위에 글자를 얹으므로 어두운 막을 사이에 깐다. */
+.invite {
+  position: relative; overflow: hidden; border-radius: var(--r-lg);
+  background: var(--navy-deep) url("../img/qna-invite.jpg") center 42% / cover no-repeat;
+  margin-bottom: 40px;
+}
+.invite::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(12,14,32,.62) 0%, rgba(12,14,32,.44) 100%);
+}
+.invite__body {
+  position: relative; padding: 72px 24px; text-align: center; color: #fff;
+}
+.invite__title {
+  font-size: 26px; color: #fff; margin: 0 0 12px; padding: 0;
+  text-shadow: 0 2px 14px rgba(0,0,0,.35);
+}
+.invite__title::before { display: none; }   /* h2 앞 초록 사각형을 여기서는 쓰지 않는다 */
+.invite__desc { font-size: 15px; color: rgba(255,255,255,.9); margin: 0 0 24px; line-height: 1.8; }
+.invite__actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+/* 어두운 배경 위에서는 흰 바탕 고스트 버튼이 튀므로 테두리형으로 바꾼다. */
+.invite .btn--ghost {
+  background: rgba(255,255,255,.12); color: #fff; border-color: rgba(255,255,255,.5);
+}
+.invite .btn--ghost:hover { background: rgba(255,255,255,.24); border-color: #fff; }
+
+@media (max-width: 640px) {
+  .invite__body { padding: 40px 18px; }
+  .invite__title { font-size: 22px; }
+}
+
 .error-page { padding: 96px 0 120px; text-align: center; }
 .error-page__code { font-family: var(--font-en); font-size: 76px; font-weight: 800; color: var(--green-pale); line-height: 1; }
 .error-page h1 { font-size: 26px; margin: 8px 0 12px; }

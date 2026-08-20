@@ -1111,15 +1111,24 @@ def build_notice():
 # qna.html — Q&A (빈 상태)
 # =========================================================
 def build_qna():
+    # 이 자리에는 원래 "정적 사이트로 옮기면서 목록을 비웠다"는 내부 사정이 적혀 있었다.
+    # 고객이 보는 화면에 들어갈 내용이 아니라 문의를 부르는 문구로 바꿨다. (260821 페리 지시)
+    # 아래 카피는 지어낸 것이다. ※임시 카피 — 나우하이텍 확인 필요
     content = f"""<h2>Q&amp;A</h2>
 <p>제품 사양, 견적, 납기 문의를 남겨 주시면 담당자가 확인 후 연락드립니다.</p>
 
-<div class="empty">
-  <h2>아직 공개된 문의글이 없습니다</h2>
-  <p>원본 Q&amp;A 게시판은 글쓰기·답변이 서버에서 처리되는 동적 게시판입니다.<br>
-     정적 사이트로 옮기면서 목록은 비워 두었습니다.</p>
-  <a class="btn" href="mailto:{COMPANY['email']}?subject=%5B%EB%AC%B8%EC%9D%98%5D%20">이메일로 문의하기</a>
-  <a class="btn btn--ghost" href="tel:{COMPANY['tel_href']}" style="margin-left:8px">전화 문의</a>
+<div class="invite">
+  <div class="invite__body">
+    <h2 class="invite__title">문의 주세요</h2>
+    <p class="invite__desc">
+      규격이 정해지지 않은 특수 유압 실린더도 상담해 드립니다.<br>
+      도면이나 사용 조건을 알려 주시면 담당자가 검토 후 연락드리겠습니다.
+    </p>
+    <div class="invite__actions">
+      <a class="btn" href="mailto:{COMPANY['email']}?subject=%5B%EB%AC%B8%EC%9D%98%5D%20">이메일로 문의하기</a>
+      <a class="btn btn--ghost" href="tel:{COMPANY['tel_href']}">전화 문의</a>
+    </div>
+  </div>
 </div>
 
 <h2>문의처</h2>
