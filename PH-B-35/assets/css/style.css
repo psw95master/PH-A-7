@@ -152,7 +152,9 @@ button { font: inherit; color: inherit; }
 .hero__slide {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; object-position: center var(--hero-focus, 50%);
-  opacity: 0; transition: opacity .9s ease;
+  /* 넘어가는 간격이 1.5초이므로 페이드는 그 3분의 1 선으로 잡는다.
+     이보다 길면 늘 흐릿한 중간 상태로 보인다. */
+  opacity: 0; transition: opacity .55s ease;
 }
 .hero__slide.is-active { opacity: 1; }
 
