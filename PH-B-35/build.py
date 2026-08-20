@@ -12,10 +12,12 @@
 결과:  프로젝트 루트에 *.html 생성
 """
 
+from datetime import datetime
 from pathlib import Path
 from html import escape
 import hashlib
 import json
+import re
 
 ROOT = Path(__file__).parent
 TODAY = "260820"
@@ -104,6 +106,29 @@ def asset(path):
         return path                       # 없는 파일이면 조용히 원래 주소를 돌려준다
     stamp = hashlib.sha256(f.read_bytes()).hexdigest()[:8]
     return f"{path}?v={stamp}"
+
+
+# =========================================================
+# 검수용 — 페이지 링크에도 표식을 붙인다
+# =========================================================
+# 260821 사고. 메뉴가 공지사항 → 인재 채용으로 바뀌었는데, 검수하던 화면에서는
+# 페이지에 따라 예전 메뉴가 그대로 보였다. 서버는 멀쩡했고 브라우저 캐시가 원인이었다.
+# GitHub Pages 는 HTML 을 10분간 캐시하고(max-age=600), 강제 새로고침은
+# 그때 보고 있는 페이지 하나에만 먹는다. 그래서 둘러본 페이지마다 시점이 뒤섞인다.
+#
+# 자산에 붙이는 ?v= 는 HTML 자체에는 쓸 수 없으므로, 검수 모드에서만
+# 페이지 사이 링크에 빌드 시각을 붙여 매 빌드마다 새 주소가 되게 한다.
+# 라이브에서는 붙이지 않는다 — 주소는 깨끗해야 한다.
+BUILD_STAMP = datetime.now().strftime("%y%m%d%H%M%S")
+_PAGE_LINK = re.compile(r'href="([a-z0-9_.-]+\.html)(#[^"]*)?"')
+
+
+def stamp_page_links(html):
+    if LIVE:
+        return html
+    return _PAGE_LINK.sub(
+        lambda m: f'href="{m.group(1)}?b={BUILD_STAMP}{m.group(2) or ""}"', html
+    )
 
 
 def canonical_url(filename):
@@ -345,7 +370,7 @@ def page(filename, title, body, description, schemas=None, indexable=True):
 </body>
 </html>
 """
-    (ROOT / filename).write_text(html, encoding="utf-8")
+    (ROOT / filename).write_text(stamp_page_links(html), encoding="utf-8")
     return filename
 
 
@@ -1185,7 +1210,7 @@ def build_moved():
 </body>
 </html>
 """
-        (ROOT / old).write_text(html, encoding="utf-8")
+        (ROOT / old).write_text(stamp_page_links(html), encoding="utf-8")
         made.append(old)
     return made
 
