@@ -143,29 +143,76 @@ button { font: inherit; color: inherit; }
 /* =========================================================
    Home — hero
    ========================================================= */
-.hero { position: relative; background: linear-gradient(180deg, #eef4f8 0%, #dbe8f0 100%); overflow: hidden; }
+/* 키배너는 사진 3장이 2.5초마다 교차한다. 넘기는 동작은 assets/js/hero.js.
+   사진 위에 글자를 얹으므로, 대비 확보용 어두운 막(.hero__scrim)을 사이에 깐다. */
+.hero { position: relative; overflow: hidden; background: var(--navy-deep); }
+
+.hero__stage { position: absolute; inset: 0; z-index: 0; }
+.hero__slide {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  opacity: 0; transition: opacity .9s ease;
+}
+.hero__slide.is-active { opacity: 1; }
+
+/* 왼쪽(글자가 놓이는 쪽)을 더 어둡게 눌러 가독성을 만든다. */
+.hero__scrim {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(15,17,40,.72) 0%, rgba(15,17,40,.44) 48%, rgba(15,17,40,.12) 100%),
+    linear-gradient(180deg, rgba(15,17,40,.30) 0%, transparent 38%, rgba(15,17,40,.38) 100%);
+}
+
 /* 좌우값을 0 으로 두면 `.wrap` 의 여백을 덮어써서 좁은 화면에서 글자가 화면 끝에 붙는다. */
-.hero__inner { position: relative; z-index: 2; padding: 44px var(--gutter) 200px; }
-.hero__eyebrow { font-size: 17px; font-weight: 600; color: var(--navy); margin: 0 0 6px; }
+.hero__inner {
+  position: relative; z-index: 2;
+  padding: 72px var(--gutter) 92px;
+  min-height: 420px; display: flex; flex-direction: column; justify-content: center;
+}
+.hero__eyebrow { font-size: 17px; font-weight: 600; color: #dfe6ff; margin: 0 0 6px; }
 .hero__title {
   font-family: var(--font-en); font-size: clamp(38px, 8vw, 76px); font-weight: 800;
-  letter-spacing: -.03em; line-height: 1; margin: 0 0 18px; color: var(--navy);
+  letter-spacing: -.03em; line-height: 1; margin: 0 0 18px; color: #fff;
+  text-shadow: 0 2px 18px rgba(0,0,0,.34);
 }
-.hero__title em { font-style: normal; color: var(--green); }
-.hero__lead { max-width: 30em; font-size: 15px; color: var(--ink-2); margin: 0 0 24px; }
+.hero__title em { font-style: normal; color: var(--green-light); }
+.hero__lead { max-width: 30em; font-size: 15px; color: rgba(255,255,255,.88); margin: 0 0 24px; }
 .hero__tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .hero__tags li {
-  background: rgba(255,255,255,.9); border: 1px solid rgba(47,46,110,.18); color: var(--navy);
+  background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.42); color: #fff;
   border-radius: 999px; padding: 7px 16px; font-size: 14px; font-weight: 600;
   backdrop-filter: saturate(1.4) blur(2px);
 }
-.hero__photo {
-  position: absolute; left: 0; right: 0; bottom: 0; height: 230px; z-index: 1;
-  background: url("../img/hero-plant.jpg") center bottom / cover no-repeat;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 34%);
-          mask-image: linear-gradient(180deg, transparent 0, #000 34%);
+
+/* 현재 위치 표시. 색만으로 구분하지 않도록 폭도 함께 늘린다. */
+.hero__dots {
+  position: absolute; z-index: 3; left: 50%; transform: translateX(-50%); bottom: 20px;
+  display: flex; gap: 9px;
 }
-@media (min-width: 861px) { .hero__inner { padding: 76px var(--gutter) 240px; } }
+.hero__dot {
+  width: 10px; height: 10px; padding: 0; border-radius: 999px; cursor: pointer;
+  border: 1px solid rgba(255,255,255,.75); background: rgba(255,255,255,.28);
+  transition: width .25s ease, background-color .25s ease;
+}
+.hero__dot.is-active { width: 28px; background: #fff; }
+.hero__dot:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+@media (min-width: 861px) {
+  .hero__inner { padding: 108px var(--gutter) 128px; min-height: 560px; }
+  .hero__dots { left: auto; right: calc((100% - var(--wrap)) / 2 + var(--gutter)); transform: none; bottom: 28px; }
+}
+
+/* 좁은 화면에서는 가로로 긴 사진이 크게 잘리므로, 피사체가 몰린 가운데 위쪽을 남긴다. */
+@media (max-width: 640px) {
+  .hero__slide { object-position: center 38%; }
+  .hero__inner { min-height: 380px; padding: 56px var(--gutter) 76px; }
+}
+
+/* OS 에서 "동작 줄이기"를 켠 사용자에게는 교차 효과도 없앤다 (자동 롤링은 hero.js 가 멈춘다). */
+@media (prefers-reduced-motion: reduce) {
+  .hero__slide { transition: none; }
+  .hero__dot { transition: none; }
+}
 
 /* =========================================================
    Home — sections

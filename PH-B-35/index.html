@@ -13,11 +13,11 @@
 <meta property="og:title" content="홈 | 나우하이텍 NAWOO HI-TECH">
 <meta property="og:description" content="부산 화전산단 소재 유압 실린더·유압 시스템 전문 제작 업체 나우하이텍(NAWOO HI-TECH). 선박설비, 산업기계, 특수유압 실린더를 제작합니다.">
 <meta property="og:url" content="https://nawoohitech.co.kr/">
-<meta property="og:image" content="https://nawoohitech.co.kr/assets/img/hero-plant.jpg">
+<meta property="og:image" content="https://nawoohitech.co.kr/assets/img/hero-1.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="홈 | 나우하이텍 NAWOO HI-TECH">
 <meta name="twitter:description" content="부산 화전산단 소재 유압 실린더·유압 시스템 전문 제작 업체 나우하이텍(NAWOO HI-TECH). 선박설비, 산업기계, 특수유압 실린더를 제작합니다.">
-<meta name="twitter:image" content="https://nawoohitech.co.kr/assets/img/hero-plant.jpg">
+<meta name="twitter:image" content="https://nawoohitech.co.kr/assets/img/hero-1.jpg">
 <link rel="stylesheet" href="assets/css/style.css">
 <script src="assets/js/gate.js"></script>
 <script type="application/ld+json">
@@ -29,7 +29,7 @@
   "alternateName": "NAWOO HI-TECH",
   "url": "https://nawoohitech.co.kr/",
   "logo": "https://nawoohitech.co.kr/assets/img/logo.png",
-  "image": "https://nawoohitech.co.kr/assets/img/hero-plant.jpg",
+  "image": "https://nawoohitech.co.kr/assets/img/hero-1.jpg",
   "description": "나우하이텍은 2002년 설립된 유압 실린더·유압 시스템 전문 제작 업체입니다. 부산 강서구 화전산업단지에서 선박설비, 제철설비, 산업기계용 표준 및 특수 유압 실린더와 유압 장치를 설계·제작합니다. ISO 9001·ISO 14001 인증과 Germanischer Lloyd 용접절차 승인을 보유하고 있습니다.",
   "foundingDate": "2002-10",
   "founder": {
@@ -116,7 +116,9 @@
   </div>
 </header>
 <main id="main">
-  <section class="hero">
+  <section class="hero" data-hero aria-label="나우하이텍 주요 이미지">
+    <div class="hero__stage"><img class="hero__slide is-active" src="assets/img/hero-1.jpg" alt="나우하이텍 부산 화전산단 사옥 전경" fetchpriority="high"><img class="hero__slide" src="assets/img/hero-2.jpg" alt="천장 크레인과 가공 설비가 늘어선 나우하이텍 공장 내부" loading="lazy"><img class="hero__slide" src="assets/img/hero-3.jpg" alt="나우하이텍 로고가 새겨진 사무동 회의실 입구" loading="lazy"></div>
+    <div class="hero__scrim" aria-hidden="true"></div>
     <div class="wrap hero__inner">
       <p class="hero__eyebrow">믿을 수 있는 기업 나우하이텍입니다.</p>
       <h1 class="hero__title">NAWOO <em>HI-TECH</em></h1>
@@ -131,7 +133,7 @@
         <li>특수유압 실린더 제작</li>
       </ul>
     </div>
-    <div class="hero__photo" role="img" aria-label="나우하이텍 부산 화전산단 공장 전경"></div>
+    <div class="hero__dots" role="group" aria-label="배너 이미지 선택"><button class="hero__dot is-active" type="button" data-index="0" aria-current="true"><span class="sr-only">1번 이미지 보기</span></button><button class="hero__dot" type="button" data-index="1"><span class="sr-only">2번 이미지 보기</span></button><button class="hero__dot" type="button" data-index="2"><span class="sr-only">3번 이미지 보기</span></button></div>
   </section>
 
   <section class="section">
@@ -222,6 +224,7 @@
     </div>
   </section>
 </main>
+<script src="assets/js/hero.js"></script>
 <footer class="site-footer">
   <div class="wrap">
     <div class="site-footer__links">

@@ -30,7 +30,7 @@ LASTMOD = "2026-08-20"          # sitemap.xml 의 <lastmod>. 내용을 고치면
 LIVE = False
 
 SITE_URL = "https://nawoohitech.co.kr"   # 대표 주소. 끝에 / 를 붙이지 않는다
-OG_IMAGE = "assets/img/hero-plant.jpg"   # 카톡·슬랙 공유 시 뜨는 미리보기 사진
+OG_IMAGE = "assets/img/hero-1.jpg"       # 카톡·슬랙 공유 시 뜨는 미리보기 사진 (사옥 전경)
 
 # 검색엔진 소유확인 코드.
 # 구글 서치콘솔 / 네이버 서치어드바이저에 도메인을 등록하면 받는 값을 여기에 넣는다.
@@ -378,9 +378,33 @@ def sub_page(filename, title, description, content, intro=None):
 # =========================================================
 # index.html — 홈
 # =========================================================
+# 상단 키배너. 2.5초 간격으로 자동 롤링한다 (260820 페리 지시).
+# 원본은 드라이브에서 받은 PNG 3장(1672×941). 웹용 JPEG 로 변환해 넣었다.
+# 사진 안에 글자가 없으므로 배너 문구는 HTML 텍스트로 위에 얹는다.
+HERO_SLIDES = [
+    ("hero-1.jpg", "나우하이텍 부산 화전산단 사옥 전경"),
+    ("hero-2.jpg", "천장 크레인과 가공 설비가 늘어선 나우하이텍 공장 내부"),
+    ("hero-3.jpg", "나우하이텍 로고가 새겨진 사무동 회의실 입구"),
+]
+
 def build_index():
+    slides = "".join(
+        f'<img class="hero__slide{" is-active" if n == 0 else ""}" '
+        f'src="assets/img/{src}" alt="{escape(alt)}" '
+        + ('fetchpriority="high">' if n == 0 else 'loading="lazy">')
+        for n, (src, alt) in enumerate(HERO_SLIDES)
+    )
+    current_attr = ' aria-current="true"'
+    dots = "".join(
+        f'<button class="hero__dot{" is-active" if n == 0 else ""}" type="button" '
+        f'data-index="{n}"{current_attr if n == 0 else ""}>'
+        f'<span class="sr-only">{n + 1}번 이미지 보기</span></button>'
+        for n in range(len(HERO_SLIDES))
+    )
     body = f"""<main id="main">
-  <section class="hero">
+  <section class="hero" data-hero aria-label="나우하이텍 주요 이미지">
+    <div class="hero__stage">{slides}</div>
+    <div class="hero__scrim" aria-hidden="true"></div>
     <div class="wrap hero__inner">
       <p class="hero__eyebrow">믿을 수 있는 기업 나우하이텍입니다.</p>
       <h1 class="hero__title">NAWOO <em>HI-TECH</em></h1>
@@ -395,7 +419,7 @@ def build_index():
         <li>특수유압 실린더 제작</li>
       </ul>
     </div>
-    <div class="hero__photo" role="img" aria-label="나우하이텍 부산 화전산단 공장 전경"></div>
+    <div class="hero__dots" role="group" aria-label="배너 이미지 선택">{dots}</div>
   </section>
 
   <section class="section">
@@ -485,7 +509,8 @@ def build_index():
       </ul>
     </div>
   </section>
-</main>"""
+</main>
+<script src="assets/js/hero.js"></script>"""
     return page("index.html", "홈", body,
                 "부산 화전산단 소재 유압 실린더·유압 시스템 전문 제작 업체 나우하이텍(NAWOO HI-TECH). "
                 "선박설비, 산업기계, 특수유압 실린더를 제작합니다.",
