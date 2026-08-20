@@ -688,15 +688,20 @@ html.nh-locked body > *:not(.nh-gate) { display: none !important; }
   width: 100%; max-height: 100%;
 }
 
-/* [버튼자리] [사진] [버튼자리] 한 줄.
-   버튼자리가 남는 공간을 반씩 나눠 갖고 그 한가운데에 버튼이 놓인다.
-   사진이 커지면 버튼자리가 줄어들 뿐, 버튼이 사진 위로 올라오지 않는다. */
+/* [버튼자리] [사진칸] [버튼자리] 한 줄.
+   사진칸은 폭이 고정이고, 버튼자리가 남는 공간을 반씩 나눠 가진다.
+   그래서 사진이 가로로 길든 세로로 길든 버튼은 같은 자리에 머문다. (260821 페리 지시)
+   고정폭 1040px 은 가장 가로로 긴 사진(1600Ton SCRAP SHEAR)이 꽉 차는 값이다. */
 .lb__stage { display: flex; align-items: center; justify-content: center; min-height: 0; }
-.lb__side { flex: 1 1 0; min-width: 60px; display: grid; place-items: center; }
+.lb__side { flex: 1 1 0; display: grid; place-items: center; }
 
+/* 140px = 좌우 버튼자리 70px 씩. 화면이 좁으면 사진칸이 먼저 줄어든다. */
+.lb__frame {
+  flex: 0 0 auto; width: min(1040px, calc(100% - 140px));
+  display: grid; place-items: center; min-height: 0;
+}
 .lb__img {
-  display: block; flex: 0 1 auto;
-  max-width: min(1040px, 100%);
+  display: block; max-width: 100%;
   max-height: calc(100vh - 220px); object-fit: contain;
   border-radius: var(--r-md); background: #fff;
 }
@@ -733,7 +738,7 @@ html.nh-locked body > *:not(.nh-gate) { display: none !important; }
   .lb { padding: 52px 8px 20px; }
   .lb__img { max-height: calc(100vh - 240px); }
   /* 좁은 화면에서는 버튼자리를 버튼 크기만큼만 남긴다. 사진이 조금 좁아질 뿐 겹치지는 않는다. */
-  .lb__side { flex: 0 0 46px; min-width: 0; }
+  .lb__frame { width: calc(100% - 92px); }
   .lb__nav { width: 40px; height: 40px; }
 }
 

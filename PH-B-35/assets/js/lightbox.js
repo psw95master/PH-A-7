@@ -81,12 +81,13 @@
       '<figure class="lb__figure">' +
         // 사진과 좌우 버튼자리를 한 줄로 놓는다. 버튼자리가 남는 여백을 반씩 나눠 갖고
         // 그 한가운데에 버튼이 놓이므로, 사진과 절대 겹치지 않는다. (260821 페리 지시)
+        // 사진칸(.lb__frame)은 폭이 고정이다. 사진마다 버튼이 움직이지 않게 하려는 것.
         '<div class="lb__stage">' +
           '<div class="lb__side">' +
             '<button class="lb__nav lb__nav--prev" type="button" aria-label="이전 사진">' +
               icon("M15 5l-7 7 7 7") + '</button>' +
           '</div>' +
-          '<img class="lb__img" alt="">' +
+          '<div class="lb__frame"><img class="lb__img" alt=""></div>' +
           '<div class="lb__side">' +
             '<button class="lb__nav lb__nav--next" type="button" aria-label="다음 사진">' +
               icon("M9 5l7 7-7 7") + '</button>' +
