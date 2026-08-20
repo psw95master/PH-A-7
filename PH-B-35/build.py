@@ -551,7 +551,7 @@ def build_index():
       </div>
       <div class="invite invite--recruit">
         <div class="invite__body">
-          <h3 class="invite__title">함께 일할 분을 찾습니다</h3>
+          <h3 class="invite__title">확실한 성장의 기회가 있는 곳, 나우하이텍에서 시작하세요</h3>
           <p class="invite__desc">
             경력과 신입 모두 지원하실 수 있습니다.<br>
             이력서를 보내 주시면 검토 후 개별로 연락드리겠습니다.
@@ -1107,7 +1107,7 @@ def build_recruit():
 
 <div class="invite invite--recruit">
   <div class="invite__body">
-    <h2 class="invite__title">함께 일할 분을 찾습니다</h2>
+    <h2 class="invite__title">확실한 성장의 기회가 있는 곳, 나우하이텍에서 시작하세요</h2>
     <p class="invite__desc">
       2002년부터 선박설비·제철설비·산업기계용 유압 실린더를 만들어 왔습니다.<br>
       이력서를 보내 주시면 검토 후 개별로 연락드리겠습니다.
