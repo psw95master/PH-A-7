@@ -41,14 +41,6 @@ OG_IMAGE = "assets/img/hero-1.jpg"       # 카톡·슬랙 공유 시 뜨는 미�
 VERIFY_GOOGLE = ""   # 예: "abc123...": <meta name="google-site-verification" content="...">
 VERIFY_NAVER = ""    # 예: "abc123...": <meta name="naver-site-verification" content="...">
 
-# 카카오맵 JavaScript 키 — 오시는길 지도에 쓴다.
-# developers.kakao.com 에서 앱을 만들고 [앱 설정] > [플랫폼] 에 **쓸 주소를 등록**해야 한다.
-# 등록하지 않은 주소에서는 지도가 뜨지 않는다. 지금 등록해야 할 곳:
-#   검수  https://psw95master.github.io
-#   라이브 https://nawoohitech.co.kr   (도메인 인계 후 추가)
-# 비워 두면 지도를 아예 넣지 않고 "카카오맵에서 위치 보기" 안내만 남는다.
-KAKAO_MAP_KEY = ""
-
 # =========================================================
 # 회사 정보 (원본 footer.gif / left_call.gif / contents6.jpg 에서 추출)
 # =========================================================
@@ -898,49 +890,25 @@ def build_facility():
 # location.html — 오시는길
 # =========================================================
 def build_location():
-    road_addr = "부산광역시 강서구 화전산단3로 102"
-    kakao = "https://map.kakao.com/?q=" + road_addr
-
-    # 지도는 키가 있을 때만 넣는다. 키가 없으면 예전처럼 안내 문구만 남는다.
-    # 지도가 떠도 주소·연락처는 위 표에 글자로 남아 있어야 한다 — 지도는 거들 뿐이다.
-    if KAKAO_MAP_KEY:
-        map_block = f"""
-<div id="map" class="map-canvas"
-     data-address="{escape(road_addr)}"
-     data-label="{escape(COMPANY['name_ko'])}"
-     role="img" aria-label="{escape(COMPANY['name_ko'])} 위치 지도. 주소는 위 표에 있습니다."></div>
-<div class="map-frame map-fallback" hidden>
-  <div>
-    <p>지도를 불러오지 못했습니다.</p>
-    <a class="btn" href="{escape(kakao)}" target="_blank" rel="noopener">카카오맵에서 위치 보기</a>
-  </div>
-</div>
-<p class="map-note">
-  <a href="{escape(kakao)}" target="_blank" rel="noopener">카카오맵에서 길찾기 &rsaquo;</a>
-</p>
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey={escape(KAKAO_MAP_KEY)}&libraries=services&autoload=false"></script>
-<script src="{asset('assets/js/map.js')}"></script>"""
-    else:
-        map_block = f"""
-<div class="map-frame">
-  <div>
-    <p>지도는 카카오맵에서 확인하실 수 있습니다.</p>
-    <a class="btn" href="{escape(kakao)}" target="_blank" rel="noopener">카카오맵에서 위치 보기</a>
-  </div>
-</div>"""
-
+    kakao = "https://map.kakao.com/?q=" + "부산광역시 강서구 화전산단3로 102"
     content = f"""<h2>오시는길 안내</h2>
 <table class="info-table">
   <tbody>
     <tr><th scope="row">주소</th>
-        <td>({COMPANY['zip']}) {road_addr}<br>
+        <td>({COMPANY['zip']}) 부산광역시 강서구 화전산단3로 102<br>
             <span style="color:var(--muted);font-size:14px">(지번) 부산광역시 강서구 녹산동 화전산단</span></td></tr>
     <tr><th scope="row">전화</th><td><a href="tel:{COMPANY['tel_href']}">{COMPANY['tel']}</a></td></tr>
     <tr><th scope="row">팩스</th><td>{COMPANY['fax']}</td></tr>
     <tr><th scope="row">이메일</th><td><a href="mailto:{COMPANY['email']}">{COMPANY['email']}</a></td></tr>
   </tbody>
 </table>
-{map_block}"""
+
+<div class="map-frame">
+  <div>
+    <p>원본 페이지의 다음 지도 위젯은 외부 스크립트에 의존해 이 정적 사이트에서는 걷어냈습니다.</p>
+    <a class="btn" href="{escape(kakao)}" target="_blank" rel="noopener">카카오맵에서 위치 보기</a>
+  </div>
+</div>"""
     return sub_page("location.html", "오시는길",
                     "나우하이텍 찾아오시는 길 — 부산광역시 강서구 화전산단3로 102.",
                     content)
