@@ -415,9 +415,13 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
 /* figure 는 브라우저 기본으로 좌우 40px 여백을 가진다. 그대로 두면 300px 칸에
    220px 만 들어가 사진이 작아지고 왼쪽이 어긋난다. (260821 발견) */
 .greeting__photo { margin: 0; border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-1); }
-.greeting__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+/* 초점을 위쪽에 두어 대표 얼굴이 잘리지 않게 한다. (260821 페리 지시)
+   옆 글이 짧아지면 사진도 납작해지는데, 그때 잘려 나가는 쪽은 늘 아래(책상)여야 한다. */
+.greeting__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+/* 글이 아주 짧은 경우까지 감안한 최소 높이. 이보다 낮아지면 얼굴이 답답해 보인다. */
+.greeting__photo { min-height: 200px; }
 /* 좁은 화면에서는 위아래로 놓이므로 늘리지 않고 원본 비율대로 둔다. */
-@media (max-width: 759px) { .greeting__photo img { height: auto; } }
+@media (max-width: 759px) { .greeting__photo { min-height: 0; } .greeting__photo img { height: auto; } }
 .greeting__title { font-size: clamp(21px, 4vw, 27px); color: var(--navy); margin-bottom: 4px; padding-left: 0; }
 .greeting__title::before { display: none; }
 .greeting__sub { font-size: 17px; font-weight: 600; color: var(--green); margin-bottom: 18px; }
