@@ -1114,6 +1114,7 @@ def build_qna():
     # 이 자리에는 원래 "정적 사이트로 옮기면서 목록을 비웠다"는 내부 사정이 적혀 있었다.
     # 고객이 보는 화면에 들어갈 내용이 아니라 문의를 부르는 문구로 바꿨다. (260821 페리 지시)
     # 아래 카피는 지어낸 것이다. ※임시 카피 — 나우하이텍 확인 필요
+    # 세 안 중 실적으로 신뢰를 주는 안을 골랐다. (260821 페리 선택)
     content = f"""<h2>Q&amp;A</h2>
 <p>제품 사양, 견적, 납기 문의를 남겨 주시면 담당자가 확인 후 연락드립니다.</p>
 
@@ -1121,11 +1122,11 @@ def build_qna():
   <div class="invite__body">
     <h2 class="invite__title">문의 주세요</h2>
     <p class="invite__desc">
-      규격이 정해지지 않은 특수 유압 실린더도 상담해 드립니다.<br>
-      도면이나 사용 조건을 알려 주시면 담당자가 검토 후 연락드리겠습니다.
+      2002년부터 선박설비·제철설비·산업기계용 유압 실린더를 만들어 왔습니다.<br>
+      필요한 사양을 알려 주시면 담당자가 검토 후 연락드리겠습니다.
     </p>
     <div class="invite__actions">
-      <a class="btn" href="mailto:{COMPANY['email']}?subject=%5B%EB%AC%B8%EC%9D%98%5D%20">이메일로 문의하기</a>
+      <a class="btn" href="mailto:{COMPANY['email']}?subject=%5B%EB%AC%B8%EC%9D%98%5D%20">이메일 문의</a>
       <a class="btn btn--ghost" href="tel:{COMPANY['tel_href']}">전화 문의</a>
     </div>
   </div>

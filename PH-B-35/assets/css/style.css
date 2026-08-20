@@ -546,6 +546,11 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
 .invite__title::before { display: none; }   /* h2 앞 초록 사각형을 여기서는 쓰지 않는다 */
 .invite__desc { font-size: 15px; color: rgba(255,255,255,.9); margin: 0 0 24px; line-height: 1.8; }
 .invite__actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+/* 두 버튼의 가로·세로를 맞춘다. 글자 수가 달라도 같은 크기로 보이게. (260821 페리 지시)
+   테두리를 투명으로 깔아 두는 이유는, 고스트 버튼의 1px 테두리만큼 키가 커지는 것을 막기 위해서다. */
+.invite .btn {
+  min-width: 170px; justify-content: center; border: 1px solid transparent;
+}
 /* 어두운 배경 위에서는 흰 바탕 고스트 버튼이 튀므로 테두리형으로 바꾼다. */
 .invite .btn--ghost {
   background: rgba(255,255,255,.12); color: #fff; border-color: rgba(255,255,255,.5);
