@@ -570,8 +570,30 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(12,14,32,.62) 0%, rgba(12,14,32,.44) 100%);
 }
-/* 인재 채용 쪽은 사진만 갈아 끼운다. 나머지 짜임은 Q&A 와 같다. */
+/* 인재 채용 쪽은 사진만 갈아 끼운다. 나머지 짜임은 협업 문의와 같다. */
 .invite--recruit { background-image: url("../img/recruit-invite.jpg"); }
+
+/* 오시는길 지도. 지도는 읽어야 하는 그림이라 다른 배너와 다루는 법이 다르다.
+   - 잘리면 길을 못 찾으므로 원본 비율(3:2)을 그대로 잡아 전체가 보이게 한다
+   - 어두운 막은 글자가 놓이는 아래쪽에만 옅게 깐다. 위쪽 도로명과 표시가 묻히면 안 된다
+   (260821 페리 지시) */
+.invite--location {
+  background-image: url("../img/location-map.jpg");
+  background-position: center top;
+  aspect-ratio: 3 / 2;
+}
+.invite--location::before {
+  background: linear-gradient(180deg, transparent 0%, rgba(12,14,32,.06) 46%, rgba(12,14,32,.72) 100%);
+}
+.invite--location .invite__body {
+  height: 100%; display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 24px 20px 32px;
+}
+.invite--location .invite__title { font-size: 22px; margin-bottom: 16px; }
+@media (max-width: 640px) {
+  .invite--location .invite__title { font-size: 18px; }
+  .invite--location .invite__body { padding: 20px 14px 22px; }
+}
 
 .invite__body {
   position: relative; padding: 72px 24px; text-align: center; color: #fff;

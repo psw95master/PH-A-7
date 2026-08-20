@@ -890,7 +890,8 @@ def build_facility():
 # location.html — 오시는길
 # =========================================================
 def build_location():
-    kakao = "https://map.kakao.com/?q=" + "부산광역시 강서구 화전산단3로 102"
+    # 네이버 지도 단축 링크. 페리가 직접 잡아 준 자리다. (260821)
+    naver_map = "https://naver.me/FfBKyMg8"
     content = f"""<h2>오시는길 안내</h2>
 <table class="info-table">
   <tbody>
@@ -903,10 +904,13 @@ def build_location():
   </tbody>
 </table>
 
-<div class="map-frame">
-  <div>
-    <p>원본 페이지의 다음 지도 위젯은 외부 스크립트에 의존해 이 정적 사이트에서는 걷어냈습니다.</p>
-    <a class="btn" href="{escape(kakao)}" target="_blank" rel="noopener">카카오맵에서 위치 보기</a>
+
+<div class="invite invite--location">
+  <div class="invite__body">
+    <h2 class="invite__title">나우하이텍에 오시는 길 환영합니다</h2>
+    <div class="invite__actions">
+      <a class="btn" href="{escape(naver_map)}" target="_blank" rel="noopener">네이버 지도에서 위치 보기</a>
+    </div>
   </div>
 </div>"""
     return sub_page("location.html", "오시는길",
