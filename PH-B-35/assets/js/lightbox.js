@@ -9,27 +9,14 @@
      - 좌우 화살표 버튼 / 키보드 ← → : 앞뒤 사진
      - 닫기 버튼 / ESC / 검은 배경 클릭 : 닫기
      - 열기 전에 누른 버튼을 기억했다가 닫을 때 그 자리로 포커스를 돌려준다
+
+   좁은 화면에서 좌측 메뉴로 페이지를 갈아끼우면 사진 목록이 통째로 바뀐다.
+   그래서 window.NH_lightbox() 로 다시 훑을 수 있게 열어 둔다. (260821)
    ========================================================= */
 (function () {
   "use strict";
 
-  var triggers = [].slice.call(document.querySelectorAll("[data-lightbox]"));
-  if (!triggers.length) return;
-
-  // 목록에서 사진 정보를 미리 뽑아 둔다.
-  var items = triggers.map(function (btn) {
-    var fig = btn.closest("figure");
-    var cap = fig ? fig.querySelector(".tile__cap") : null;
-    var meta = fig ? fig.querySelector(".tile__meta") : null;
-    var img = btn.querySelector("img");
-    return {
-      src: img.getAttribute("src"),
-      alt: img.getAttribute("alt") || "",
-      title: cap ? cap.textContent.trim() : "",
-      desc: meta ? meta.textContent.trim() : ""
-    };
-  });
-
+  var items = [];
   var current = 0;
   var opener = null;
   var box = null;
@@ -69,7 +56,7 @@
     box.hidden = true;
 
     // 아이콘은 글자(× ‹ ›) 대신 SVG 로 그린다.
-    // 글자는 폰트마다 위아래 여백이 달라 동그라미 안에서 미세하게 어긋난다. (260821 수정)
+    // 글자는 폰트마다 위아래 여백이 달라 동그라미 안에서 미세하게 어긋난다.
     var icon = function (d) {
       return '<svg class="lb__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
              '<path d="' + d + '"/></svg>';
@@ -80,7 +67,7 @@
         icon("M6 6l12 12M18 6L6 18") + '</button>' +
       '<figure class="lb__figure">' +
         // 사진과 좌우 버튼자리를 한 줄로 놓는다. 버튼자리가 남는 여백을 반씩 나눠 갖고
-        // 그 한가운데에 버튼이 놓이므로, 사진과 절대 겹치지 않는다. (260821 페리 지시)
+        // 그 한가운데에 버튼이 놓이므로, 사진과 절대 겹치지 않는다.
         // 사진칸(.lb__frame)은 폭이 고정이다. 사진마다 버튼이 움직이지 않게 하려는 것.
         '<div class="lb__stage">' +
           '<div class="lb__side">' +
@@ -139,7 +126,35 @@
     opener = null;
   }
 
-  triggers.forEach(function (btn, i) {
-    btn.addEventListener("click", function () { open(i); });
-  });
+  /* 사진 목록을 훑어 버튼에 동작을 건다.
+     페이지를 갈아끼운 뒤 다시 부르면 새 목록으로 갱신된다. */
+  function scan() {
+    close();
+    var triggers = [].slice.call(document.querySelectorAll("[data-lightbox]"));
+    items = triggers.map(function (btn) {
+      var fig = btn.closest("figure");
+      var cap = fig ? fig.querySelector(".tile__cap") : null;
+      var meta = fig ? fig.querySelector(".tile__meta") : null;
+      var img = btn.querySelector("img");
+      return {
+        src: img.getAttribute("src"),
+        alt: img.getAttribute("alt") || "",
+        title: cap ? cap.textContent.trim() : "",
+        desc: meta ? meta.textContent.trim() : ""
+      };
+    });
+
+    triggers.forEach(function (btn, i) {
+      if (btn.dataset.lbBound === "1") return;   // 같은 버튼에 두 번 걸지 않는다
+      btn.dataset.lbBound = "1";
+      btn.addEventListener("click", function () {
+        // 목록이 바뀌었을 수 있으므로 누른 시점의 자리를 다시 센다.
+        var all = [].slice.call(document.querySelectorAll("[data-lightbox]"));
+        open(all.indexOf(btn));
+      });
+    });
+  }
+
+  window.NH_lightbox = scan;
+  scan();
 })();

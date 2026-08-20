@@ -412,7 +412,8 @@ def sub_page(filename, title, description, content, intro=None):
 {content}
     </main>
   </div>
-</div>"""
+</div>
+<script src="{asset('assets/js/section-tabs.js')}"></script>"""
     return page(filename, title, body, description,
                 schemas=[breadcrumb_schema(filename, section, name)])
 

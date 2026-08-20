@@ -304,6 +304,14 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
 /* 그리드 칸의 기본 최소폭은 내용 크기(min-width:auto)라, 안쪽에 줄바꿈 없는 알약 메뉴나
    620px 표가 들어가면 칸이 그만큼 벌어져 좁은 화면에서 페이지가 가로로 밀린다. */
 .layout > * { min-width: 0; }
+
+/* 좁은 화면에서 좌측 메뉴 탭을 누르면 본문만 갈아끼운다 (assets/js/section-tabs.js).
+   내용이 오는 동안 잠깐 흐려지게 해 눌린 것이 보이게 한다. */
+.layout.is-loading .content { opacity: .45; transition: opacity .12s ease; }
+.content:focus { outline: none; }
+@media (prefers-reduced-motion: reduce) {
+  .layout.is-loading .content { transition: none; }
+}
 @media (min-width: 900px) { .layout { grid-template-columns: 216px 1fr; gap: 48px; padding: 48px 0 96px; } }
 
 .lnb__title { display: none; }
