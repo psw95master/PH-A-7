@@ -327,13 +327,22 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
    좌우 음수 여백은 배경을 화면 끝까지 닿게 하려는 것. 없으면 양옆 틈으로 본문이 지나간다. */
 .layout { display: block; }
 .lnb {
-  position: sticky; top: 111px; z-index: 90;      /* 머리말(.site-header) 높이만큼 내린다 */
+  /* 머리말 높이는 111px 이지만 110px 로 잡아 1px 겹치게 한다.
+     딱 맞추면 소수점 반올림 탓에 1~2px 틈이 생기고 그 사이로 본문이 지나간다. (260821 수정) */
+  position: sticky; top: 110px; z-index: 90;
   background: #fff; border-bottom: 1px solid var(--line);
   margin: 0 calc(var(--gutter) * -1);
   padding: 10px var(--gutter);
 }
 .content { margin-top: 24px; }
-.lnb__list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+/* 좌우로 미는 동작은 그대로 두되 스크롤 막대는 숨긴다. 칩 아래 회색 줄이 보이던 것을 없앴다.
+   (260821 페리 지시 — 기능은 남기고 보이는 것만 뺀다) */
+.lnb__list {
+  display: flex; gap: 8px; overflow-x: auto; padding-bottom: 0;
+  scrollbar-width: none;              /* 파이어폭스 */
+  -ms-overflow-style: none;           /* 구형 엣지 */
+}
+.lnb__list::-webkit-scrollbar { display: none; }   /* 크롬·사파리 */
 .lnb__list a {
   display: block; white-space: nowrap; padding: 9px 16px; font-size: 15px; font-weight: 600;
   border: 1px solid var(--line); border-radius: 999px; color: var(--ink-2); background: #fff;
