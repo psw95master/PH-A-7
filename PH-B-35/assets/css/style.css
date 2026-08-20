@@ -131,13 +131,30 @@ button { font: inherit; color: inherit; }
   }
   .gnb.is-open { display: block; }
   .gnb > ul { display: block; }
-  .gnb__link { padding: 16px 4px; font-size: 18px; border-bottom: 1px solid var(--line-soft); border-radius: 0; }
-  .gnb__link::after { display: none; }
+  /* 아코디언 — 대분류를 누르면 하위가 펼쳐진다. 여는 동작은 assets/js/nav.js */
+  .gnb__link {
+    padding: 16px 4px; font-size: 18px; border-bottom: 1px solid var(--line-soft); border-radius: 0;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  }
+  .gnb__link::after {
+    display: block; content: ""; position: static; transform: none; opacity: 1;
+    width: 10px; height: 10px; margin-right: 6px; background: none;
+    border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted);
+    rotate: 45deg;                              /* 아래를 가리키는 화살표 */
+    transition: rotate .2s ease, border-color .2s ease;
+  }
+  .gnb li.is-expanded > .gnb__link::after { rotate: -135deg; border-color: var(--green); }
+  .gnb li.is-current > .gnb__link::after { border-color: var(--green); }
+
   .gnb__sub {
     position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none;
-    border: 0; border-bottom: 1px solid var(--line-soft); border-radius: 0; padding: 4px 0 12px 4px;
+    border: 0; border-radius: 0; padding: 0 0 0 4px;
+    display: none;                              /* 접힌 상태가 기본 */
   }
-  .gnb__sub a { padding: 8px 12px; color: var(--muted); }
+  .gnb li.is-expanded > .gnb__sub {
+    display: block; padding: 4px 0 12px 4px; border-bottom: 1px solid var(--line-soft);
+  }
+  .gnb__sub a { padding: 10px 12px; color: var(--muted); }
 }
 
 /* =========================================================
@@ -441,8 +458,10 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
 .gallery { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
 .gallery--wide { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
 /* 사진 갤러리는 원본 비율이 제각각이라 4:3 프레임에 맞춰 줄을 세운다 (잘라내지 않고 여백 처리) */
-.gallery--photo .tile__frame { aspect-ratio: 4 / 3; background: var(--bg-soft); }
-.gallery--photo .tile__frame img { width: 100%; height: 100%; object-fit: contain; }
+.gallery--photo .tile__frame { aspect-ratio: 4 / 3; background: var(--bg-soft); padding: 0; }
+/* 썸네일은 칸을 꽉 채운다. 가로로 긴 사진에 위아래 여백이 크게 남던 것을 없앴다. (260821 페리 지시)
+   잘려 나가는 부분은 눌러서 여는 팝업에서 온전히 보인다. */
+.gallery--photo .tile__frame img { width: 100%; height: 100%; object-fit: cover; }
 .tile { display: flex; flex-direction: column; gap: 10px; }
 .tile__frame {
   border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; background: #fff;
