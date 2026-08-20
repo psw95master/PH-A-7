@@ -685,10 +685,18 @@ html.nh-locked body > *:not(.nh-gate) { display: none !important; }
 
 .lb__figure {
   margin: 0; display: flex; flex-direction: column; gap: 16px;
-  max-width: min(1040px, 100%); max-height: 100%;
+  width: 100%; max-height: 100%;
 }
+
+/* [버튼자리] [사진] [버튼자리] 한 줄.
+   버튼자리가 남는 공간을 반씩 나눠 갖고 그 한가운데에 버튼이 놓인다.
+   사진이 커지면 버튼자리가 줄어들 뿐, 버튼이 사진 위로 올라오지 않는다. */
+.lb__stage { display: flex; align-items: center; justify-content: center; min-height: 0; }
+.lb__side { flex: 1 1 0; min-width: 60px; display: grid; place-items: center; }
+
 .lb__img {
-  display: block; margin: 0 auto; max-width: 100%;
+  display: block; flex: 0 1 auto;
+  max-width: min(1040px, 100%);
   max-height: calc(100vh - 220px); object-fit: contain;
   border-radius: var(--r-md); background: #fff;
 }
@@ -708,13 +716,9 @@ html.nh-locked body > *:not(.nh-gate) { display: none !important; }
 .lb__close:hover, .lb__nav:hover { background: rgba(255,255,255,.26); }
 .lb__close:focus-visible, .lb__nav:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 
-.lb__close { top: 14px; right: 16px; width: 44px; height: 44px; }
-.lb__nav { top: 50%; width: 48px; height: 48px; }
-
-/* 앞뒤 버튼은 화면 가장자리가 아니라 가운데를 기준으로 좌우 500px 지점에 둔다. (260821 페리 지시)
-   화면이 그만큼 넓지 않으면 min() 이 잡아 줄여 버튼이 밖으로 밀려나지 않는다. */
-.lb__nav--prev { left: 50%; transform: translate(calc(-50% - min(500px, 42vw)), -50%); }
-.lb__nav--next { left: 50%; transform: translate(calc(-50% + min(500px, 42vw)), -50%); }
+.lb__close { position: absolute; top: 14px; right: 16px; width: 44px; height: 44px; }
+/* 앞뒤 버튼은 .lb__side 안에서 가운데 정렬된다. 위치를 따로 잡지 않는다. */
+.lb__nav { position: static; width: 48px; height: 48px; }
 .lb__nav[hidden] { display: none; }
 
 /* 아이콘은 SVG 로 그린다. place-items:center 가 정확히 가운데 놓는다. */
@@ -726,14 +730,11 @@ html.nh-locked body > *:not(.nh-gate) { display: none !important; }
 .lb__close .lb__icon { width: 20px; height: 20px; }
 
 @media (max-width: 640px) {
-  .lb { padding: 52px 12px 20px; }
-  .lb__img { max-height: calc(100vh - 260px); }
-  /* 좁은 화면에서는 좌우 버튼이 사진을 가리므로 아래로 내린다. */
-  .lb__nav { top: auto; bottom: 14px; transform: none; width: 44px; height: 44px; }
-  /* 넓은 화면 규칙에서 잡아 둔 left:50% 를 풀어야 right 가 먹는다. */
-  .lb__nav--prev { left: 20%; right: auto; }
-  .lb__nav--next { left: auto; right: 20%; }
-  .lb__cap { padding-bottom: 56px; }
+  .lb { padding: 52px 8px 20px; }
+  .lb__img { max-height: calc(100vh - 240px); }
+  /* 좁은 화면에서는 버튼자리를 버튼 크기만큼만 남긴다. 사진이 조금 좁아질 뿐 겹치지는 않는다. */
+  .lb__side { flex: 0 0 46px; min-width: 0; }
+  .lb__nav { width: 40px; height: 40px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

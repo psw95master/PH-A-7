@@ -78,12 +78,20 @@
     box.innerHTML =
       '<button class="lb__close" type="button" aria-label="닫기">' +
         icon("M6 6l12 12M18 6L6 18") + '</button>' +
-      '<button class="lb__nav lb__nav--prev" type="button" aria-label="이전 사진">' +
-        icon("M15 5l-7 7 7 7") + '</button>' +
-      '<button class="lb__nav lb__nav--next" type="button" aria-label="다음 사진">' +
-        icon("M9 5l7 7-7 7") + '</button>' +
       '<figure class="lb__figure">' +
-        '<img class="lb__img" alt="">' +
+        // 사진과 좌우 버튼자리를 한 줄로 놓는다. 버튼자리가 남는 여백을 반씩 나눠 갖고
+        // 그 한가운데에 버튼이 놓이므로, 사진과 절대 겹치지 않는다. (260821 페리 지시)
+        '<div class="lb__stage">' +
+          '<div class="lb__side">' +
+            '<button class="lb__nav lb__nav--prev" type="button" aria-label="이전 사진">' +
+              icon("M15 5l-7 7 7 7") + '</button>' +
+          '</div>' +
+          '<img class="lb__img" alt="">' +
+          '<div class="lb__side">' +
+            '<button class="lb__nav lb__nav--next" type="button" aria-label="다음 사진">' +
+              icon("M9 5l7 7-7 7") + '</button>' +
+          '</div>' +
+        '</div>' +
         '<figcaption class="lb__cap">' +
           '<p class="lb__count"></p>' +
           '<h2 class="lb__title"></h2>' +
