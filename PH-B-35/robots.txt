@@ -1,0 +1,4 @@
+# 검수 모드 — 아직 공개 전이므로 전체 차단한다.
+# 오픈일에 build.py 의 LIVE 를 True 로 바꾸고 다시 빌드하면 열린다.
+User-agent: *
+Disallow: /

@@ -14,9 +14,29 @@
 
 from pathlib import Path
 from html import escape
+import json
 
 ROOT = Path(__file__).parent
-TODAY = "260817"
+TODAY = "260820"
+LASTMOD = "2026-08-20"          # sitemap.xml 의 <lastmod>. 내용을 고치면 같이 올린다
+
+# =========================================================
+# 배포 설정
+# =========================================================
+# LIVE = False → 검수 모드. 검색 차단(noindex) + 패스워드 게이트 켬
+# LIVE = True  → 라이브 모드. 검색 허용 + 게이트 뺌
+#
+# 오픈일에 이 값을 True 로 바꾸고 `python3 build.py` 만 다시 돌리면 된다.
+LIVE = False
+
+SITE_URL = "https://nawoohitech.co.kr"   # 대표 주소. 끝에 / 를 붙이지 않는다
+OG_IMAGE = "assets/img/hero-plant.jpg"   # 카톡·슬랙 공유 시 뜨는 미리보기 사진
+
+# 검색엔진 소유확인 코드.
+# 구글 서치콘솔 / 네이버 서치어드바이저에 도메인을 등록하면 받는 값을 여기에 넣는다.
+# 빈 문자열이면 해당 메타태그를 아예 만들지 않는다.
+VERIFY_GOOGLE = ""   # 예: "abc123...": <meta name="google-site-verification" content="...">
+VERIFY_NAVER = ""    # 예: "abc123...": <meta name="naver-site-verification" content="...">
 
 # =========================================================
 # 회사 정보 (원본 footer.gif / left_call.gif / contents6.jpg 에서 추출)
@@ -64,6 +84,117 @@ NAV = [
         ("공지사항", "notice.html"),
     ]),
 ]
+
+
+# =========================================================
+# SEO — 주소 · 구조화 데이터
+# =========================================================
+def canonical_url(filename):
+    """대표 주소. 홈은 파일명을 떼고 루트로 통일한다."""
+    return f"{SITE_URL}/" if filename == "index.html" else f"{SITE_URL}/{filename}"
+
+
+def abs_url(path):
+    return f"{SITE_URL}/{path.lstrip('/')}"
+
+
+# 검색엔진과 AI 가 "나우하이텍이 무슨 회사인지" 읽어가는 부분.
+# 사람 눈에는 안 보이지만, 이 블록이 있어야 회사 정보 카드와 AI 답변의 출처 링크가 붙는다.
+ORG_ID = f"{SITE_URL}/#organization"
+
+ORG_DESCRIPTION = (
+    "나우하이텍은 2002년 설립된 유압 실린더·유압 시스템 전문 제작 업체입니다. "
+    "부산 강서구 화전산업단지에서 선박설비, 제철설비, 산업기계용 표준 및 특수 유압 실린더와 "
+    "유압 장치를 설계·제작합니다. ISO 9001·ISO 14001 인증과 Germanischer Lloyd 용접절차 승인을 "
+    "보유하고 있습니다."
+)
+
+KNOWS_ABOUT = [
+    "유압 실린더",
+    "특수 유압 실린더 제작",
+    "유압 시스템",
+    "유압 장치 및 부품",
+    "매니폴드 블록",
+    "텔레스코픽 실린더",
+    "선박설비 유압 부품",
+    "제철설비 유압 실린더",
+    "산업기계 부품 가공",
+]
+
+
+def org_schema():
+    return {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": ORG_ID,
+        "name": COMPANY["name_ko"],
+        "alternateName": COMPANY["name_en"],
+        "url": f"{SITE_URL}/",
+        "logo": abs_url("assets/img/logo.png"),
+        "image": abs_url(OG_IMAGE),
+        "description": ORG_DESCRIPTION,
+        "foundingDate": "2002-10",
+        "founder": {"@type": "Person", "name": COMPANY["ceo"]},
+        "taxID": COMPANY["biz_no"],
+        # 화면에는 "9161~2" 로 쓰지만, 구조화 데이터는 번호 하나만 받는다
+        "telephone": COMPANY["tel"].split("~")[0],
+        "faxNumber": COMPANY["fax"],
+        "email": COMPANY["email"],
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "화전산단3로 102",
+            "addressLocality": "강서구",
+            "addressRegion": "부산광역시",
+            "postalCode": COMPANY["zip"],
+            "addressCountry": "KR",
+        },
+        "contactPoint": [{
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            # 화면에는 "9161~2" 로 쓰지만, 구조화 데이터는 번호 하나만 받는다
+        "telephone": COMPANY["tel"].split("~")[0],
+            "email": COMPANY["email"],
+            "areaServed": "KR",
+            "availableLanguage": ["ko", "en"],
+        }],
+        "knowsAbout": KNOWS_ABOUT,
+    }
+
+
+def website_schema():
+    return {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": f"{SITE_URL}/#website",
+        "url": f"{SITE_URL}/",
+        "name": f"{COMPANY['name_ko']} {COMPANY['name_en']}",
+        "description": ORG_DESCRIPTION,
+        "inLanguage": "ko",
+        "publisher": {"@id": ORG_ID},
+    }
+
+
+def breadcrumb_schema(filename, section, name):
+    items = [
+        {"@type": "ListItem", "position": 1, "name": "홈", "item": f"{SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": section},
+        {"@type": "ListItem", "position": 3, "name": name, "item": canonical_url(filename)},
+    ]
+    return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": items,
+    }
+
+
+def jsonld_block(schemas):
+    if not schemas:
+        return ""
+    out = []
+    for s in schemas:
+        body = json.dumps(s, ensure_ascii=False, indent=2)
+        out.append(f'<script type="application/ld+json">\n{body}\n</script>')
+    return "\n".join(out)
 
 
 def find_section(page):
@@ -147,17 +278,48 @@ def footer():
 <script src="assets/js/nav.js"></script>"""
 
 
-def page(filename, title, body, description):
+def page(filename, title, body, description, schemas=None, indexable=True):
+    full_title = f"{escape(title)} | {COMPANY['name_ko']} {COMPANY['name_en']}"
+    url = canonical_url(filename)
+
+    # 검수 모드에서는 전 페이지를 검색에서 빼고, 라이브에서만 연다.
+    # 404 는 라이브에서도 색인 대상이 아니다.
+    allow = LIVE and indexable
+    robots = "index, follow, max-image-preview:large" if allow else "noindex, nofollow"
+
+    verify = ""
+    if VERIFY_GOOGLE:
+        verify += f'\n<meta name="google-site-verification" content="{escape(VERIFY_GOOGLE)}">'
+    if VERIFY_NAVER:
+        verify += f'\n<meta name="naver-site-verification" content="{escape(VERIFY_NAVER)}">'
+
+    # 검수용 패스워드 게이트는 라이브에서 걷어낸다. 켜져 있으면 크롤러가 못 들어온다.
+    gate = "" if LIVE else '\n<script src="assets/js/gate.js"></script>'
+
+    ld = jsonld_block(schemas)
+    ld = f"\n{ld}" if ld else ""
+
     html = f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{escape(title)} | {COMPANY['name_ko']} {COMPANY['name_en']}</title>
+<title>{full_title}</title>
 <meta name="description" content="{escape(description)}">
-<meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="assets/css/style.css">
-<script src="assets/js/gate.js"></script>
+<meta name="robots" content="{robots}">
+<link rel="canonical" href="{url}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{COMPANY['name_ko']} {COMPANY['name_en']}">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="{full_title}">
+<meta property="og:description" content="{escape(description)}">
+<meta property="og:url" content="{url}">
+<meta property="og:image" content="{abs_url(OG_IMAGE)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{full_title}">
+<meta name="twitter:description" content="{escape(description)}">
+<meta name="twitter:image" content="{abs_url(OG_IMAGE)}">{verify}
+<link rel="stylesheet" href="assets/css/style.css">{gate}{ld}
 </head>
 <body>
 {header(filename)}
@@ -209,7 +371,8 @@ def sub_page(filename, title, description, content, intro=None):
     </main>
   </div>
 </div>"""
-    return page(filename, title, body, description)
+    return page(filename, title, body, description,
+                schemas=[breadcrumb_schema(filename, section, name)])
 
 
 # =========================================================
@@ -325,7 +488,8 @@ def build_index():
 </main>"""
     return page("index.html", "홈", body,
                 "부산 화전산단 소재 유압 실린더·유압 시스템 전문 제작 업체 나우하이텍(NAWOO HI-TECH). "
-                "선박설비, 산업기계, 특수유압 실린더를 제작합니다.")
+                "선박설비, 산업기계, 특수유압 실린더를 제작합니다.",
+                schemas=[org_schema(), website_schema()])
 
 
 # =========================================================
@@ -929,7 +1093,89 @@ def build_404():
   <a class="btn" href="index.html">홈으로 이동</a>
   <a class="btn btn--ghost" href="greeting.html" style="margin-left:8px">회사소개 보기</a>
 </main>"""
-    return page("404.html", "페이지를 찾을 수 없습니다", body, "요청하신 페이지를 찾을 수 없습니다.")
+    return page("404.html", "페이지를 찾을 수 없습니다", body,
+                "요청하신 페이지를 찾을 수 없습니다.", indexable=False)
+
+
+# =========================================================
+# robots.txt — 크롤러에게 "들어와도 되는지"를 알려주는 파일
+# =========================================================
+# AI 검색(챗GPT·Claude·Perplexity·Gemini)에 링크가 뜨려면 각 AI 크롤러가
+# 사이트를 읽을 수 있어야 한다. 아래 이름들이 그 크롤러들이다.
+AI_CRAWLERS = [
+    "GPTBot",           # 챗GPT 학습
+    "OAI-SearchBot",    # 챗GPT 검색 답변
+    "ChatGPT-User",     # 챗GPT 가 사용자 요청으로 페이지를 열 때
+    "ClaudeBot",        # Claude
+    "PerplexityBot",    # Perplexity
+    "Google-Extended",  # Gemini / AI 개요
+    "Applebot-Extended",
+]
+
+
+def build_robots():
+    if not LIVE:
+        text = (
+            "# 검수 모드 — 아직 공개 전이므로 전체 차단한다.\n"
+            "# 오픈일에 build.py 의 LIVE 를 True 로 바꾸고 다시 빌드하면 열린다.\n"
+            "User-agent: *\n"
+            "Disallow: /\n"
+        )
+    else:
+        ai = "".join(f"User-agent: {name}\nAllow: /\n\n" for name in AI_CRAWLERS)
+        text = (
+            "# 나우하이텍 — 전체 공개\n"
+            "User-agent: *\n"
+            "Allow: /\n\n"
+            "# AI 검색 크롤러 명시 허용 (AI 답변에 사이트 링크가 붙게 하려는 목적)\n"
+            f"{ai}"
+            f"Sitemap: {SITE_URL}/sitemap.xml\n"
+        )
+    (ROOT / "robots.txt").write_text(text, encoding="utf-8")
+    return "robots.txt"
+
+
+# =========================================================
+# sitemap.xml — 검색엔진에 넘기는 페이지 목록
+# =========================================================
+# 우선순위: 홈 > 회사·제품 소개 > 게시판 성격 페이지
+PRIORITY = {
+    "index.html": "1.0",
+    "greeting.html": "0.9",
+    "products.html": "0.9",
+    "drawings.html": "0.8",
+    "certification.html": "0.8",
+    "facility.html": "0.8",
+    "location.html": "0.8",
+    "history.html": "0.7",
+    "organization.html": "0.7",
+    "quality.html": "0.7",
+    "environment.html": "0.7",
+    "notice.html": "0.6",
+    "qna.html": "0.6",
+}
+
+
+def build_sitemap(pages):
+    urls = []
+    for filename in pages:
+        if filename == "404.html":          # 오류 페이지는 넣지 않는다
+            continue
+        urls.append(
+            "  <url>\n"
+            f"    <loc>{canonical_url(filename)}</loc>\n"
+            f"    <lastmod>{LASTMOD}</lastmod>\n"
+            "    <changefreq>monthly</changefreq>\n"
+            f"    <priority>{PRIORITY.get(filename, '0.6')}</priority>\n"
+            "  </url>"
+        )
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(urls) + "\n</urlset>\n"
+    )
+    (ROOT / "sitemap.xml").write_text(xml, encoding="utf-8")
+    return "sitemap.xml"
 
 
 # =========================================================
@@ -950,9 +1196,16 @@ def main():
         build_notice(),
         build_404(),
     ]
-    print(f"{len(built)}개 페이지 생성 완료")
+    extras = [build_robots(), build_sitemap(built)]
+    mode = "라이브(검색 허용)" if LIVE else "검수(검색 차단 + 게이트)"
+    print(f"{len(built)}개 페이지 생성 완료 — 모드: {mode}")
     for b in built:
         print("  -", b)
+    for e in extras:
+        print("  -", e)
+    if not (VERIFY_GOOGLE and VERIFY_NAVER):
+        print("\n※ 소유확인 코드가 비어 있습니다. "
+              "구글 서치콘솔 / 네이버 서치어드바이저 등록 후 build.py 상단에 채우세요.")
 
 
 if __name__ == "__main__":
