@@ -133,8 +133,14 @@ def stamp_page_links(html):
 
 
 def canonical_url(filename):
-    """대표 주소. 홈은 파일명을 떼고 루트로 통일한다."""
-    return f"{SITE_URL}/" if filename == "index.html" else f"{SITE_URL}/{filename}"
+    """대표 주소. 홈은 루트로, 나머지는 .html 을 뗀 주소로 통일한다.
+
+    Cloudflare Pages 가 /greeting.html 을 /greeting 으로 308 넘긴다. 이 동작은 끌 수 없다.
+    canonical 이 .html 을 가리키면 "정본"이 스스로 넘어가는 주소가 되어 검색엔진이 무시한다.
+    """
+    if filename == "index.html":
+        return f"{SITE_URL}/"
+    return f"{SITE_URL}/{filename.removesuffix('.html')}"
 
 
 def abs_url(path):
