@@ -21,7 +21,7 @@ import re
 
 ROOT = Path(__file__).parent
 TODAY = "260820"
-LASTMOD = "2026-08-20"          # sitemap.xml 의 <lastmod>. 내용을 고치면 같이 올린다
+LASTMOD = "2026-09-16"          # sitemap.xml 의 <lastmod>. 내용을 고치면 같이 올린다
 
 # =========================================================
 # 배포 설정
@@ -30,7 +30,7 @@ LASTMOD = "2026-08-20"          # sitemap.xml 의 <lastmod>. 내용을 고치면
 # LIVE = True  → 라이브 모드. 검색 허용 + 게이트 뺌
 #
 # 오픈일에 이 값을 True 로 바꾸고 `python3 build.py` 만 다시 돌리면 된다.
-LIVE = False
+LIVE = True
 
 SITE_URL = "https://nawoohitech.co.kr"   # 대표 주소. 끝에 / 를 붙이지 않는다
 OG_IMAGE = "assets/img/hero-1.jpg"       # 카톡·슬랙 공유 시 뜨는 미리보기 사진 (사옥 전경)

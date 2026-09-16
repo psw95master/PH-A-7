@@ -1,4 +1,27 @@
-# 검수 모드 — 아직 공개 전이므로 전체 차단한다.
-# 오픈일에 build.py 의 LIVE 를 True 로 바꾸고 다시 빌드하면 열린다.
+# 나우하이텍 — 전체 공개
 User-agent: *
-Disallow: /
+Allow: /
+
+# AI 검색 크롤러 명시 허용 (AI 답변에 사이트 링크가 붙게 하려는 목적)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://nawoohitech.co.kr/sitemap.xml
