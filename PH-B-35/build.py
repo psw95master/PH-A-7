@@ -1279,6 +1279,30 @@ def build_robots():
 
 
 # =========================================================
+# _redirects — 옛 사이트 주소를 새 홈으로 넘긴다
+# =========================================================
+# 2006년식 사이트는 frameset 구조라 주소가 /main/subN.htm 과 /bbs/*.php 였다.
+# 구글에 아직 그 주소들이 색인돼 있어서, 그대로 두면 전부 404 가 된다.
+#
+# 개별 매핑은 하지 않는다. 옛 페이지는 제목이 전부 "Untitled Document" 이고
+# 이미지 파일명도 똑같아서 어느 페이지가 무엇인지 주소만으로 가려낼 수 없다.
+# 잘못 짝지으면 엉뚱한 페이지로 보내게 되므로 전부 홈으로 넘긴다.
+OLD_PATHS = [
+    "/main/*",          # 본문 프레임 (index.htm, sub1~sub5)
+    "/bbs/*",           # 게시판 (notice, qna, 로그인)
+    "/music.htm",       # 배경음악 프레임
+    "/css/*",
+]
+
+
+def build_redirects():
+    lines = ["# 옛 사이트(frameset) 주소 → 새 홈. 경위는 build.py 의 OLD_PATHS 주석 참조."]
+    lines += [f"{p}  /  301" for p in OLD_PATHS]
+    (ROOT / "_redirects").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return "_redirects"
+
+
+# =========================================================
 # sitemap.xml — 검색엔진에 넘기는 페이지 목록
 # =========================================================
 # 우선순위: 홈 > 회사·제품 소개 > 게시판 성격 페이지
@@ -1341,7 +1365,7 @@ def main():
     ]
     # 옮겨간 주소는 sitemap 에 넣지 않는다. 넘겨주기만 하는 페이지다.
     moved = build_moved()
-    extras = [build_robots(), build_sitemap(built)]
+    extras = [build_robots(), build_sitemap(built), build_redirects()]
     mode = "라이브(검색 허용)" if LIVE else "검수(검색 차단 + 게이트)"
     print(f"{len(built)}개 페이지 생성 완료 — 모드: {mode}")
     for b in built:

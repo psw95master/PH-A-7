@@ -1,0 +1,5 @@
+# 옛 사이트(frameset) 주소 → 새 홈. 경위는 build.py 의 OLD_PATHS 주석 참조.
+/main/*  /  301
+/bbs/*  /  301
+/music.htm  /  301
+/css/*  /  301
