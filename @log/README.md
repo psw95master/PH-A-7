@@ -4,6 +4,7 @@
 
 | 날짜 | 로그 | 내용 |
 | --- | --- | --- |
+| 260918 | [PH-A-7_@log_260918.md](PH-A-7_@log_260918.md) | 도메인 이관 검증 — **절반만 됐음**(네임서버는 그대로) · 🔴 **HTTPS 3년 장애 발견** — 이 도메인용 인증서가 애초에 없었음(crt.sh 0건), 검색 유입이 계속 차단돼 있었음 · Cloudflare 구축 완료(Zone·Pages·GitHub 자동배포·DNS 5건·메일 그대로 이전) · canonical `.html` 제거 · `LIVE=True` 전환 · 옛 frameset 주소 301 · 🔴 **가비아 소유자 인증 불가로 전환 대기** — 등록 이메일이 2012년 폐쇄 포털, 문서 증빙 접수 |
 | 260821 | [PH-A-7_@log_260821.md](PH-A-7_@log_260821.md) | 사업분야 사진 14건 전량 교체 · 크게 보기 팝업(버튼 자리 3회 재설계) · Q&A 빈 상태를 문의 유도 배너로 — 카피 C안 확정 · **공지사항 → 인재 채용** 전환 · 🔴 캐시로 검수 화면이 뒤섞인 사고 2건 — 옛 주소 넘김 처리 + 검수 모드 링크 표식 |
 | 260820 | [PH-A-7_@log_260820.md](PH-A-7_@log_260820.md) | SEO 기초 세팅(canonical·OG·JSON-LD·robots·sitemap) + **`LIVE` 스위치** · 도메인 이관 착수 — 가비아·아이티포원 명의, 방법2 · 홈 키배너를 사진 5장 자동 롤링으로 교체 · 🔴 캐시로 옛 사진이 보인 사고 — 자산에 `?v=` 표식 |
 | 260818 | [PH-A-7_@log_260818.md](PH-A-7_@log_260818.md) | `PH-B-35` 모바일 대응 검수·수정 · 로고를 원본 사이트 것으로 교체 · 화면의 내부 검토 메모 전량 삭제 · Pages 배포 실패 대응 · **(2)** A안 견적서 작성 — 비사업자라 부가세 청구 불가, 원천징수 3.3% 구조로 전환 · **(3)** 검수용 진입 게이트 · 🔴 검수본 색인 차단(`noindex`) |
@@ -29,5 +30,5 @@ PH-A-7_@log_{YYMMDD}.md
 | --- | --- |
 | 제안서 v2.0 (현행) | [구글 슬라이드](https://docs.google.com/presentation/d/1sYM8vyvfJ6QdAr6vxMbj3mE3-Q0JaU5asGwnyB5Mmfk/edit) |
 | 제안서 v1.0 (규격·일정 기준 원본) | [구글 슬라이드](https://docs.google.com/presentation/d/1vAZXOs4I7r0IYVBcv1o4lqu-ZEedjQoisX5e5SPnC-8/edit) |
-| 이미지 텍스트 HTML 전환본 | [`PH-B-35/`](../PH-B-35/) — [검수용 주소](https://psw95master.github.io/PH-A-7/PH-B-35/index.html) |
+| 이미지 텍스트 HTML 전환본 | [`PH-B-35/`](../PH-B-35/) — [검수용 주소](https://nawoohitech.pages.dev) (Cloudflare Pages, `260918`~) |
 | 메일 이력 | Gmail 라벨 `PH-A-7. 나우하이텍 웹사이트 리뉴얼` |
