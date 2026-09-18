@@ -872,9 +872,13 @@ def data_table(caption, rows, first_col):
 
 
 def build_facility():
+    # 사진을 누르면 크게 볼 수 있다. products.html 과 같은 팝업이다. (260918 페리 지시)
+    # 설비 사진에는 설명줄(tile__meta)이 없어서 팝업에도 제목만 뜬다.
     photos = "".join(
         f'<figure class="tile">'
-        f'<span class="tile__frame"><img src="assets/img/{src}" alt="{escape(cap)}" loading="lazy"></span>'
+        f'<button class="tile__frame tile__frame--zoom" type="button" data-lightbox>'
+        f'<img src="{asset("assets/img/" + src)}" alt="{escape(cap)}" loading="lazy">'
+        f'<span class="sr-only">{escape(cap)} 크게 보기</span></button>'
         f'<figcaption class="tile__cap">{escape(cap)}</figcaption></figure>'
         for src, cap in FACILITY_PHOTOS
     )
@@ -885,8 +889,9 @@ def build_facility():
 {data_table('계측기 현황', GAUGES, 'Facility')}
 
 <h2>설비 사진</h2>
-<p>부산 화전산단 공장에 설치된 주요 가공·검사 설비입니다.</p>
-<div class="gallery gallery--wide gallery--photo">{photos}</div>"""
+<p>부산 화전산단 공장에 설치된 주요 가공·검사 설비입니다. 사진을 누르면 크게 볼 수 있습니다.</p>
+<div class="gallery gallery--wide gallery--photo">{photos}</div>
+<script src="{asset('assets/js/lightbox.js')}"></script>"""
     return sub_page("facility.html", "설비현황 (가공장비·계측기)",
                     "나우하이텍 보유 가공장비 18종, 계측기 26종 목록과 공장 설비 사진.",
                     content)
