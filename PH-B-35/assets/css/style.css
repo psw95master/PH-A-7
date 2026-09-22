@@ -537,6 +537,20 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
   content: ""; position: absolute; left: 0; top: .5em; width: 8px; height: 8px;
   background: var(--green); border-radius: 2px;
 }
+/* 사진 목록이 길어져 10칸씩 끊었다. 그 아래에 붙는 번호 리모컨. (260922 페리 지시) */
+.pager { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; margin-top: 28px; }
+.pager button {
+  min-width: 38px; height: 38px; padding: 0 10px;
+  border: 1px solid var(--line); border-radius: var(--r-md); background: #fff;
+  font: inherit; font-size: 14px; color: var(--ink); cursor: pointer;
+  transition: border-color .18s ease, background .18s ease;
+}
+.pager button:hover:not(:disabled) { border-color: var(--navy-soft); }
+.pager button:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+.pager button[aria-current="page"] { background: var(--navy); border-color: var(--navy); color: #fff; font-weight: 700; }
+.pager button:disabled { color: #b6bec6; cursor: default; }
+@media (prefers-reduced-motion: reduce) { .pager button { transition: none; } }
+
 .tile__meta { margin: 0; font-size: 13px; color: var(--muted); padding-left: 16px; }
 .tile__meta dt { display: inline; font-weight: 600; }
 .tile__meta dd { display: inline; margin: 0 0 0 4px; }

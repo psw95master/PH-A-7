@@ -954,6 +954,10 @@ PRODUCTS = [
 ]
 
 
+# 사진 목록 한 쪽에 몇 칸을 보일지. 나머지는 아래 번호 리모컨으로 넘긴다. (260922 페리 지시)
+PRODUCTS_PER_PAGE = 10
+
+
 def build_products():
     # 사진을 누르면 크게 볼 수 있다. 눌러야 하는 자리이므로 button 으로 감싼다.
     # 팝업에 띄울 제목·설명은 아래 figcaption / tile__meta 를 그대로 읽어 쓴다.
@@ -971,8 +975,9 @@ def build_products():
   선박설비·제철설비·산업기계에 들어가는 표준 및 특수 유압 실린더와 유압 시스템을 제작합니다.
   아래는 주요 납품 실적입니다. 사진을 누르면 크게 볼 수 있습니다.
 </p>
-<div class="gallery gallery--wide gallery--photo">{tiles}</div>
-<script src="{asset('assets/js/lightbox.js')}"></script>"""
+<div class="gallery gallery--wide gallery--photo" data-pager="{PRODUCTS_PER_PAGE}">{tiles}</div>
+<script src="{asset('assets/js/lightbox.js')}"></script>
+<script src="{asset('assets/js/pager.js')}"></script>"""
     return sub_page("products.html", "유압장치 및 부품",
                     "나우하이텍 유압 실린더·유압 시스템 주요 납품 실적 14건.",
                     content)
