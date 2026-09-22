@@ -830,24 +830,26 @@ GAUGES = [
 
 # 설비 사진. 회사소개서 타이틀 기준. (260922 페리 확인)
 # (파일, 타이틀, 규격, 팝업에 띄울 한글)
+# 설비 사진. 회사소개서 타이틀 기준, 타이틀 오름차순. (260922 페리 확인)
+# (파일, 타이틀, 규격, 팝업에 띄울 한글)
 FACILITY_PHOTOS = [
-    ('facility-01.jpg', 'Lathe (1)', 'Φ850×4000L', '대형 선반'),
-    ('facility-02.jpg', 'Lathe (2)', 'Φ1500×10000L', '장척 가공용 선반 및 소재 적치 구역'),
-    ('facility-03.jpg', '선반 가공기', '', ''),
-    ('facility-04.jpg', 'Lathe (3)', '', '범용 선반'),
-    ('facility-05.jpg', 'Radial Drill M/C', '2,000(L)', '레이디얼 드릴링 머신'),
-    ('facility-06.jpg', 'Milling Machine', '', '밀링 머신 가공 작업'),
-    ('facility-07.jpg', 'CNC Lathe (1)', 'PUMA 시리즈', 'CNC 선반'),
-    ('facility-08.jpg', '머시닝 센터', '', ''),
-    ('facility-09.jpg', 'CNC Lathe (2)', 'Dainichi', 'CNC 선반'),
     ('facility-10.jpg', 'Automatic test machine oil hydraulic cylinder', '700bar 1200Liter', '유압 시험기'),
-    ('facility-11.jpg', '호이스트 크레인이 설치된 공장동 전경', '', ''),
-    ('facility-12.jpg', '정반(定盤) — 500 × 2000', '', ''),
-    ('facility-13.jpg', 'Paint Booth', '242 M2', '도장 부스'),
+    ('facility-07.jpg', 'CNC Lathe (1)', 'PUMA 시리즈', 'CNC 선반'),
+    ('facility-09.jpg', 'CNC Lathe (2)', 'Dainichi', 'CNC 선반'),
     ('facility-c03.jpg', 'CNC Lathe (3)', 'PUMA4100(15”)', ''),
-    ('facility-c04.jpg', 'CNC Milling Machine', 'VEST 1300B', ''),
     ('facility-c05.jpg', 'CNC Lathe (4)', 'PUMA300(12”)', ''),
     ('facility-c06.jpg', 'CNC Lathe (5)', 'L300C (12”)', ''),
+    ('facility-c04.jpg', 'CNC Milling Machine', 'VEST 1300B', ''),
+    ('facility-01.jpg', 'Lathe (1)', 'Φ850×4000L', '대형 선반'),
+    ('facility-02.jpg', 'Lathe (2)', 'Φ1500×10000L', '장척 가공용 선반 및 소재 적치 구역'),
+    ('facility-04.jpg', 'Lathe (3)', '', '범용 선반'),
+    ('facility-06.jpg', 'Milling Machine', '', '밀링 머신 가공 작업'),
+    ('facility-13.jpg', 'Paint Booth', '242 M2', '도장 부스'),
+    ('facility-05.jpg', 'Radial Drill M/C', '2,000(L)', '레이디얼 드릴링 머신'),
+    ('facility-08.jpg', '머시닝 센터', '', ''),
+    ('facility-03.jpg', '선반 가공기', '', ''),
+    ('facility-12.jpg', '정반(定盤) — 500 × 2000', '', ''),
+    ('facility-11.jpg', '호이스트 크레인이 설치된 공장동 전경', '', ''),
 ]
 
 
@@ -902,8 +904,9 @@ def build_facility():
 
 <h2>설비 사진</h2>
 <p>부산 화전산단 공장에 설치된 주요 가공·검사 설비입니다. 사진을 누르면 크게 볼 수 있습니다.</p>
-<div class="gallery gallery--wide gallery--photo">{photos}</div>
-<script src="{asset('assets/js/lightbox.js')}"></script>"""
+<div class="gallery gallery--wide gallery--photo" data-toc="설비현황">{photos}</div>
+<script src="{asset('assets/js/lightbox.js')}"></script>
+<script src="{asset('assets/js/toc.js')}"></script>"""
     return sub_page("facility.html", "설비현황 (가공장비·계측기)",
                     "나우하이텍 보유 가공장비 18종, 계측기 26종 목록과 공장 설비 사진.",
                     content)
@@ -945,41 +948,27 @@ def build_location():
 # =========================================================
 # 제품 사진. 회사소개서 타이틀 기준. (260922 페리 확인)
 # (파일, 타이틀, 규격, 팝업에 띄울 한글)
+# 제품 사진. 회사소개서 타이틀 기준, 타이틀 오름차순. (260922 페리 확인)
+# (파일, 타이틀, 규격, 팝업에 띄울 한글)
 PRODUCTS = [
-    ('product-cosma1800-press.jpg', 'COSMA1800 PRESS', 'Φ480-Φ480 ×750-800ST', '프레스용 유압 실린더 3본'),
-    ('product-posco-intermesh-cylinder.jpg', 'POSCO Intermesh cylinder', 'Φ620×420ST', '제철 설비용 인터메시 실린더'),
-    ('product-posco-travers-car-cylinder.jpg', 'POSCO Travers car cylinder', 'Φ220×850ST', '트래버스 카 구동 유압 실린더'),
-    ('product-gm2250-press.jpg', 'GM2250 PRESS', 'Φ750×1,500ST', '프레스용 대형 유압 실린더'),
-    ('product-1600ton-scrap-shear.jpg', '1600Ton SCRAP SHEAR', 'Φ482×1,600ST', '스크랩 절단기용 유압 실린더'),
-    ('product-moving-cylinder-oscillator.jpg', 'Moving cylinder for Oscillator', 'Φ320×700ST', '오실레이터용 무빙 실린더'),
-    ('product-posco-pot-hydraulic-system.jpg', 'POSCO POT Hydraulic system', 'Φ780×2010ST', '포트 설비용 유압 시스템'),
-    ('product-dam-gate-cylinder.jpg', 'Synchronous Controlled Extra Large Hydraulic Cylinder for Dam Gate Positioning', '', '댐 수문 위치제어용 동기 제어 초대형 유압 실린더'),
-    ('product-marine-winch-break-cylinder.jpg', 'Break Cylinder', '', '해상 윈치용 · 선박 윈치 브레이크 실린더'),
-    ('product-500ton-block-lifter-cylinder.jpg', '500Ton Block lifter', 'Φ460×300ST', '500톤 블록 리프터용 유압 실린더'),
-    ('product-dsme-h2298-cylinder.jpg', 'DSME H2298 Hydraulic cylinder', 'VJ-40-80-876-2x82', '선박 H2298 호선용 유압 실린더'),
-    ('product-2300ton-balance-cylinder.jpg', 'Balance Cylinder for 2300Ton blanking Press', '', '2300톤 블랭킹 프레스용 밸런스 실린더'),
-    ('product-korea-institute.jpg', 'Trunnion joint Test MC Hydraulic cylinder', 'Φ600×300ST', '한국기계연구원 납품 유압 실린더'),
     ('product-100ton-ludder-truck-cylinder.jpg', '100Ton Rudder truck', 'Φ200×750-750ST', '100톤급 래더 트럭용 유압 실린더'),
-    ('product-c13.jpg', 'NSSMC Hydraulic Cylinder', 'Φ860×Φ660×500ST', ''),
-    ('product-c16.jpg', 'Hydraulic cylinder for Ring mill (1)', 'D 5300', ''),
-    ('product-c17.jpg', 'Hydraulic cylinder for Ring mill (2)', 'D 5300', ''),
-    ('product-c18.jpg', 'Hydraulic cylinder for Ring mill (3)', 'D 5300', ''),
-    ('product-c19.jpg', '제철설비 밸브용 Hydraulic cylinder (1)', '', ''),
-    ('product-c20.jpg', '제철설비 밸브용 Hydraulic cylinder (2)', '', ''),
-    ('product-c21.jpg', '제철설비 밸브용 Hydraulic cylinder (3)', '', ''),
-    ('product-c22.jpg', '제철설비 밸브용 Hydraulic cylinder (4)', '', ''),
-    ('product-c25.jpg', 'POSCO JACK UP Cylinder', 'Φ180×Φ63×350ST', ''),
     ('product-c26.jpg', '12,000 TON PRESS BOOSTER Cylinder', 'Φ180×Φ63×350ST', ''),
-    ('product-c30.jpg', '발전설비 (1)', 'Φ300x160-5500ST', ''),
-    ('product-c31.jpg', '발전설비 (2)', 'Φ300x160-5500ST', ''),
-    ('product-c32.jpg', '발전설비 (3)', 'Φ300x160-5500ST', ''),
+    ('product-1600ton-scrap-shear.jpg', '1600Ton SCRAP SHEAR', 'Φ482×1,600ST', '스크랩 절단기용 유압 실린더'),
+    ('product-500ton-block-lifter-cylinder.jpg', '500Ton Block lifter', 'Φ460×300ST', '500톤 블록 리프터용 유압 실린더'),
+    ('product-2300ton-balance-cylinder.jpg', 'Balance Cylinder for 2300Ton blanking Press', '', '2300톤 블랭킹 프레스용 밸런스 실린더'),
+    ('product-marine-winch-break-cylinder.jpg', 'Break Cylinder', '', '해상 윈치용 · 선박 윈치 브레이크 실린더'),
+    ('product-cosma1800-press.jpg', 'COSMA1800 PRESS', 'Φ480-Φ480 ×750-800ST', '프레스용 유압 실린더 3본'),
+    ('product-dsme-h2298-cylinder.jpg', 'DSME H2298 Hydraulic cylinder', 'VJ-40-80-876-2x82', '선박 H2298 호선용 유압 실린더'),
+    ('product-gm2250-press.jpg', 'GM2250 PRESS', 'Φ750×1,500ST', '프레스용 대형 유압 실린더'),
     ('product-c33.jpg', 'Hydraulic cylinder for 1200T press (1)', '1200T Press', ''),
     ('product-c34.jpg', 'Hydraulic cylinder for 1200T press (2)', '1200T Press', ''),
     ('product-c35.jpg', 'Hydraulic cylinder for 1200T press (3)', '1200T Press', ''),
-    ('product-c36.jpg', 'RMQC Anti snag cylinder assembly (1)', 'Φ140×Φ90×1450ST', ''),
-    ('product-c37.jpg', 'RMQC Anti snag cylinder assembly (2)', 'Φ140×Φ90×1450ST', ''),
+    ('product-c16.jpg', 'Hydraulic cylinder for Ring mill (1)', 'D 5300', ''),
+    ('product-c17.jpg', 'Hydraulic cylinder for Ring mill (2)', 'D 5300', ''),
+    ('product-c18.jpg', 'Hydraulic cylinder for Ring mill (3)', 'D 5300', ''),
     ('product-c38.jpg', 'Low friction servo cylinder (1)', '5in 50Ton 3in 25Ton', ''),
     ('product-c39.jpg', 'Low friction servo cylinder (2)', '5in 50Ton 3in 25Ton', ''),
+    ('product-moving-cylinder-oscillator.jpg', 'Moving cylinder for Oscillator', 'Φ320×700ST', '오실레이터용 무빙 실린더'),
     ('product-c40.jpg', 'NFC pelletizing plant project (1)', '', ''),
     ('product-c41.jpg', 'NFC pelletizing plant project (2)', '', ''),
     ('product-c42.jpg', 'NFC pelletizing plant project (3)', '', ''),
@@ -987,15 +976,31 @@ PRODUCTS = [
     ('product-c44.jpg', 'NFC pelletizing plant project (5)', '', ''),
     ('product-c45.jpg', 'NFC pelletizing plant project (6)', '', ''),
     ('product-c46.jpg', 'NFC pelletizing plant project (7)', '', ''),
+    ('product-c13.jpg', 'NSSMC Hydraulic Cylinder', 'Φ860×Φ660×500ST', ''),
+    ('product-posco-intermesh-cylinder.jpg', 'POSCO Intermesh cylinder', 'Φ620×420ST', '제철 설비용 인터메시 실린더'),
+    ('product-c25.jpg', 'POSCO JACK UP Cylinder', 'Φ180×Φ63×350ST', ''),
+    ('product-posco-pot-hydraulic-system.jpg', 'POSCO POT Hydraulic system', 'Φ780×2010ST', '포트 설비용 유압 시스템'),
+    ('product-posco-travers-car-cylinder.jpg', 'POSCO Travers car cylinder', 'Φ220×850ST', '트래버스 카 구동 유압 실린더'),
+    ('product-c36.jpg', 'RMQC Anti snag cylinder assembly (1)', 'Φ140×Φ90×1450ST', ''),
+    ('product-c37.jpg', 'RMQC Anti snag cylinder assembly (2)', 'Φ140×Φ90×1450ST', ''),
+    ('product-c52.jpg', 'SEP 3500T Lifting system Lifting cylinder (1)', '', ''),
+    ('product-c53.jpg', 'SEP 3500T Lifting system Lifting cylinder (2)', '', ''),
+    ('product-c54.jpg', 'SEP 3500T Lifting system Lifting cylinder (3)', '', ''),
+    ('product-c55.jpg', 'SEP 3500T Lifting system Lifting cylinder (4)', '', ''),
     ('product-c47.jpg', 'SEP 3500T Lifting system Locking cylinder (1)', '', ''),
     ('product-c48.jpg', 'SEP 3500T Lifting system Locking cylinder (2)', '', ''),
     ('product-c49.jpg', 'SEP 3500T Lifting system Locking cylinder (3)', '', ''),
     ('product-c50.jpg', 'SEP 3500T Lifting system Locking cylinder (4)', '', ''),
     ('product-c51.jpg', 'SEP 3500T Lifting system Locking cylinder (5)', '', ''),
-    ('product-c52.jpg', 'SEP 3500T Lifting system Lifting cylinder (1)', '', ''),
-    ('product-c53.jpg', 'SEP 3500T Lifting system Lifting cylinder (2)', '', ''),
-    ('product-c54.jpg', 'SEP 3500T Lifting system Lifting cylinder (3)', '', ''),
-    ('product-c55.jpg', 'SEP 3500T Lifting system Lifting cylinder (4)', '', ''),
+    ('product-dam-gate-cylinder.jpg', 'Synchronous Controlled Extra Large Hydraulic Cylinder for Dam Gate Positioning', '', '댐 수문 위치제어용 동기 제어 초대형 유압 실린더'),
+    ('product-korea-institute.jpg', 'Trunnion joint Test MC Hydraulic cylinder', 'Φ600×300ST', '한국기계연구원 납품 유압 실린더'),
+    ('product-c30.jpg', '발전설비 (1)', 'Φ300x160-5500ST', ''),
+    ('product-c31.jpg', '발전설비 (2)', 'Φ300x160-5500ST', ''),
+    ('product-c32.jpg', '발전설비 (3)', 'Φ300x160-5500ST', ''),
+    ('product-c19.jpg', '제철설비 밸브용 Hydraulic cylinder (1)', '', ''),
+    ('product-c20.jpg', '제철설비 밸브용 Hydraulic cylinder (2)', '', ''),
+    ('product-c21.jpg', '제철설비 밸브용 Hydraulic cylinder (3)', '', ''),
+    ('product-c22.jpg', '제철설비 밸브용 Hydraulic cylinder (4)', '', ''),
 ]
 
 
