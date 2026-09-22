@@ -828,20 +828,26 @@ GAUGES = [
     ("Vernier Calipers", "0~1000mm", "1", "2009", "Mitutoyo(Japan)"),
 ]
 
+# 설비 사진. 회사소개서 타이틀 기준. (260922 페리 확인)
+# (파일, 타이틀, 규격, 팝업에 띄울 한글)
 FACILITY_PHOTOS = [
-    ("facility-01.jpg", "대형 선반(Lathe) — Φ1500 × 10000(L)"),
-    ("facility-02.jpg", "장척 가공용 선반 및 소재 적치 구역"),
-    ("facility-03.jpg", "선반 가공기"),
-    ("facility-04.jpg", "범용 선반(Lathe)"),
-    ("facility-05.jpg", "레이디얼 드릴링 머신(Radial Drill M/C) — 2,000(L)"),
-    ("facility-06.jpg", "밀링 머신(Milling Machine) 가공 작업"),
-    ("facility-07.jpg", "CNC 선반(PUMA 시리즈)"),
-    ("facility-08.jpg", "머시닝 센터"),
-    ("facility-09.jpg", "CNC 선반 — Dainichi"),
-    ("facility-10.jpg", "유압 시험기(Hydraulic test M/C) — 700bar"),
-    ("facility-11.jpg", "호이스트 크레인이 설치된 공장동 전경"),
-    ("facility-12.jpg", "정반(定盤) — 500 × 2000"),
-    ("facility-13.jpg", "도장 부스(Paint booth)"),
+    ('facility-01.jpg', 'Lathe (1)', 'Φ850×4000L', '대형 선반'),
+    ('facility-02.jpg', 'Lathe (2)', 'Φ1500×10000L', '장척 가공용 선반 및 소재 적치 구역'),
+    ('facility-03.jpg', '선반 가공기', '', ''),
+    ('facility-04.jpg', 'Lathe (3)', '', '범용 선반'),
+    ('facility-05.jpg', 'Radial Drill M/C', '2,000(L)', '레이디얼 드릴링 머신'),
+    ('facility-06.jpg', 'Milling Machine', '', '밀링 머신 가공 작업'),
+    ('facility-07.jpg', 'CNC Lathe (1)', 'PUMA 시리즈', 'CNC 선반'),
+    ('facility-08.jpg', '머시닝 센터', '', ''),
+    ('facility-09.jpg', 'CNC Lathe (2)', 'Dainichi', 'CNC 선반'),
+    ('facility-10.jpg', 'Automatic test machine oil hydraulic cylinder', '700bar 1200Liter', '유압 시험기'),
+    ('facility-11.jpg', '호이스트 크레인이 설치된 공장동 전경', '', ''),
+    ('facility-12.jpg', '정반(定盤) — 500 × 2000', '', ''),
+    ('facility-13.jpg', 'Paint Booth', '242 M2', '도장 부스'),
+    ('facility-c03.jpg', 'CNC Lathe (3)', 'PUMA4100(15”)', ''),
+    ('facility-c04.jpg', 'CNC Milling Machine', 'VEST 1300B', ''),
+    ('facility-c05.jpg', 'CNC Lathe (4)', 'PUMA300(12”)', ''),
+    ('facility-c06.jpg', 'CNC Lathe (5)', 'L300C (12”)', ''),
 ]
 
 
@@ -871,17 +877,23 @@ def data_table(caption, rows, first_col):
 </div>"""
 
 
+def _tile(src, title, spec, ko):
+    """사진 한 칸. 목록에는 타이틀과 규격만 보이고, 한글은 팝업에서만 뜬다.
+
+    한글을 figure 의 data-ko 에 실어 두면 lightbox.js 가 읽어 간다. (260922 페리 지시)
+    """
+    ko_attr = f' data-ko="{escape(ko)}"' if ko else ""
+    return (f'<figure class="tile"{ko_attr}>'
+            f'<button class="tile__frame tile__frame--zoom" type="button" data-lightbox>'
+            f'<img src="{asset("assets/img/" + src)}" alt="{escape(title)}" loading="lazy">'
+            f'<span class="sr-only">{escape(title)} 크게 보기</span></button>'
+            f'<figcaption class="tile__cap">{escape(title)}</figcaption>'
+            + (f'<p class="tile__meta">{escape(spec)}</p>' if spec else "")
+            + "</figure>")
+
+
 def build_facility():
-    # 사진을 누르면 크게 볼 수 있다. products.html 과 같은 팝업이다. (260918 페리 지시)
-    # 설비 사진에는 설명줄(tile__meta)이 없어서 팝업에도 제목만 뜬다.
-    photos = "".join(
-        f'<figure class="tile">'
-        f'<button class="tile__frame tile__frame--zoom" type="button" data-lightbox>'
-        f'<img src="{asset("assets/img/" + src)}" alt="{escape(cap)}" loading="lazy">'
-        f'<span class="sr-only">{escape(cap)} 크게 보기</span></button>'
-        f'<figcaption class="tile__cap">{escape(cap)}</figcaption></figure>'
-        for src, cap in FACILITY_PHOTOS
-    )
+    photos = "".join(_tile(*row) for row in FACILITY_PHOTOS)
     content = f"""<h2>가공장비 현황</h2>
 {data_table('가공장비 현황', MACHINES, 'Facility')}
 
@@ -931,26 +943,59 @@ def build_location():
 # =========================================================
 # products.html — 유압장치 및 부품
 # =========================================================
+# 제품 사진. 회사소개서 타이틀 기준. (260922 페리 확인)
+# (파일, 타이틀, 규격, 팝업에 띄울 한글)
 PRODUCTS = [
-    ("product-cosma1800-press.jpg", "COSMA1800 PRESS", "프레스용 유압 실린더 3본"),
-    ("product-posco-intermesh-cylinder.jpg", "POSCO Intermesh cylinder", "제철 설비용 인터메시 실린더"),
-    ("product-posco-travers-car-cylinder.jpg", "POSCO Travers car cylinder", "트래버스 카 구동 유압 실린더"),
-    ("product-gm2250-press.jpg", "GM2250 PRESS", "프레스용 대형 유압 실린더"),
-    ("product-1600ton-scrap-shear.jpg", "1600Ton SCRAP SHEAR", "스크랩 절단기용 유압 실린더"),
-    ("product-moving-cylinder-oscillator.jpg", "Moving cylinder for Oscillator", "오실레이터용 무빙 실린더"),
-    ("product-posco-pot-hydraulic-system.jpg", "POSCO POT Hydraulic system", "포트 설비용 유압 시스템"),
-    ("product-dam-gate-cylinder.jpg",
-     "Synchronous Controlled Extra Large Hydraulic Cylinder for Dam Gate Positioning",
-     "댐 수문 위치제어용 동기 제어 초대형 유압 실린더"),
-    ("product-marine-winch-break-cylinder.jpg", "해상 윈치용 Break Cylinder", "선박 윈치 브레이크 실린더"),
-    ("product-500ton-block-lifter-cylinder.jpg", "Hydraulic cylinder for 500Ton Block lifter",
-     "500톤 블록 리프터용 유압 실린더"),
-    ("product-dsme-h2298-cylinder.jpg", "DSME H2298 Hydraulic cylinder", "선박 H2298 호선용 유압 실린더"),
-    ("product-2300ton-balance-cylinder.jpg", "Balance Cylinder for 2300Ton blanking Press",
-     "2300톤 블랭킹 프레스용 밸런스 실린더"),
-    ("product-korea-institute.jpg", "KOREA INSTITUTE", "한국기계연구원 납품 유압 실린더"),
-    ("product-100ton-ludder-truck-cylinder.jpg", "Hydraulic cylinder for 100Ton ludder truck",
-     "100톤급 래더 트럭용 유압 실린더"),
+    ('product-cosma1800-press.jpg', 'COSMA1800 PRESS', 'Φ480-Φ480 ×750-800ST', '프레스용 유압 실린더 3본'),
+    ('product-posco-intermesh-cylinder.jpg', 'POSCO Intermesh cylinder', 'Φ620×420ST', '제철 설비용 인터메시 실린더'),
+    ('product-posco-travers-car-cylinder.jpg', 'POSCO Travers car cylinder', 'Φ220×850ST', '트래버스 카 구동 유압 실린더'),
+    ('product-gm2250-press.jpg', 'GM2250 PRESS', 'Φ750×1,500ST', '프레스용 대형 유압 실린더'),
+    ('product-1600ton-scrap-shear.jpg', '1600Ton SCRAP SHEAR', 'Φ482×1,600ST', '스크랩 절단기용 유압 실린더'),
+    ('product-moving-cylinder-oscillator.jpg', 'Moving cylinder for Oscillator', 'Φ320×700ST', '오실레이터용 무빙 실린더'),
+    ('product-posco-pot-hydraulic-system.jpg', 'POSCO POT Hydraulic system', 'Φ780×2010ST', '포트 설비용 유압 시스템'),
+    ('product-dam-gate-cylinder.jpg', 'Synchronous Controlled Extra Large Hydraulic Cylinder for Dam Gate Positioning', '', '댐 수문 위치제어용 동기 제어 초대형 유압 실린더'),
+    ('product-marine-winch-break-cylinder.jpg', 'Break Cylinder', '', '해상 윈치용 · 선박 윈치 브레이크 실린더'),
+    ('product-500ton-block-lifter-cylinder.jpg', '500Ton Block lifter', 'Φ460×300ST', '500톤 블록 리프터용 유압 실린더'),
+    ('product-dsme-h2298-cylinder.jpg', 'DSME H2298 Hydraulic cylinder', 'VJ-40-80-876-2x82', '선박 H2298 호선용 유압 실린더'),
+    ('product-2300ton-balance-cylinder.jpg', 'Balance Cylinder for 2300Ton blanking Press', '', '2300톤 블랭킹 프레스용 밸런스 실린더'),
+    ('product-korea-institute.jpg', 'Trunnion joint Test MC Hydraulic cylinder', 'Φ600×300ST', '한국기계연구원 납품 유압 실린더'),
+    ('product-100ton-ludder-truck-cylinder.jpg', '100Ton Rudder truck', 'Φ200×750-750ST', '100톤급 래더 트럭용 유압 실린더'),
+    ('product-c13.jpg', 'NSSMC Hydraulic Cylinder', 'Φ860×Φ660×500ST', ''),
+    ('product-c16.jpg', 'Hydraulic cylinder for Ring mill (1)', 'D 5300', ''),
+    ('product-c17.jpg', 'Hydraulic cylinder for Ring mill (2)', 'D 5300', ''),
+    ('product-c18.jpg', 'Hydraulic cylinder for Ring mill (3)', 'D 5300', ''),
+    ('product-c19.jpg', '제철설비 밸브용 Hydraulic cylinder (1)', '', ''),
+    ('product-c20.jpg', '제철설비 밸브용 Hydraulic cylinder (2)', '', ''),
+    ('product-c21.jpg', '제철설비 밸브용 Hydraulic cylinder (3)', '', ''),
+    ('product-c22.jpg', '제철설비 밸브용 Hydraulic cylinder (4)', '', ''),
+    ('product-c25.jpg', 'POSCO JACK UP Cylinder', 'Φ180×Φ63×350ST', ''),
+    ('product-c26.jpg', '12,000 TON PRESS BOOSTER Cylinder', 'Φ180×Φ63×350ST', ''),
+    ('product-c30.jpg', '발전설비 (1)', 'Φ300x160-5500ST', ''),
+    ('product-c31.jpg', '발전설비 (2)', 'Φ300x160-5500ST', ''),
+    ('product-c32.jpg', '발전설비 (3)', 'Φ300x160-5500ST', ''),
+    ('product-c33.jpg', 'Hydraulic cylinder for 1200T press (1)', '1200T Press', ''),
+    ('product-c34.jpg', 'Hydraulic cylinder for 1200T press (2)', '1200T Press', ''),
+    ('product-c35.jpg', 'Hydraulic cylinder for 1200T press (3)', '1200T Press', ''),
+    ('product-c36.jpg', 'RMQC Anti snag cylinder assembly (1)', 'Φ140×Φ90×1450ST', ''),
+    ('product-c37.jpg', 'RMQC Anti snag cylinder assembly (2)', 'Φ140×Φ90×1450ST', ''),
+    ('product-c38.jpg', 'Low friction servo cylinder (1)', '5in 50Ton 3in 25Ton', ''),
+    ('product-c39.jpg', 'Low friction servo cylinder (2)', '5in 50Ton 3in 25Ton', ''),
+    ('product-c40.jpg', 'NFC pelletizing plant project (1)', '', ''),
+    ('product-c41.jpg', 'NFC pelletizing plant project (2)', '', ''),
+    ('product-c42.jpg', 'NFC pelletizing plant project (3)', '', ''),
+    ('product-c43.jpg', 'NFC pelletizing plant project (4)', '', ''),
+    ('product-c44.jpg', 'NFC pelletizing plant project (5)', '', ''),
+    ('product-c45.jpg', 'NFC pelletizing plant project (6)', '', ''),
+    ('product-c46.jpg', 'NFC pelletizing plant project (7)', '', ''),
+    ('product-c47.jpg', 'SEP 3500T Lifting system Locking cylinder (1)', '', ''),
+    ('product-c48.jpg', 'SEP 3500T Lifting system Locking cylinder (2)', '', ''),
+    ('product-c49.jpg', 'SEP 3500T Lifting system Locking cylinder (3)', '', ''),
+    ('product-c50.jpg', 'SEP 3500T Lifting system Locking cylinder (4)', '', ''),
+    ('product-c51.jpg', 'SEP 3500T Lifting system Locking cylinder (5)', '', ''),
+    ('product-c52.jpg', 'SEP 3500T Lifting system Lifting cylinder (1)', '', ''),
+    ('product-c53.jpg', 'SEP 3500T Lifting system Lifting cylinder (2)', '', ''),
+    ('product-c54.jpg', 'SEP 3500T Lifting system Lifting cylinder (3)', '', ''),
+    ('product-c55.jpg', 'SEP 3500T Lifting system Lifting cylinder (4)', '', ''),
 ]
 
 
@@ -961,15 +1006,7 @@ PRODUCTS_PER_PAGE = 10
 def build_products():
     # 사진을 누르면 크게 볼 수 있다. 눌러야 하는 자리이므로 button 으로 감싼다.
     # 팝업에 띄울 제목·설명은 아래 figcaption / tile__meta 를 그대로 읽어 쓴다.
-    tiles = "".join(
-        f'<figure class="tile">'
-        f'<button class="tile__frame tile__frame--zoom" type="button" data-lightbox>'
-        f'<img src="{asset("assets/img/" + src)}" alt="{escape(title)} — {escape(desc)}" loading="lazy">'
-        f'<span class="sr-only">{escape(title)} 크게 보기</span></button>'
-        f'<figcaption class="tile__cap">{escape(title)}</figcaption>'
-        f'<p class="tile__meta">{escape(desc)}</p></figure>'
-        for src, title, desc in PRODUCTS
-    )
+    tiles = "".join(_tile(*row) for row in PRODUCTS)
     content = f"""<h2>유압장치 및 부품</h2>
 <p>
   선박설비·제철설비·산업기계에 들어가는 표준 및 특수 유압 실린더와 유압 시스템을 제작합니다.
