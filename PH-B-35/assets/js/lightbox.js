@@ -136,14 +136,15 @@
       var cap = fig ? fig.querySelector(".tile__cap") : null;
       var meta = fig ? fig.querySelector(".tile__meta") : null;
       var img = btn.querySelector("img");
-      // 한글 설명은 목록에 두지 않고 data-ko 에 실어 둔다. 팝업에서만 보여준다. (260922 페리 지시)
+      // 한글 설명과 규격은 목록에 두지 않고 data-ko / data-spec 에 실어 둔다.
+      // 팝업에서만 보여준다. (260922 페리 지시)
       var ko = fig ? (fig.getAttribute("data-ko") || "") : "";
-      var spec = meta ? meta.textContent.trim() : "";
+      var spec = fig ? (fig.getAttribute("data-spec") || "") : "";
       return {
         src: img.getAttribute("src"),
         alt: img.getAttribute("alt") || "",
         title: cap ? cap.textContent.trim() : "",
-        desc: [ko, spec].filter(Boolean).join(" · ")
+        desc: [ko, spec, meta ? meta.textContent.trim() : ""].filter(Boolean).join(" · ")
       };
     });
 

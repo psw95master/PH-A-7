@@ -880,18 +880,18 @@ def data_table(caption, rows, first_col):
 
 
 def _tile(src, title, spec, ko):
-    """사진 한 칸. 목록에는 타이틀과 규격만 보이고, 한글은 팝업에서만 뜬다.
+    """사진 한 칸. 목록에는 타이틀만 보인다.
 
-    한글을 figure 의 data-ko 에 실어 두면 lightbox.js 가 읽어 간다. (260922 페리 지시)
+    한글과 규격은 figure 의 data-ko / data-spec 에 실어 두고,
+    사진을 눌렀을 때 lightbox.js 가 읽어 팝업에서 보여준다. (260922 페리 지시)
     """
-    ko_attr = f' data-ko="{escape(ko)}"' if ko else ""
-    return (f'<figure class="tile"{ko_attr}>'
+    attrs = "".join(f' data-{k}="{escape(v)}"' for k, v in (("ko", ko), ("spec", spec)) if v)
+    return (f'<figure class="tile"{attrs}>'
             f'<button class="tile__frame tile__frame--zoom" type="button" data-lightbox>'
             f'<img src="{asset("assets/img/" + src)}" alt="{escape(title)}" loading="lazy">'
             f'<span class="sr-only">{escape(title)} 크게 보기</span></button>'
             f'<figcaption class="tile__cap">{escape(title)}</figcaption>'
-            + (f'<p class="tile__meta">{escape(spec)}</p>' if spec else "")
-            + "</figure>")
+            "</figure>")
 
 
 def build_facility():
