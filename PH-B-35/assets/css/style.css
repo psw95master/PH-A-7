@@ -537,19 +537,39 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
   content: ""; position: absolute; left: 0; top: .5em; width: 8px; height: 8px;
   background: var(--green); border-radius: 2px;
 }
-/* 사진 목록이 길어져 10칸씩 끊었다. 그 아래에 붙는 번호 리모컨. (260922 페리 지시) */
-.pager { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; margin-top: 28px; }
-.pager button {
-  min-width: 38px; height: 38px; padding: 0 10px;
-  border: 1px solid var(--line); border-radius: var(--r-md); background: #fff;
-  font: inherit; font-size: 14px; color: var(--ink); cursor: pointer;
-  transition: border-color .18s ease, background .18s ease;
+/* 사진이 많아 화면이 길어졌다. 오른쪽에 목차를 세워 원하는 자리로 바로 가게 한다.
+   (260922 페리 지시 — 하단 번호 리모컨을 떼고 노션 목차 방식으로 바꿨다)
+   본문이 가운데 1120px 이므로, 목차가 본문을 가리지 않을 만큼 넓은 화면에서만 띄운다. */
+.toc { display: none; }
+@media (min-width: 1500px) {
+  .toc {
+    display: block; position: fixed; right: 28px; top: 50%; transform: translateY(-50%);
+    width: 238px; max-height: 68vh; overflow-y: auto; z-index: 30;
+    padding: 14px 6px 14px 14px; border: 1px solid var(--line); border-radius: var(--r-md);
+    background: rgba(255, 255, 255, .94); backdrop-filter: blur(6px);
+    box-shadow: var(--shadow-1);
+  }
+  .toc__head {
+    margin: 0 0 8px; font-size: 11px; font-weight: 700; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .toc ul { list-style: none; margin: 0; padding: 0; }
+  .toc__item {
+    display: block; width: 100%; padding: 5px 8px 5px 10px; border: 0; border-left: 2px solid transparent;
+    background: none; font: inherit; font-size: 12.5px; line-height: 1.35; color: var(--muted);
+    text-align: left; cursor: pointer; border-radius: 0 var(--r-md) var(--r-md) 0;
+    display: flex; align-items: center; gap: 6px;
+    transition: color .15s ease, border-color .15s ease, background .15s ease;
+  }
+  /* 이름이 길면 한 줄로 자른다. 전체 이름은 마우스를 올리면 뜬다(title). */
+  .toc__name { flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .toc__n { flex: none; font-size: 10.5px; color: #9aa4ae; font-variant-numeric: tabular-nums; }
+  .toc__item:hover { color: var(--ink); background: var(--bg-soft); }
+  .toc__item:focus-visible { outline: 2px solid var(--navy); outline-offset: -2px; }
+  .toc__item[aria-current="true"] { color: var(--navy); font-weight: 700; border-left-color: var(--green); }
+  .toc__item[aria-current="true"] .toc__n { color: var(--green); }
 }
-.pager button:hover:not(:disabled) { border-color: var(--navy-soft); }
-.pager button:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
-.pager button[aria-current="page"] { background: var(--navy); border-color: var(--navy); color: #fff; font-weight: 700; }
-.pager button:disabled { color: #b6bec6; cursor: default; }
-@media (prefers-reduced-motion: reduce) { .pager button { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .toc__item { transition: none; } }
 
 .tile__meta { margin: 0; font-size: 13px; color: var(--muted); padding-left: 16px; }
 .tile__meta dt { display: inline; font-weight: 600; }
