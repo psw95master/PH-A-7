@@ -538,24 +538,45 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
   background: var(--green); border-radius: 2px;
 }
 /* 사진이 많아 화면이 길어졌다. 오른쪽에 목차를 세워 원하는 자리로 바로 가게 한다.
-   (260922 페리 지시 — 하단 번호 리모컨을 떼고 노션 목차 방식으로 바꿨다)
-   본문이 가운데 1120px 이므로, 목차가 본문을 가리지 않을 만큼 넓은 화면에서만 띄운다. */
+   평소에는 짧은 선만 보이고, 마우스를 올리면 목차가 펼쳐진다. (260922 페리 지시 — 노션 방식)
+   접힌 상태는 폭이 좁아 본문을 가리지 않는다. 펼친 목차는 그 위에 잠깐 겹쳐 뜬다.
+   마우스가 없는 기기(휴대폰·태블릿)에서는 아예 만들지 않는다. */
 .toc { display: none; }
-@media (min-width: 1500px) {
+@media (min-width: 1180px) and (hover: hover) {
   .toc {
-    display: block; position: fixed; right: 28px; top: 50%; transform: translateY(-50%);
-    width: 238px; max-height: 68vh; overflow-y: auto; z-index: 30;
-    padding: 14px 6px 14px 14px; border: 1px solid var(--line); border-radius: var(--r-md);
-    background: rgba(255, 255, 255, .94); backdrop-filter: blur(6px);
-    box-shadow: var(--shadow-1);
+    display: block; position: fixed; right: 20px; top: 50%; transform: translateY(-50%);
+    z-index: 30; padding: 10px 6px;
   }
+  /* 접힘 — 짧은 선만 */
+  .toc__mini { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
+  .toc__mini span {
+    display: block; width: 16px; height: 2px; border-radius: 1px; background: #c9d0d7;
+    transition: width .18s ease, background .18s ease, opacity .18s ease;
+  }
+  .toc__mini span[data-on] { width: 26px; background: var(--green); }
+  .toc:hover .toc__mini, .toc:focus-within .toc__mini { opacity: 0; }
+
+  /* 펼침 — 실제 목차 */
+  .toc__full {
+    position: absolute; right: 0; top: 50%; transform: translateY(-50%) translateX(6px);
+    width: 250px; max-height: 70vh; display: flex; flex-direction: column;
+    padding: 12px 6px 12px 12px; border: 1px solid var(--line); border-radius: var(--r-md);
+    background: rgba(255, 255, 255, .97); backdrop-filter: blur(8px); box-shadow: var(--shadow-1);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease, visibility .18s;
+  }
+  .toc:hover .toc__full, .toc:focus-within .toc__full {
+    opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(-50%) translateX(0);
+  }
+  /* 목차가 길어 스크롤될 때도 제목은 위에 남는다 */
   .toc__head {
-    margin: 0 0 8px; font-size: 11px; font-weight: 700; letter-spacing: .06em;
-    text-transform: uppercase; color: var(--muted);
+    position: sticky; top: 0; z-index: 1; flex: none;
+    margin: 0 0 8px; padding: 0 6px 8px 8px; border-bottom: 1px solid var(--line);
+    background: #fff; font-size: 12px; font-weight: 700; color: var(--navy);
   }
-  .toc ul { list-style: none; margin: 0; padding: 0; }
+  .toc ul { list-style: none; margin: 0; padding: 0; overflow-y: auto; min-height: 0; }
   .toc__item {
-    display: block; width: 100%; padding: 5px 8px 5px 10px; border: 0; border-left: 2px solid transparent;
+    width: 100%; padding: 5px 8px 5px 10px; border: 0; border-left: 2px solid transparent;
     background: none; font: inherit; font-size: 12.5px; line-height: 1.35; color: var(--muted);
     text-align: left; cursor: pointer; border-radius: 0 var(--r-md) var(--r-md) 0;
     display: flex; align-items: center; gap: 6px;
@@ -569,7 +590,9 @@ a.card:hover { border-color: var(--green-light); box-shadow: var(--shadow-1); tr
   .toc__item[aria-current="true"] { color: var(--navy); font-weight: 700; border-left-color: var(--green); }
   .toc__item[aria-current="true"] .toc__n { color: var(--green); }
 }
-@media (prefers-reduced-motion: reduce) { .toc__item { transition: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .toc__item, .toc__full, .toc__mini span { transition: none; }
+}
 
 .tile__meta { margin: 0; font-size: 13px; color: var(--muted); padding-left: 16px; }
 .tile__meta dt { display: inline; font-weight: 600; }

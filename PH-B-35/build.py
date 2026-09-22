@@ -1008,7 +1008,7 @@ def build_products():
   선박설비·제철설비·산업기계에 들어가는 표준 및 특수 유압 실린더와 유압 시스템을 제작합니다.
   아래는 주요 납품 실적입니다. 사진을 누르면 크게 볼 수 있습니다.
 </p>
-<div class="gallery gallery--wide gallery--photo" data-toc>{tiles}</div>
+<div class="gallery gallery--wide gallery--photo" data-toc="유압장치 및 부품">{tiles}</div>
 <script src="{asset('assets/js/lightbox.js')}"></script>
 <script src="{asset('assets/js/toc.js')}"></script>"""
     return sub_page("products.html", "유압장치 및 부품",
