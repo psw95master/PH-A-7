@@ -50,7 +50,7 @@ COMPANY = {
     "ceo": "김재욱",
     "biz_no": "606-10-12773",
     "zip": "618-210",
-    "addr": "부산광역시 강서구 녹산동 화전산단 3로 102",
+    "addr": "부산광역시 강서구 화전산단3로 102",
     "tel": "+82-51-831-9161~2",
     "tel_href": "+82518319161",
     "fax": "+82-51-831-9163",
@@ -368,6 +368,7 @@ def page(filename, title, body, description, schemas=None, indexable=True):
 <meta name="twitter:title" content="{full_title}">
 <meta name="twitter:description" content="{escape(description)}">
 <meta name="twitter:image" content="{abs_url(OG_IMAGE)}">{verify}
+<link rel="icon" type="image/png" href="{asset('assets/img/favicon.png')}">
 <link rel="stylesheet" href="{asset('assets/css/style.css')}">{gate}{ld}
 </head>
 <body>
