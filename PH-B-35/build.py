@@ -1337,6 +1337,7 @@ def build_robots():
 # 이미지 파일명도 똑같아서 어느 페이지가 무엇인지 주소만으로 가려낼 수 없다.
 # 잘못 짝지으면 엉뚱한 페이지로 보내게 되므로 전부 홈으로 넘긴다.
 OLD_PATHS = [
+    "/index.htm",       # 옛 홈(frameset). 루트와 같은 화면이었다 (260923 확인)
     "/main/*",          # 본문 프레임 (index.htm, sub1~sub5)
     "/bbs/*",           # 게시판 (notice, qna, 로그인)
     "/music.htm",       # 배경음악 프레임
