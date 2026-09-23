@@ -49,7 +49,7 @@ COMPANY = {
     "name_en": "NAWOO HI-TECH",
     "ceo": "김재욱",
     "biz_no": "606-10-12773",
-    "zip": "618-210",
+    "zip": "46738",
     "addr": "부산광역시 강서구 화전산단3로 102",
     "tel": "+82-51-831-9161~2",
     "tel_href": "+82518319161",
@@ -924,7 +924,7 @@ def build_location():
   <tbody>
     <tr><th scope="row">주소</th>
         <td>({COMPANY['zip']}) 부산광역시 강서구 화전산단3로 102<br>
-            <span style="color:var(--muted);font-size:14px">(지번) 부산광역시 강서구 녹산동 화전산단</span></td></tr>
+            <span style="color:var(--muted);font-size:14px">(지번) 부산광역시 강서구 화전동 584-3</span></td></tr>
     <tr><th scope="row">전화</th><td><a href="tel:{COMPANY['tel_href']}">{COMPANY['tel']}</a></td></tr>
     <tr><th scope="row">팩스</th><td>{COMPANY['fax']}</td></tr>
     <tr><th scope="row">이메일</th><td><a href="mailto:{COMPANY['email']}">{COMPANY['email']}</a></td></tr>
