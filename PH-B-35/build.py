@@ -1353,6 +1353,35 @@ def build_redirects():
 
 
 # =========================================================
+# _headers — 검수 주소만 검색에서 뺀다
+# =========================================================
+# main(라이브)과 staging(검수)이 같은 코드를 쓰므로, 같은 내용이 두 주소로
+# 검색에 잡히면 실주소(nawoohitech.co.kr)의 순위가 깎인다.
+#
+# LIVE 플래그로 가르지 않는 이유: 브랜치마다 build.py 가 달라지면 합칠 때마다
+# 그 한 줄이 부딪친다. 대신 배포된 주소를 보고 가른다.
+# 규칙은 코드가 아니라 요청 주소에 붙으므로 두 브랜치의 파일이 똑같이 유지된다.
+#
+# `:branch` 는 자리표시자다. staging.nawoohitech.pages.dev 뿐 아니라
+# 앞으로 생기는 모든 검수 주소가 여기에 걸린다.
+# 규격: https://developers.cloudflare.com/pages/configuration/headers/
+PAGES_DEV = "nawoohitech.pages.dev"
+
+
+def build_headers():
+    text = (
+        "# 검수 주소는 검색에서 뺀다. 실주소(nawoohitech.co.kr)만 색인된다.\n"
+        "# 경위는 build.py 의 PAGES_DEV 주석 참조.\n"
+        f"https://:branch.{PAGES_DEV}/*\n"
+        "  X-Robots-Tag: noindex, nofollow\n\n"
+        f"https://{PAGES_DEV}/*\n"
+        "  X-Robots-Tag: noindex, nofollow\n"
+    )
+    (ROOT / "_headers").write_text(text, encoding="utf-8")
+    return "_headers"
+
+
+# =========================================================
 # sitemap.xml — 검색엔진에 넘기는 페이지 목록
 # =========================================================
 # 우선순위: 홈 > 회사·제품 소개 > 게시판 성격 페이지
@@ -1415,7 +1444,7 @@ def main():
     ]
     # 옮겨간 주소는 sitemap 에 넣지 않는다. 넘겨주기만 하는 페이지다.
     moved = build_moved()
-    extras = [build_robots(), build_sitemap(built), build_redirects()]
+    extras = [build_robots(), build_sitemap(built), build_redirects(), build_headers()]
     mode = "라이브(검색 허용)" if LIVE else "검수(검색 차단 + 게이트)"
     print(f"{len(built)}개 페이지 생성 완료 — 모드: {mode}")
     for b in built:

@@ -1,0 +1,7 @@
+# 검수 주소는 검색에서 뺀다. 실주소(nawoohitech.co.kr)만 색인된다.
+# 경위는 build.py 의 PAGES_DEV 주석 참조.
+https://:branch.nawoohitech.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
+
+https://nawoohitech.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
